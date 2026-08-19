@@ -201,3 +201,23 @@ if (contactForm) {
   });
 
 }
+
+/* ================= EMAIL → CONTACT FORM ================= */
+
+document.querySelectorAll('.contact-list a[href="#contact"]').forEach(link => {
+
+  link.addEventListener("click", function () {
+
+    setTimeout(() => {
+
+      const nameField = document.getElementById("name");
+
+      if (nameField) {
+        nameField.focus();
+      }
+
+    }, 600);
+
+  });
+
+});
