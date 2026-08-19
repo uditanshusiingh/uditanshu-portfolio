@@ -1,0 +1,1590 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Uditanshu Kumar — Web Developer and Computer Science undergraduate portfolio.">
+  <title>Uditanshu Kumar | Web Developer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="90">
+
+  <!-- ================= NAVBAR ================= -->
+  <nav id="mainNav" class="navbar navbar-expand-lg fixed-top navbar-dark">
+    <div class="container">
+
+      <a class="navbar-brand fw-bold" href="#home">
+        <span>U</span>K.
+      </a>
+
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+          <li class="nav-item">
+            <a class="nav-link" href="#home">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#skills">Skills</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#experience">Experience</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#projects">Projects</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#education">Education</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+
+          <li class="nav-item ms-lg-2">
+            <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+              <i class="bi bi-sun-fill"></i>
+            </button>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ================= HERO ================= -->
+  <header id="home" class="hero section-pad">
+
+    <div class="hero-grid"></div>
+
+    <div class="container position-relative">
+
+      <div class="row align-items-center g-5">
+
+        <div class="col-lg-7 order-2 order-lg-1 reveal">
+
+          <div class="eyebrow">
+            <span></span>
+            AVAILABLE FOR OPPORTUNITIES
+          </div>
+
+          <h1>
+            Hi, I'm
+            <span class="gradient-text">Uditanshu Kumar</span>
+          </h1>
+
+          <h2 class="hero-role">
+            I'm a
+            <span id="typedRole"></span>
+            <span class="cursor">|</span>
+          </h2>
+
+          <p class="hero-copy">
+            Computer Science undergraduate and frontend-focused web developer
+            who enjoys turning ideas into responsive, polished, and useful
+            digital experiences.
+          </p>
+
+          <div class="d-flex flex-wrap gap-3 mt-4">
+
+            <a class="btn btn-primary-custom" href="#projects">
+              View My Work
+              <i class="bi bi-arrow-up-right ms-1"></i>
+            </a>
+
+            <a class="btn btn-outline-custom" href="assets/Uditanshu_Kumar_Resume.docx" download>
+              Download Resume
+              <i class="bi bi-download ms-1"></i>
+            </a>
+
+          </div>
+
+          <div class="social-row mt-4">
+
+            <a href="mailto:uditsingh9939@gmail.com" aria-label="Email">
+              <i class="bi bi-envelope-fill"></i>
+            </a>
+
+            <a href="https://github.com/uditanshusiingh" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <i class="bi bi-github"></i>
+            </a>
+
+            <a href="https://www.linkedin.com/in/uditanshusiingh/" target="_blank" rel="noreferrer"
+              aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="col-lg-5 order-1 order-lg-2 reveal">
+
+          <div class="profile-wrap">
+
+            <div class="profile-ring"></div>
+
+            <img src="assets/profile.png" alt="Uditanshu Kumar" class="profile-img">
+
+            <div class="floating-card card-one">
+              <i class="bi bi-code-slash"></i>
+              <span>Clean Code</span>
+            </div>
+
+            <div class="floating-card card-two">
+              <i class="bi bi-phone"></i>
+              <span>Responsive UI</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="section-pad">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+        <span>01 — ABOUT</span>
+
+        <h2>
+          Building with
+          <strong>curiosity</strong>
+          and purpose.
+        </h2>
+      </div>
+
+
+      <div class="row g-5 align-items-center">
+
+        <div class="col-lg-7 reveal">
+
+          <p class="lead">
+            I'm a Computer Science undergraduate currently pursuing B.Tech in
+            CSE at Haridwar University. My core focus is web development,
+            especially creating responsive interfaces with HTML, CSS,
+            JavaScript and modern frontend practices.
+          </p>
+
+          <p class="muted">
+            I also have working knowledge of REST APIs, JSON and the MERN
+            ecosystem through academic and personal projects. I like learning
+            quickly, documenting my work clearly, and improving a product one
+            detail at a time.
+          </p>
+
+
+          <div class="about-stats row g-3 mt-3">
+
+            <div class="col-6 col-md-3">
+              <div class="stat-box">
+                <b>7th</b>
+                <small>Semester</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="stat-box">
+                <b>5+</b>
+                <small>Core DSA topics</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="stat-box">
+                <b>6+</b>
+                <small>Certifications</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="stat-box">
+                <b>3</b>
+                <small>Screen sizes tested</small>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="col-lg-5 reveal">
+
+          <div class="glass-card info-card">
+
+            <h5>Quick Info</h5>
+
+            <div class="info-line">
+              <i class="bi bi-geo-alt"></i>
+              <span>Sasaram, Bihar</span>
+            </div>
+
+            <div class="info-line">
+              <i class="bi bi-mortarboard"></i>
+              <span>B.Tech CSE — Haridwar University</span>
+            </div>
+
+            <div class="info-line">
+              <i class="bi bi-code-square"></i>
+              <span>Frontend + MERN fundamentals</span>
+            </div>
+
+            <div class="info-line">
+              <i class="bi bi-translate"></i>
+              <span>English · Hindi · Bhojpuri</span>
+            </div>
+
+            <a class="btn btn-primary-custom w-100 mt-3" href="#contact">
+              Let's Connect
+              <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills" class="section-pad section-dark">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+        <span>02 — SKILLS</span>
+
+        <h2>
+          My technical
+          <strong>toolkit.</strong>
+        </h2>
+      </div>
+
+
+      <div class="row g-4">
+
+
+        <!-- FRONTEND -->
+        <div class="col-md-6 col-lg-4 reveal">
+
+          <article class="project-card skill-project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-window-stack"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                FRONTEND DEVELOPMENT
+              </span>
+
+              <h4>Frontend</h4>
+
+              <p>
+                Responsive interfaces and browser-based experiences using
+                modern frontend technologies.
+              </p>
+
+
+              <div class="skill-item">
+                <span>HTML5</span>
+                <b>95%</b>
+
+                <div class="progress">
+                  <div style="width:95%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>CSS3</span>
+                <b>90%</b>
+
+                <div class="progress">
+                  <div style="width:90%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>Bootstrap</span>
+                <b>90%</b>
+
+                <div class="progress">
+                  <div style="width:90%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>JavaScript</span>
+                <b>85%</b>
+
+                <div class="progress">
+                  <div style="width:85%"></div>
+                </div>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- BACKEND -->
+        <div class="col-md-6 col-lg-4 reveal">
+
+          <article class="project-card skill-project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-server"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                BACKEND & APIs
+              </span>
+
+              <h4>Backend & APIs</h4>
+
+              <p>
+                Building blocks for connected web applications and
+                REST-based services.
+              </p>
+
+
+              <div class="skill-item">
+                <span>Node.js</span>
+                <b>70%</b>
+
+                <div class="progress">
+                  <div style="width:70%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>Express.js</span>
+                <b>65%</b>
+
+                <div class="progress">
+                  <div style="width:65%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>MongoDB</span>
+                <b>65%</b>
+
+                <div class="progress">
+                  <div style="width:65%"></div>
+                </div>
+              </div>
+
+
+              <div class="skill-item">
+                <span>REST / JSON</span>
+                <b>70%</b>
+
+                <div class="progress">
+                  <div style="width:70%"></div>
+                </div>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- PROGRAMMING -->
+        <div class="col-md-6 col-lg-4 reveal">
+
+          <article class="project-card skill-project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-braces"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                PROGRAMMING & TOOLS
+              </span>
+
+              <h4>Programming & Tools</h4>
+
+              <p>
+                Problem solving, version control and developer workflow
+                across multiple technologies.
+              </p>
+
+
+              <div class="tags">
+
+                <span>C++</span>
+                <span>Python</span>
+                <span>Java</span>
+                <span>Git</span>
+                <span>GitHub</span>
+                <span>VS Code</span>
+                <span>Postman</span>
+                <span>STL</span>
+
+              </div>
+
+
+              <div class="mt-4">
+
+                <strong>DSA</strong>
+
+                <p class="muted mb-0 mt-2">
+                  Arrays · Strings · Linked Lists · Stacks · Queues ·
+                  Trees · Recursion · Basic DP
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section id="experience" class="section-pad">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span>03 — EXPERIENCE</span>
+
+        <h2>
+          Where I've
+          <strong>learned.</strong>
+        </h2>
+
+      </div>
+
+
+      <div class="row g-4">
+
+
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-bar-chart-line"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                2025 · 1 MONTH
+              </span>
+
+              <h4>Data Science Intern</h4>
+
+              <p class="accent-text">
+                Haridwar University — College Internship
+              </p>
+
+              <p>
+                Developed a data science project covering the complete
+                pipeline from data cleaning to model evaluation.
+              </p>
+
+              <ul class="muted ps-3">
+
+                <li class="mb-2">
+                  Applied supervised machine-learning algorithms to a
+                  real-world classification task.
+                </li>
+
+                <li class="mb-2">
+                  Documented workflow, model results and key findings
+                  in a structured technical report.
+                </li>
+
+                <li>
+                  Worked through the complete data science project
+                  lifecycle.
+                </li>
+
+              </ul>
+
+              <div class="tags mt-3">
+                <span>Python</span>
+                <span>Machine Learning</span>
+                <span>Data Analysis</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-code-square"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                DEVELOPMENT EXPERIENCE
+              </span>
+
+              <h4>Web Development</h4>
+
+              <p>
+                Hands-on experience building responsive websites using
+                HTML5, CSS3 and JavaScript with a strong focus on
+                cross-device consistency.
+              </p>
+
+              <ul class="muted ps-3">
+
+                <li class="mb-2">
+                  Built responsive layouts for mobile, tablet and desktop.
+                </li>
+
+                <li class="mb-2">
+                  Worked with REST APIs and JSON fundamentals.
+                </li>
+
+                <li>
+                  Used Git and GitHub for version control and deployment.
+                </li>
+
+              </ul>
+
+              <div class="tags mt-3">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+                <span>Git/GitHub</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects" class="section-pad section-dark">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span>04 — PROJECTS</span>
+
+        <h2>
+          Things I've
+          <strong>built.</strong>
+        </h2>
+
+      </div>
+
+
+      <div class="row g-4">
+
+
+        <div class="col-lg-4 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-person-badge"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                WEB DEVELOPMENT
+              </span>
+
+              <h4>Personal Portfolio</h4>
+
+              <p>
+                Responsive personal website built from scratch with
+                HTML5, CSS3 and vanilla JavaScript, with smooth
+                navigation and cross-device testing.
+              </p>
+
+              <div class="tags">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <div class="col-lg-4 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-diagram-3"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                C++ · DSA
+              </span>
+
+              <h4>DSA Practice</h4>
+
+              <p>
+                Implemented core data structures from scratch and solved
+                problems across recursion, searching, sorting and
+                dynamic programming with complexity analysis.
+              </p>
+
+              <div class="tags">
+                <span>C++</span>
+                <span>STL</span>
+                <span>DSA</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <div class="col-lg-4 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-bar-chart-line"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                PYTHON · ML
+              </span>
+
+              <h4>Data Science Mini Project</h4>
+
+              <p>
+                Built and evaluated a supervised classification model
+                through preprocessing, feature selection and model
+                evaluation stages.
+              </p>
+
+              <div class="tags">
+                <span>Python</span>
+                <span>ML</span>
+                <span>Data Analysis</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+
+      <div class="project-note reveal mt-4">
+
+        <i class="bi bi-info-circle me-2"></i>
+
+        Project links can be added later. Replace the project cards'
+        content with your GitHub repositories or live demos.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= EDUCATION ================= -->
+  <section id="education" class="section-pad">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span>05 — EDUCATION</span>
+
+        <h2>
+          My academic
+          <strong>journey.</strong>
+        </h2>
+
+      </div>
+
+
+      <div class="row g-4">
+
+
+        <!-- BTECH -->
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-mortarboard-fill"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                CURRENTLY PURSUING
+              </span>
+
+              <h4>B.Tech — Computer Science & Engineering</h4>
+
+              <p class="accent-text">
+                Haridwar University
+              </p>
+
+              <p>
+                Currently pursuing Bachelor of Technology in Computer
+                Science & Engineering.
+              </p>
+
+              <div class="tags">
+                <span>7th Semester</span>
+                <span>CGPA: 6.05+</span>
+                <span>CSE</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- CLASS XII -->
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-building"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                CLASS XII · 2022
+              </span>
+
+              <h4>Class XII</h4>
+
+              <p class="accent-text">
+                ABR Foundation School, Sasaram
+              </p>
+
+              <p>
+                Completed senior secondary education with a strong
+                academic foundation.
+              </p>
+
+              <div class="tags">
+                <span>68.2%</span>
+                <span>2022</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- CLASS X -->
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100">
+
+            <div class="project-icon">
+              <i class="bi bi-book"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                CLASS X · 2020
+              </span>
+
+              <h4>Class X</h4>
+
+              <p class="accent-text">
+                Dedicated Public School, Sasaram
+              </p>
+
+              <p>
+                Completed secondary education and built the foundation
+                for higher studies in technology.
+              </p>
+
+              <div class="tags">
+                <span>78.2%</span>
+                <span>2020</span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- CERTIFICATIONS -->
+        <!-- CERTIFICATIONS -->
+        <div class="col-lg-6 reveal">
+
+          <article class="project-card h-100 certification-card" data-bs-toggle="modal"
+            data-bs-target="#certificationModal" role="button" tabindex="0" aria-label="View all certifications">
+
+            <div class="project-icon">
+              <i class="bi bi-patch-check-fill"></i>
+            </div>
+
+            <div class="project-body">
+
+              <span class="project-label">
+                CERTIFICATIONS
+              </span>
+
+              <h4>Verified Learning</h4>
+
+              <p>
+                Completed multiple verified courses across programming,
+                frontend development, full-stack development and data science.
+              </p>
+
+              <div class="tags">
+                <span>9+ Certifications</span>
+                <span>View Certificates</span>
+              </div>
+
+              <div class="certificate-link mt-4">
+                View All Certificates
+                <i class="bi bi-arrow-up-right"></i>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="section-pad section-dark">
+
+    <div class="container">
+
+      <div class="section-heading reveal">
+
+        <span>06 — CONTACT</span>
+
+        <h2>
+          Let's build something
+          <strong>great.</strong>
+        </h2>
+
+      </div>
+
+
+      <div class="row g-5">
+
+
+        <div class="col-lg-5 reveal">
+
+          <p class="lead">
+            Looking for a Full Stack Development internship or an
+            opportunity to grow as a developer? I'd love to connect.
+          </p>
+
+
+          <div class="contact-list mt-4">
+
+            <a href="mailto:uditsingh9939@gmail.com">
+
+              <i class="bi bi-envelope"></i>
+
+              <div>
+                <small>Email</small>
+                <span>uditsingh9939@gmail.com</span>
+              </div>
+
+            </a>
+
+
+            <a href="tel:+919142938826">
+
+              <i class="bi bi-telephone"></i>
+
+              <div>
+                <small>Phone</small>
+                <span>+91 91429 38826</span>
+              </div>
+
+            </a>
+
+
+            <a href="https://www.linkedin.com/in/uditanshusiingh/" target="_blank" rel="noreferrer">
+
+              <i class="bi bi-linkedin"></i>
+
+              <div>
+                <small>LinkedIn</small>
+                <span>/in/uditanshusiingh</span>
+              </div>
+
+            </a>
+
+
+            <a href="https://github.com/uditanshusiingh" target="_blank" rel="noreferrer">
+
+              <i class="bi bi-github"></i>
+
+              <div>
+                <small>GitHub</small>
+                <span>/uditanshusiingh</span>
+              </div>
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="col-lg-7 reveal">
+
+          <form id="contactForm" class="glass-card contact-form">
+
+            <div class="row g-3">
+
+              <div class="col-md-6">
+
+                <label class="form-label">
+                  Your Name
+                </label>
+
+                <input id="name" class="form-control" required placeholder="John Doe">
+
+              </div>
+
+
+              <div class="col-md-6">
+
+                <label class="form-label">
+                  Your Email
+                </label>
+
+                <input id="email" type="email" class="form-control" required placeholder="john@example.com">
+
+              </div>
+
+
+              <div class="col-12">
+
+                <label class="form-label">
+                  Subject
+                </label>
+
+                <input id="subject" class="form-control" required placeholder="Let's work together">
+
+              </div>
+
+
+              <div class="col-12">
+
+                <label class="form-label">
+                  Message
+                </label>
+
+                <textarea id="message" class="form-control" rows="5" required
+                  placeholder="Tell me about your project..."></textarea>
+
+              </div>
+
+
+              <div class="col-12">
+
+                <button class="btn btn-primary-custom" type="submit">
+
+                  Send Message
+                  <i class="bi bi-send ms-1"></i>
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div id="formNote" class="small mt-3"></div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+      <p class="mb-0">
+        © <span id="year"></span> Uditanshu Kumar.
+        Built with Bootstrap 5.
+      </p>
+
+      <a href="#home" class="back-top">
+        Back to top
+        <i class="bi bi-arrow-up"></i>
+      </a>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+
+  <!-- ================= CERTIFICATION MODAL ================= -->
+
+<div
+  class="modal fade"
+  id="certificationModal"
+  tabindex="-1"
+  aria-labelledby="certificationModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+    <div class="modal-content certification-modal">
+
+      <div class="modal-header">
+
+        <div>
+          <span class="project-label">
+            VERIFIED LEARNING
+          </span>
+
+          <h3 class="modal-title mt-1" id="certificationModalLabel">
+            My Certifications
+          </h3>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close">
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <p class="muted mb-4">
+          A collection of my completed courses, certifications and
+          professional learning achievements.
+        </p>
+
+
+        <div class="row g-4">
+
+
+          <!-- 1. FRONTEND -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-window-stack"></i>
+                </div>
+
+                <div>
+                  <h5>Introduction to Front-End Development</h5>
+
+                  <p>
+                    Meta · Coursera
+                  </p>
+
+                  <small>
+                    Completed January 30, 2025
+                  </small>
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Introduction to Frontend Development (1).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 2. CSS -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-filetype-css"></i>
+                </div>
+
+                <div>
+                  <h5>Introduction to CSS</h5>
+
+                  <p>
+                    CSS Course
+                  </p>
+
+                  <small>
+                    Certificate
+                  </small>
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Introduction to CSS ( 3h ).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3. C++ -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-code-slash"></i>
+                </div>
+
+                <div>
+                  <h5>Introduction to C++</h5>
+
+                  <p>
+                    C++ Programming
+                  </p>
+
+                  <small>
+                    6 Hour Course
+                  </small>
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Introduction to C plus plus ( 6h).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4. ADVANCED C++ -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-braces"></i>
+                </div>
+
+                <div>
+                  <h5>Learn Advanced C++</h5>
+
+                  <p>
+                    Advanced C++ Programming
+                  </p>
+
+                  <small>
+                    2 Hour Course · Certificate Code: 5109212
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Learn Advanced C++ Course ( 2h ).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 5. MERN -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-stack"></i>
+                </div>
+
+                <div>
+                  <h5>MERN Full Stack Development</h5>
+
+                  <p>
+                    Full Stack Web Development
+                  </p>
+
+                  <small>
+                    Virtual Internship
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/MERN full Stack Development With Project Virtual Internship.pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 6. JAVA -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-cup-hot"></i>
+                </div>
+
+                <div>
+                  <h5>Programming in Java</h5>
+
+                  <p>
+                    NPTEL
+                  </p>
+
+                  <small>
+                    Jan–Apr 2025 · 12 Week Course
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Programming In Java ( NPTEL ).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 7. JAVASCRIPT -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-filetype-js"></i>
+                </div>
+
+                <div>
+                  <h5>Programming with JavaScript</h5>
+
+                  <p>
+                    Meta · Coursera
+                  </p>
+
+                  <small>
+                    Completed January 30, 2025
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Programming with JavaScript.pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 8. PYTHON -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-filetype-py"></i>
+                </div>
+
+                <div>
+                  <h5>Python for Data Science</h5>
+
+                  <p>
+                    NPTEL
+                  </p>
+
+                  <small>
+                    Jan–Feb 2026 · 4 Week Course
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Python for Data Science ( NPTEL ).pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 9. DELTA -->
+          <div class="col-md-6">
+
+            <div class="certificate-item">
+
+              <div class="certificate-info">
+
+                <div class="certificate-icon">
+                  <i class="bi bi-layers"></i>
+                </div>
+
+                <div>
+                  <h5>Delta — Full Stack Web Development</h5>
+
+                  <p>
+                    Apna College
+                  </p>
+
+                  <small>
+                    Course Completion Certificate
+                  </small>
+
+                </div>
+
+              </div>
+
+              <a
+                href="assets/certificates/Delta (Full Stack Web Development)..pdf"
+                target="_blank"
+                class="certificate-btn">
+
+                View Certificate
+                <i class="bi bi-box-arrow-up-right"></i>
+
+              </a>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <span class="muted me-auto">
+          Click "View Certificate" to open the complete certificate.
+        </span>
+
+        <button
+          type="button"
+          class="btn btn-outline-custom"
+          data-bs-dismiss="modal">
+
+          Close
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
+</html>
