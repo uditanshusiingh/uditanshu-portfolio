@@ -811,3 +811,13 @@ a {
   }
 
 }
+
+/* ================= MOBILE SOCIAL ROW ================= */
+
+@media (max-width: 768px) {
+  .social-row {
+    justify-content: flex-start !important;
+    width: 100%;
+    text-align: left;
+  }
+}
