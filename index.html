@@ -126,7 +126,7 @@
 
           <div class="social-row mt-4">
 
-            <a href="mailto:uditsingh9939@gmail.com" aria-label="Email">
+            <a href="#contact" aria-label="Contact Me">
               <i class="bi bi-envelope-fill"></i>
             </a>
 
@@ -914,7 +914,7 @@
         </div>
 
 
-        
+
         <!-- CERTIFICATIONS -->
         <div class="col-lg-6 reveal">
 
@@ -1045,72 +1045,66 @@
 
         <div class="col-lg-7 reveal">
 
-          <form id="contactForm" class="glass-card contact-form">
+          <<form id="contactForm" action="https://formspree.io/f/xjybjegw" method="POST" class="contact-form">
 
             <div class="row g-3">
 
               <div class="col-md-6">
-
-                <label class="form-label">
-                  Your Name
-                </label>
-
-                <input id="name" class="form-control" required placeholder="John Doe">
-
+                <label for="name" class="form-label">Your Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
               </div>
-
 
               <div class="col-md-6">
-
-                <label class="form-label">
-                  Your Email
-                </label>
-
-                <input id="email" type="email" class="form-control" required placeholder="john@example.com">
-
+                <label for="email" class="form-label">Your Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+                  required>
               </div>
 
+              <div class="col-12">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="What is this about?"
+                  required>
+              </div>
+
+              <div class="col-12">
+                <label for="message" class="form-label">Message</label>
+                <textarea id="message" name="message" rows="6" class="form-control" placeholder="Write your message..."
+                  required></textarea>
+              </div>
 
               <div class="col-12">
 
-                <label class="form-label">
-                  Subject
-                </label>
+                <button type="submit" id="contactSubmit" class="btn btn-primary-custom">
+                  <span id="submitText">
+                    Send Message
+                    <i class="bi bi-send ms-1"></i>
+                  </span>
 
-                <input id="subject" class="form-control" required placeholder="Let's work together">
-
-              </div>
-
-
-              <div class="col-12">
-
-                <label class="form-label">
-                  Message
-                </label>
-
-                <textarea id="message" class="form-control" rows="5" required
-                  placeholder="Tell me about your project..."></textarea>
-
-              </div>
-
-
-              <div class="col-12">
-
-                <button class="btn btn-primary-custom" type="submit">
-
-                  Send Message
-                  <i class="bi bi-send ms-1"></i>
-
+                  <span id="submitLoading" style="display:none;">
+                    Sending...
+                    <i class="bi bi-arrow-repeat ms-1"></i>
+                  </span>
                 </button>
+
+              </div>
+
+              <div class="col-12">
+
+                <div id="contactSuccess" class="alert alert-success" style="display:none;">
+                  <i class="bi bi-check-circle-fill me-2"></i>
+                  Your message has been sent successfully!
+                </div>
+
+                <div id="contactError" class="alert alert-danger" style="display:none;">
+                  <i class="bi bi-exclamation-circle-fill me-2"></i>
+                  Something went wrong. Please try again.
+                </div>
 
               </div>
 
             </div>
 
-
-            <div id="formNote" class="small mt-3"></div>
-
-          </form>
+            </form>
 
         </div>
 
@@ -1147,401 +1141,371 @@
 
   <!-- ================= CERTIFICATION MODAL ================= -->
 
-<div
-  class="modal fade"
-  id="certificationModal"
-  tabindex="-1"
-  aria-labelledby="certificationModalLabel"
-  aria-hidden="true">
+  <div class="modal fade" id="certificationModal" tabindex="-1" aria-labelledby="certificationModalLabel"
+    aria-hidden="true">
 
-  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
 
-    <div class="modal-content certification-modal">
+      <div class="modal-content certification-modal">
 
-      <div class="modal-header">
+        <div class="modal-header">
 
-        <div>
-          <span class="project-label">
-            VERIFIED LEARNING
+          <div>
+            <span class="project-label">
+              VERIFIED LEARNING
+            </span>
+
+            <h3 class="modal-title mt-1" id="certificationModalLabel">
+              My Certifications
+            </h3>
+          </div>
+
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+          <p class="muted mb-4">
+            A collection of my completed courses, certifications and
+            professional learning achievements.
+          </p>
+
+
+          <div class="row g-4">
+
+
+            <!-- 1. FRONTEND -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-window-stack"></i>
+                  </div>
+
+                  <div>
+                    <h5>Introduction to Front-End Development</h5>
+
+                    <p>
+                      Meta · Coursera
+                    </p>
+
+                    <small>
+                      Completed January 30, 2025
+                    </small>
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Introduction to Frontend Development (1).pdf" target="_blank"
+                  class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 2. CSS -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-filetype-css"></i>
+                  </div>
+
+                  <div>
+                    <h5>Introduction to CSS</h5>
+
+                    <p>
+                      CSS Course
+                    </p>
+
+                    <small>
+                      Certificate
+                    </small>
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Introduction to CSS ( 3h ).pdf" target="_blank" class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 3. C++ -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-code-slash"></i>
+                  </div>
+
+                  <div>
+                    <h5>Introduction to C++</h5>
+
+                    <p>
+                      C++ Programming
+                    </p>
+
+                    <small>
+                      6 Hour Course
+                    </small>
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Introduction to C plus plus ( 6h).pdf" target="_blank"
+                  class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+            <!-- 4. MERN -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-stack"></i>
+                  </div>
+
+                  <div>
+                    <h5>MERN Full Stack Development</h5>
+
+                    <p>
+                      Full Stack Web Development
+                    </p>
+
+                    <small>
+                      Virtual Internship
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/MERN full Stack Development With Project Virtual Internship.pdf"
+                  target="_blank" class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 5. JAVA -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-cup-hot"></i>
+                  </div>
+
+                  <div>
+                    <h5>Programming in Java</h5>
+
+                    <p>
+                      NPTEL
+                    </p>
+
+                    <small>
+                      Jan–Apr 2025 · 12 Week Course
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Programming In Java ( NPTEL ).pdf" target="_blank" class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 6. JAVASCRIPT -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-filetype-js"></i>
+                  </div>
+
+                  <div>
+                    <h5>Programming with JavaScript</h5>
+
+                    <p>
+                      Meta · Coursera
+                    </p>
+
+                    <small>
+                      Completed January 30, 2025
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Programming with JavaScript.pdf" target="_blank" class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 7. PYTHON -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-filetype-py"></i>
+                  </div>
+
+                  <div>
+                    <h5>Python for Data Science</h5>
+
+                    <p>
+                      NPTEL
+                    </p>
+
+                    <small>
+                      Jan–Feb 2026 · 4 Week Course
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Python for Data Science ( NPTEL ).pdf" target="_blank"
+                  class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+            <!-- 8. DELTA -->
+            <div class="col-md-6">
+
+              <div class="certificate-item">
+
+                <div class="certificate-info">
+
+                  <div class="certificate-icon">
+                    <i class="bi bi-layers"></i>
+                  </div>
+
+                  <div>
+                    <h5>Delta — Full Stack Web Development</h5>
+
+                    <p>
+                      Apna College
+                    </p>
+
+                    <small>
+                      Course Completion Certificate
+                    </small>
+
+                  </div>
+
+                </div>
+
+                <a href="assets/certificates/Delta (Full Stack Web Development)..pdf" target="_blank"
+                  class="certificate-btn">
+
+                  View Certificate
+                  <i class="bi bi-box-arrow-up-right"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <span class="muted me-auto">
+            Click "View Certificate" to open the complete certificate.
           </span>
 
-          <h3 class="modal-title mt-1" id="certificationModalLabel">
-            My Certifications
-          </h3>
-        </div>
+          <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">
 
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="modal"
-          aria-label="Close">
-        </button>
+            Close
 
-      </div>
-
-
-      <div class="modal-body">
-
-        <p class="muted mb-4">
-          A collection of my completed courses, certifications and
-          professional learning achievements.
-        </p>
-
-
-        <div class="row g-4">
-
-
-          <!-- 1. FRONTEND -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-window-stack"></i>
-                </div>
-
-                <div>
-                  <h5>Introduction to Front-End Development</h5>
-
-                  <p>
-                    Meta · Coursera
-                  </p>
-
-                  <small>
-                    Completed January 30, 2025
-                  </small>
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Introduction to Frontend Development (1).pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 2. CSS -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-filetype-css"></i>
-                </div>
-
-                <div>
-                  <h5>Introduction to CSS</h5>
-
-                  <p>
-                    CSS Course
-                  </p>
-
-                  <small>
-                    Certificate
-                  </small>
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Introduction to CSS ( 3h ).pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 3. C++ -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-code-slash"></i>
-                </div>
-
-                <div>
-                  <h5>Introduction to C++</h5>
-
-                  <p>
-                    C++ Programming
-                  </p>
-
-                  <small>
-                    6 Hour Course
-                  </small>
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Introduction to C plus plus ( 6h).pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-          <!-- 4. MERN -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-stack"></i>
-                </div>
-
-                <div>
-                  <h5>MERN Full Stack Development</h5>
-
-                  <p>
-                    Full Stack Web Development
-                  </p>
-
-                  <small>
-                    Virtual Internship
-                  </small>
-
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/MERN full Stack Development With Project Virtual Internship.pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 5. JAVA -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-cup-hot"></i>
-                </div>
-
-                <div>
-                  <h5>Programming in Java</h5>
-
-                  <p>
-                    NPTEL
-                  </p>
-
-                  <small>
-                    Jan–Apr 2025 · 12 Week Course
-                  </small>
-
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Programming In Java ( NPTEL ).pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 6. JAVASCRIPT -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-filetype-js"></i>
-                </div>
-
-                <div>
-                  <h5>Programming with JavaScript</h5>
-
-                  <p>
-                    Meta · Coursera
-                  </p>
-
-                  <small>
-                    Completed January 30, 2025
-                  </small>
-
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Programming with JavaScript.pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 7. PYTHON -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-filetype-py"></i>
-                </div>
-
-                <div>
-                  <h5>Python for Data Science</h5>
-
-                  <p>
-                    NPTEL
-                  </p>
-
-                  <small>
-                    Jan–Feb 2026 · 4 Week Course
-                  </small>
-
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Python for Data Science ( NPTEL ).pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
-
-          <!-- 8. DELTA -->
-          <div class="col-md-6">
-
-            <div class="certificate-item">
-
-              <div class="certificate-info">
-
-                <div class="certificate-icon">
-                  <i class="bi bi-layers"></i>
-                </div>
-
-                <div>
-                  <h5>Delta — Full Stack Web Development</h5>
-
-                  <p>
-                    Apna College
-                  </p>
-
-                  <small>
-                    Course Completion Certificate
-                  </small>
-
-                </div>
-
-              </div>
-
-              <a
-                href="assets/certificates/Delta (Full Stack Web Development)..pdf"
-                target="_blank"
-                class="certificate-btn">
-
-                View Certificate
-                <i class="bi bi-box-arrow-up-right"></i>
-
-              </a>
-
-            </div>
-
-          </div>
-
+          </button>
 
         </div>
-
-      </div>
-
-
-      <div class="modal-footer">
-
-        <span class="muted me-auto">
-          Click "View Certificate" to open the complete certificate.
-        </span>
-
-        <button
-          type="button"
-          class="btn btn-outline-custom"
-          data-bs-dismiss="modal">
-
-          Close
-
-        </button>
 
       </div>
 
     </div>
 
   </div>
-
-</div>
 
 </body>
 

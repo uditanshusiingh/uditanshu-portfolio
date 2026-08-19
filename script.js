@@ -137,3 +137,67 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = mailto;
   });
 });
+
+/* ================= CONTACT FORM ================= */
+
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+
+  contactForm.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const submitButton = document.getElementById("contactSubmit");
+    const submitText = document.getElementById("submitText");
+    const submitLoading = document.getElementById("submitLoading");
+
+    const successMessage = document.getElementById("contactSuccess");
+    const errorMessage = document.getElementById("contactError");
+
+    // Reset messages
+    successMessage.style.display = "none";
+    errorMessage.style.display = "none";
+
+    // Loading state
+    submitButton.disabled = true;
+    submitText.style.display = "none";
+    submitLoading.style.display = "inline";
+
+    try {
+
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        body: new FormData(contactForm),
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      if (response.ok) {
+
+        successMessage.style.display = "block";
+
+        contactForm.reset();
+
+      } else {
+
+        errorMessage.style.display = "block";
+
+      }
+
+    } catch (error) {
+
+      errorMessage.style.display = "block";
+
+    } finally {
+
+      submitButton.disabled = false;
+      submitText.style.display = "inline";
+      submitLoading.style.display = "none";
+
+    }
+
+  });
+
+}
