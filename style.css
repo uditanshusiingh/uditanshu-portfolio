@@ -821,3 +821,35 @@ a {
     text-align: left;
   }
 }
+
+/* ================= MOBILE PROFILE CARDS ================= */
+
+@media (max-width: 768px) {
+
+  .profile-wrap {
+    position: relative;
+    width: min(88vw, 380px);
+    margin: 0 auto;
+  }
+
+  .profile-wrap .floating-card {
+    display: flex !important;
+    position: absolute;
+    z-index: 10;
+    white-space: nowrap;
+    transform: scale(0.82);
+  }
+
+  /* Clean Code */
+  .profile-wrap .card-one {
+    left: -8px;
+    top: 18%;
+  }
+
+  /* Responsive UI */
+  .profile-wrap .card-two {
+    right: -8px;
+    bottom: 18%;
+  }
+
+}
