@@ -327,6 +327,93 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   mobileMenu?.addEventListener("click", () => document.querySelector(".sidebar").classList.toggle("open"));
 
+
+  async function uploadResume(file) {
+    if (!file) return;
+    const name = String(file.name || "");
+    const allowed = /\\.(pdf|doc|docx)$/i.test(name);
+    if (!allowed) {
+      showToast("Resume must be a PDF, DOC, or DOCX file.", true);
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showToast("Resume must be 10 MB or smaller.", true);
+      return;
+    }
+
+    const dropzone = document.getElementById("resumeDropzone");
+    const label = document.getElementById("resumeFileName");
+    const formData = new FormData();
+    formData.append("resume", file);
+
+    dropzone?.classList.add("uploading");
+    if (label) label.textContent = "Uploading " + file.name + "...";
+
+    try {
+      const response = await fetch("/api/upload-resume", {
+        method:"POST",
+        credentials:"same-origin",
+        body:formData
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Resume upload failed.");
+
+      data = result.data || await fetchWebsiteData();
+      cacheData();
+      renderAll();
+      document.getElementById("saveStatus").textContent = "Website synced";
+      if (label) label.textContent = "Current resume: " + file.name;
+      showToast("Resume uploaded and published successfully.");
+    } catch (error) {
+      if (label) label.textContent = "No file selected";
+      showToast(error.message || "Resume upload failed.", true);
+    } finally {
+      dropzone?.classList.remove("uploading");
+    }
+  }
+
+  document.addEventListener("click", e => {
+    const zone = e.target.closest("#resumeDropzone");
+    if (zone && e.target.id !== "resumeFile") document.getElementById("resumeFile")?.click();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.target.id === "resumeDropzone" && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      document.getElementById("resumeFile")?.click();
+    }
+  });
+
+  document.addEventListener("change", e => {
+    if (e.target.id === "resumeFile") {
+      const file = e.target.files?.[0];
+      if (file) uploadResume(file);
+    }
+  });
+
+  document.addEventListener("dragover", e => {
+    const zone = e.target.closest("#resumeDropzone");
+    if (zone) {
+      e.preventDefault();
+      zone.classList.add("dragover");
+    }
+  });
+
+  document.addEventListener("dragleave", e => {
+    const zone = e.target.closest("#resumeDropzone");
+    if (zone) zone.classList.remove("dragover");
+  });
+
+  document.addEventListener("drop", e => {
+    const zone = e.target.closest("#resumeDropzone");
+    if (!zone) return;
+    e.preventDefault();
+    zone.classList.remove("dragover");
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    uploadResume(file);
+  });
+
   profileForm.onsubmit = async e => {
     e.preventDefault();
     const next = structuredClone(data);
