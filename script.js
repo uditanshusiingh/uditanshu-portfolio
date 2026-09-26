@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }).join("");
     }
 
+
     // Skills: visual showcase — no proficiency bars or ranking.
     const skillGrid = document.getElementById("skillsGrid");
     if (skillGrid) {
@@ -125,32 +126,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const icon = items[0]?.icon || groupIcons[groupIndex] || "bi-tools";
         const description = items[0]?.description || "Technologies and tools used across my development workflow.";
         const number = String(groupIndex + 1).padStart(2, "0");
-        const footer = groupIndex === 0
-          ? "Interface & user experience"
-          : groupIndex === 1
-            ? "Services & data layer"
-            : "Development workflow & problem solving";
-        return \`<div class="col-md-6 col-lg-4 reveal">
-          <article class="skill-showcase-card h-100">
-            <div class="skill-showcase-head">
-              <span class="skill-index">\${number}</span>
-              <div class="skill-visual"><i class="bi \${esc(icon)}"></i></div>
-              <span class="skill-arrow"><i class="bi bi-arrow-up-right"></i></span>
-            </div>
-            <div class="skill-showcase-body">
-              <span class="project-label">\${esc(group)}</span>
-              <h4>\${esc(group)}</h4>
-              <p>\${esc(description)}</p>
-              <div class="skill-chips">
-                \${items.map(s => \`<span class="skill-chip"><i class="bi \${esc(skillIcons[s.name] || s.icon || "bi-code-square")}"></i>\${esc(s.name)}</span>\`).join("")}
-              </div>
-              <div class="skill-showcase-footer">
-                <i class="bi bi-stars"></i>
-                <span>\${footer}</span>
-              </div>
-            </div>
-          </article>
-        </div>\`;
+        const footer = groupIndex === 0 ? "Interface & user experience" : groupIndex === 1 ? "Services & data layer" : "Development workflow & problem solving";
+        const chips = items.map(s =>
+          '<span class="skill-chip"><i class="bi ' + esc(skillIcons[s.name] || s.icon || "bi-code-square") + '"></i>' + esc(s.name) + '</span>'
+        ).join("");
+        return '<div class="col-md-6 col-lg-4 reveal">' +
+          '<article class="skill-showcase-card h-100">' +
+            '<div class="skill-showcase-head">' +
+              '<span class="skill-index">' + number + '</span>' +
+              '<div class="skill-visual"><i class="bi ' + esc(icon) + '"></i></div>' +
+              '<span class="skill-arrow"><i class="bi bi-arrow-up-right"></i></span>' +
+            '</div>' +
+            '<div class="skill-showcase-body">' +
+              '<span class="project-label">' + esc(group) + '</span>' +
+              '<h4>' + esc(group) + '</h4>' +
+              '<p>' + esc(description) + '</p>' +
+              '<div class="skill-chips">' + chips + '</div>' +
+              '<div class="skill-showcase-footer"><i class="bi bi-stars"></i><span>' + esc(footer) + '</span></div>' +
+            '</div>' +
+          '</article>' +
+        '</div>';
       }).join("");
     }
 
