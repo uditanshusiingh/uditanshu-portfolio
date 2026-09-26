@@ -228,7 +228,7 @@
       "company": "EISystems Technology & Prabandhan IIT Kanpur",
       "duration": "2026 · 1 Month",
       "description": "Developed an interactive digital platform that showcases Bihar's heritage, culture, food, festivals, art, famous personalities and travel destinations through a modern web experience.",
-      "bullets": "Developed interactive heritage, culture, food and travel exploration modules. |\nIntegrated Ask Bihar, an AI-powered heritage assistant for contextual queries. |\nAdded hidden destinations, photo gallery, famous personalities and travel itinerary sections. |\nBuilt a responsive and visually immersive user experience. |\nDeployed the application on Vercel.",
+      "bullets": "Developed interactive heritage, culture, food and travel exploration modules. |\nIntegrated Ask Bihar, an AI-powered heritage assistant for contextual queries. |\nAdded hidden destinations, photo gallery, famous personalities and travel itinerary sections. |\nBuilt a responsive and visually immersive user experience. ",
       "tech": "HTML5, CSS3, JavaScript, Bootstrap",
       "icon": "bi bi-bank",
       "id": 1790463082632
