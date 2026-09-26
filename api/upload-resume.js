@@ -97,27 +97,41 @@ module.exports = async function handler(req, res) {
     if (!created?.content?.path) throw new Error("GitHub did not confirm the resume upload.");
 
     const dataPath = "data/portfolio.json";
-    const currentData = await githubRequest(
-      `https://api.github.com/repos/${repo}/contents/${dataPath}?ref=main`
-    );
-    const portfolio = JSON.parse(Buffer.from(currentData.content, "base64").toString("utf8"));
+    let portfolio;
 
-    if (!portfolio || typeof portfolio !== "object" || !portfolio.profile) {
-      throw new Error("Portfolio profile data is invalid.");
+    // GitHub Contents API uses the file blob SHA as an optimistic-lock.
+    // Another admin save can change portfolio.json between our GET and PUT,
+    // so always retry with the newest SHA instead of exposing a SHA mismatch.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const currentData = await githubRequest(
+        `https://api.github.com/repos/${repo}/contents/${dataPath}?ref=main&t=${Date.now()}`
+      );
+      portfolio = JSON.parse(Buffer.from(currentData.content, "base64").toString("utf8"));
+
+      if (!portfolio || typeof portfolio !== "object" || !portfolio.profile) {
+        throw new Error("Portfolio profile data is invalid.");
+      }
+
+      portfolio.profile.resume = publicPath;
+
+      try {
+        await githubRequest(`https://api.github.com/repos/${repo}/contents/${dataPath}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "Register resume in portfolio data",
+            content: Buffer.from(JSON.stringify(portfolio, null, 2) + "\n", "utf8").toString("base64"),
+            sha: currentData.sha,
+            branch: "main"
+          })
+        });
+        break;
+      } catch (error) {
+        if (!/does not match|sha|409|conflict/i.test(String(error.message || "")) || attempt === 2) {
+          throw error;
+        }
+      }
     }
-
-    portfolio.profile.resume = publicPath;
-
-    await githubRequest(`https://api.github.com/repos/${repo}/contents/${dataPath}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: "Register resume in portfolio data",
-        content: Buffer.from(JSON.stringify(portfolio, null, 2) + "\n", "utf8").toString("base64"),
-        sha: currentData.sha,
-        branch: "main"
-      })
-    });
 
     return json(res, 200, { success: true, resume: publicPath, data: portfolio });
   } catch (error) {
