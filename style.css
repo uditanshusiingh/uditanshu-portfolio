@@ -960,3 +960,38 @@ a {
     padding: 18px;
   }
 }
+
+/* Extra compact experience cards */
+.experience-card .project-icon {
+  height: 90px;
+  font-size: 1.9rem;
+}
+.experience-card .project-body {
+  padding: 16px 18px 18px;
+}
+.experience-card .project-body h4 {
+  margin: 5px 0 6px;
+  font-size: 1.1rem;
+}
+.experience-card .project-body p {
+  line-height: 1.4;
+  margin-bottom: 7px;
+  font-size: .88rem;
+}
+.experience-card .project-body ul {
+  margin: 6px 0;
+  padding-left: 16px !important;
+  line-height: 1.4;
+  font-size: .84rem;
+}
+.experience-card .project-body li {
+  margin-bottom: 3px !important;
+}
+.experience-card .project-body .tags {
+  margin-top: 8px !important;
+  gap: 5px;
+}
+.experience-card .project-body .tags span {
+  padding: 5px 8px;
+  font-size: .66rem;
+}
