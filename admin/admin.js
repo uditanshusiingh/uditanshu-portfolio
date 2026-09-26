@@ -136,7 +136,12 @@ function renderProfile() {
 
 function renderCollection(type) {
   const el = document.getElementById(type + "List");
-  const arr = data[type] || [];
+  const arr = [...(data[type] || [])].sort((a,b) => {
+    if (type !== "projects") return 0;
+    const pa = Number.isFinite(Number(a.priority)) ? Number(a.priority) : 999999;
+    const pb = Number.isFinite(Number(b.priority)) ? Number(b.priority) : 999999;
+    return pa - pb || Number(a.id || 0) - Number(b.id || 0);
+  });
   if (!arr.length) {
     el.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i><h3>No items yet</h3><p>Use the button above to add your first item.</p></div>';
     return;
@@ -176,7 +181,7 @@ function fields(type, item = {}) {
 
   const specs = {
     projects:[
-      ["title","Title","text"],["category","Category","text"],["description","Description","textarea"],
+      ["title","Title","text"],["priority","Priority order","number"],["category","Category","text"],["description","Description","textarea"],
       ["tech","Technologies (comma separated)","text"],["live","Live URL","url"],["github","GitHub URL","url"],
       ["icon","Bootstrap icon class","text"],["featured","Featured","checkbox"]
     ],
