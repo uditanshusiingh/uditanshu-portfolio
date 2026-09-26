@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadPortfolio() {
     try {
-      const response = await fetch("/api/portfolio-data", { cache: "no-store" });
+      const response = await fetch("/api/portfolio-data?t=" + Date.now(), {
+        cache: "no-store",
+        headers: { "Cache-Control": "no-cache" }
+      });
       if (!response.ok) throw new Error("Portfolio data unavailable");
       const data = await response.json();
       renderPortfolio(data);
