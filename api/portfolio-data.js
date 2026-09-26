@@ -47,18 +47,30 @@ module.exports = async (req, res) => {
       return send(res, 400, { message: "Invalid portfolio data." });
     }
 
-    const current = await github(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=main`);
-    await github(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: "Update portfolio content from admin",
-        content: Buffer.from(JSON.stringify(data, null, 2) + "\n").toString("base64"),
-        sha: current.sha,
-        branch: "main"
-      })
-    });
+    let saved = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const current = await github(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=main&t=${Date.now()}`);
+      try {
+        await github(`https://api.github.com/repos/${REPO}/contents/${PATH}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: "Update portfolio content from admin",
+            content: Buffer.from(JSON.stringify(data, null, 2) + "\n").toString("base64"),
+            sha: current.sha,
+            branch: "main"
+          })
+        });
+        saved = true;
+        break;
+      } catch (error) {
+        if (!/does not match|sha|409|conflict/i.test(String(error.message || "")) || attempt === 2) {
+          throw error;
+        }
+      }
+    }
 
+    if (!saved) throw new Error("Portfolio data could not be synchronized.");
     return send(res, 200, { success: true, data });
   } catch (error) {
     return send(res, 500, { message: error.message || "Portfolio sync failed." });
