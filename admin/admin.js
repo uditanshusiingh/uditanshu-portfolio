@@ -186,8 +186,8 @@ function fields(type, item = {}) {
       ["icon","Bootstrap icon class","text"],["featured","Featured","checkbox"]
     ],
     skills:[
-      ["name","Skill name","text"],["category","Category / group","text"],["level","Proficiency %","number"],
-      ["description","Group description","textarea"],["icon","Bootstrap icon class","text"]
+      ["name","Skill name","text"],["category","Category / group","text"],
+      ["description","Category card description","textarea"],["icon","Bootstrap icon class","text"]
     ],
     experience:[
       ["role","Role","text"],["company","Company / organization","text"],["duration","Duration / label","text"],
