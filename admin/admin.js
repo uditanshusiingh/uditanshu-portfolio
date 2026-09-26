@@ -122,7 +122,7 @@ function renderProfile() {
   if (!form || !data.profile) return;
   Object.entries(data.profile).forEach(([key,value]) => {
     const field = form.elements[key];
-    if (!field) return;
+    if (!field || field.type === "file") return;
     field.value = Array.isArray(value) ? value.join(", ") : (value ?? "");
   });
   const resumeName = document.getElementById("resumeFileName");
@@ -427,6 +427,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const formData = new FormData(e.target);
     const profile = {};
     formData.forEach((value,key) => {
+      // File inputs are handled by their own upload endpoint.
+      if (key === "resumeFile" || value instanceof File) return;
       profile[key] = key === "roles" ? String(value).split(",").map(v => v.trim()).filter(Boolean) : value;
     });
     next.profile = { ...next.profile, ...profile };
