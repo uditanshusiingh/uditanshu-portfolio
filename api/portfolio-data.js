@@ -4,7 +4,10 @@ const REPO = process.env.GITHUB_REPO || "uditanshusiingh/uditanshu-portfolio";
 const PATH = "data/portfolio.json";
 
 function send(res, status, body) {
-  res.status(status).setHeader("Cache-Control", "no-store").json(body);
+  res.statusCode = status;
+  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(body));
 }
 
 async function github(url, options = {}) {
