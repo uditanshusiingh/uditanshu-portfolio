@@ -1,0 +1,330 @@
+{
+  "profile": {
+    "name": "Uditanshu Kumar",
+    "role": "Web Developer",
+    "roles": [
+      "Web Developer",
+      "Frontend Developer",
+      "Full Stack Developer",
+      "Computer Science Student"
+    ],
+    "location": "Sasaram, Bihar",
+    "email": "uditsingh9939@gmail.com",
+    "phone": "+91 91429 38826",
+    "bio": "Computer Science undergraduate and frontend-focused web developer who enjoys turning ideas into responsive, polished, and useful digital experiences.",
+    "aboutLead": "I'm a Computer Science undergraduate currently pursuing B.Tech in CSE at Haridwar University. My core focus is web development, especially creating responsive interfaces with HTML, CSS, JavaScript and modern frontend practices.",
+    "aboutMuted": "I also have working knowledge of REST APIs, JSON and the MERN ecosystem through academic and personal projects. I like learning quickly, documenting my work clearly, and improving a product one detail at a time.",
+    "locationDetail": "Sasaram, Bihar",
+    "degree": "B.Tech CSE — Haridwar University",
+    "focus": "Frontend + MERN fundamentals",
+    "languages": "English · Hindi · Bhojpuri",
+    "semester": "7th",
+    "dsaCount": "5+",
+    "certCount": "9+",
+    "screenSizes": "3",
+    "github": "https://github.com/uditanshusiingh",
+    "linkedin": "https://www.linkedin.com/in/uditanshusiingh/",
+    "resume": "assets/Uditanshu_Kumar_Resume.docx"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "Personal Portfolio",
+      "category": "Web Development",
+      "description": "Responsive personal website built from scratch with HTML5, CSS3 and vanilla JavaScript, with smooth navigation and cross-device testing.",
+      "tech": "HTML5, CSS3, JavaScript",
+      "live": "https://uditanshu-portfolio.vercel.app/#home",
+      "github": "",
+      "featured": true,
+      "icon": "bi-person-badge"
+    },
+    {
+      "id": 2,
+      "title": "Discover Bihar - Heritage Explorer",
+      "category": "Web Development",
+      "description": "Responsive tourism website showcasing Bihar’s heritage, hidden places, cuisine, festivals, culture, and travel destinations with smooth navigation and mobile-friendly design.",
+      "tech": "HTML5, CSS3, Bootstrap 5, JavaScript",
+      "live": "https://discover-bihar.vercel.app/",
+      "github": "",
+      "featured": true,
+      "icon": "bi-person-badge"
+    },
+    {
+      "id": 3,
+      "title": "DSA Practice",
+      "category": "C++ · DSA",
+      "description": "Implemented core data structures from scratch and solved problems across recursion, searching, sorting and dynamic programming with complexity analysis.",
+      "tech": "C++, STL, DSA",
+      "live": "https://leetcode.com/u/uditanshusiingh/",
+      "github": "",
+      "featured": true,
+      "icon": "bi-diagram-3"
+    },
+    {
+      "id": 4,
+      "title": "Data Science Mini Project",
+      "category": "PYTHON · ML",
+      "description": "Built and evaluated a supervised classification model through preprocessing, feature selection and model evaluation stages.",
+      "tech": "Python, ML, Data Analysis",
+      "live": "",
+      "github": "https://github.com/uditanshusiingh/DBSCAN-Fraud-Detection",
+      "featured": true,
+      "icon": "bi-bar-chart-line"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML5",
+      "category": "Frontend Development",
+      "level": 95,
+      "description": "Responsive interfaces and browser-based experiences using modern frontend technologies.",
+      "icon": "bi-window-stack"
+    },
+    {
+      "id": 2,
+      "name": "CSS3",
+      "category": "Frontend Development",
+      "level": 90,
+      "description": "Responsive interfaces and browser-based experiences using modern frontend technologies.",
+      "icon": "bi-window-stack"
+    },
+    {
+      "id": 3,
+      "name": "Bootstrap",
+      "category": "Frontend Development",
+      "level": 90,
+      "description": "Responsive interfaces and browser-based experiences using modern frontend technologies.",
+      "icon": "bi-window-stack"
+    },
+    {
+      "id": 4,
+      "name": "JavaScript",
+      "category": "Frontend Development",
+      "level": 85,
+      "description": "Responsive interfaces and browser-based experiences using modern frontend technologies.",
+      "icon": "bi-window-stack"
+    },
+    {
+      "id": 5,
+      "name": "Node.js",
+      "category": "Backend & APIs",
+      "level": 70,
+      "description": "Building blocks for connected web applications and REST-based services.",
+      "icon": "bi-server"
+    },
+    {
+      "id": 6,
+      "name": "Express.js",
+      "category": "Backend & APIs",
+      "level": 65,
+      "description": "Building blocks for connected web applications and REST-based services.",
+      "icon": "bi-server"
+    },
+    {
+      "id": 7,
+      "name": "MongoDB",
+      "category": "Backend & APIs",
+      "level": 65,
+      "description": "Building blocks for connected web applications and REST-based services.",
+      "icon": "bi-server"
+    },
+    {
+      "id": 8,
+      "name": "REST / JSON",
+      "category": "Backend & APIs",
+      "level": 70,
+      "description": "Building blocks for connected web applications and REST-based services.",
+      "icon": "bi-server"
+    },
+    {
+      "id": 9,
+      "name": "C++",
+      "category": "Programming & Tools",
+      "level": 80,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 10,
+      "name": "Python",
+      "category": "Programming & Tools",
+      "level": 70,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 11,
+      "name": "Java",
+      "category": "Programming & Tools",
+      "level": 65,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 12,
+      "name": "Git",
+      "category": "Programming & Tools",
+      "level": 80,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 13,
+      "name": "GitHub",
+      "category": "Programming & Tools",
+      "level": 80,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 14,
+      "name": "VS Code",
+      "category": "Programming & Tools",
+      "level": 90,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 15,
+      "name": "Postman",
+      "category": "Programming & Tools",
+      "level": 70,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    },
+    {
+      "id": 16,
+      "name": "STL",
+      "category": "Programming & Tools",
+      "level": 75,
+      "description": "Problem solving, version control and developer workflow across multiple technologies.",
+      "icon": "bi-braces"
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "role": "Data Science Intern",
+      "company": "Haridwar University — College Internship",
+      "duration": "2025 · 1 Month",
+      "description": "Developed a data science project covering the complete pipeline from data cleaning to model evaluation.",
+      "bullets": "Applied supervised machine-learning algorithms to a real-world classification task.|Documented workflow, model results and key findings in a structured technical report.|Worked through the complete data science project lifecycle.",
+      "tech": "Python, Machine Learning, Data Analysis",
+      "icon": "bi-bar-chart-line"
+    },
+    {
+      "id": 2,
+      "role": "Web Development",
+      "company": "Development Experience",
+      "duration": "Development Experience",
+      "description": "Hands-on experience building responsive websites using HTML5, CSS3 and JavaScript with a strong focus on cross-device consistency.",
+      "bullets": "Built responsive layouts for mobile, tablet and desktop.|Worked with REST APIs and JSON fundamentals.|Used Git and GitHub for version control and deployment.",
+      "tech": "HTML5, CSS3, JavaScript, Git/GitHub",
+      "icon": "bi-code-square"
+    }
+  ],
+  "education": [
+    {
+      "id": 1,
+      "degree": "B.Tech — Computer Science & Engineering",
+      "institution": "Haridwar University",
+      "duration": "Currently Pursuing · 7th Semester",
+      "description": "Currently pursuing Bachelor of Technology in Computer Science & Engineering.",
+      "tags": "7th Semester|CGPA: 6.05+|CSE",
+      "icon": "bi-mortarboard-fill"
+    },
+    {
+      "id": 2,
+      "degree": "Class XII",
+      "institution": "ABR Foundation School, Sasaram",
+      "duration": "CLASS XII · 2022",
+      "description": "Completed senior secondary education with a strong academic foundation.",
+      "tags": "68.2%|2022",
+      "icon": "bi-building"
+    },
+    {
+      "id": 3,
+      "degree": "Class X",
+      "institution": "Dedicated Public School, Sasaram",
+      "duration": "CLASS X · 2020",
+      "description": "Completed secondary education and built the foundation for higher studies in technology.",
+      "tags": "78.2%|2020",
+      "icon": "bi-book"
+    }
+  ],
+  "certifications": [
+    {
+      "id": 1,
+      "title": "Introduction to Front-End Development",
+      "issuer": "Meta · Coursera",
+      "date": "Completed January 30, 2025",
+      "url": "assets/certificates/Introduction to Frontend Development (1).pdf",
+      "icon": "bi-window-stack"
+    },
+    {
+      "id": 2,
+      "title": "Introduction to CSS",
+      "issuer": "CSS Course",
+      "date": "Certificate",
+      "url": "assets/certificates/Introduction to CSS ( 3h ).pdf",
+      "icon": "bi-filetype-css"
+    },
+    {
+      "id": 3,
+      "title": "Introduction to C++",
+      "issuer": "C++ Programming",
+      "date": "6 Hour Course",
+      "url": "assets/certificates/Introduction to C plus plus ( 6h).pdf",
+      "icon": "bi-code-slash"
+    },
+    {
+      "id": 4,
+      "title": "MERN Full Stack Development",
+      "issuer": "Full Stack Web Development",
+      "date": "Virtual Internship",
+      "url": "assets/certificates/MERN full Stack Development With Project Virtual Internship.pdf",
+      "icon": "bi-stack"
+    },
+    {
+      "id": 5,
+      "title": "Programming in Java",
+      "issuer": "NPTEL",
+      "date": "Jan–Apr 2025 · 12 Week Course",
+      "url": "assets/certificates/Programming In Java ( NPTEL ).pdf",
+      "icon": "bi-cup-hot"
+    },
+    {
+      "id": 6,
+      "title": "Programming with JavaScript",
+      "issuer": "Meta · Coursera",
+      "date": "Completed January 30, 2025",
+      "url": "assets/certificates/Programming with JavaScript.pdf",
+      "icon": "bi-filetype-js"
+    },
+    {
+      "id": 7,
+      "title": "Python for Data Science",
+      "issuer": "NPTEL",
+      "date": "Jan–Feb 2026 · 4 Week Course",
+      "url": "assets/certificates/Python for Data Science ( NPTEL ).pdf",
+      "icon": "bi-filetype-py"
+    },
+    {
+      "id": 8,
+      "title": "Delta — Full Stack Web Development",
+      "issuer": "Apna College",
+      "date": "Course Completion Certificate",
+      "url": "assets/certificates/Delta (Full Stack Web Development)..pdf",
+      "icon": "bi-layers"
+    },
+    {
+      "id": 9,
+      "title": "Web Development",
+      "issuer": "EISystems Technologies & Prabandhan IIT Kanpur",
+      "date": "10 July - 8 August 2026 (4 week Course)",
+      "url": "assets/certificates/Eisystems Technologies - WEBSITE DEVELOPMENT.pdf",
+      "icon": "bi-layers"
+    }
+  ]
+}
