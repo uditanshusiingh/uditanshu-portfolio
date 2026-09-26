@@ -4,3 +4,95 @@
 .stat-card{width:100%;text-align:left;cursor:pointer;position:relative;transition:transform .2s,border-color .2s,background .2s}.stat-card:hover{transform:translateY(-3px);border-color:rgba(124,92,255,.45);background:var(--surface2)}.stat-card:focus-visible{outline:2px solid var(--primary);outline-offset:3px}.stat-arrow{position:absolute;right:20px;top:20px;color:var(--muted);font-size:.95rem}.quick-btn{transition:transform .2s,border-color .2s}.quick-btn:hover{transform:translateY(-2px);border-color:rgba(124,92,255,.45)}
 
 .stat-card{font:inherit;color:var(--text);border:1px solid var(--line);padding:22px;display:block}.stat-card b{color:var(--text)}.stat-card span{color:var(--muted)}.stat-card>i:first-child{color:var(--secondary)}.stat-card .stat-arrow{color:var(--secondary)}
+
+/* Mobile responsive polish */
+@media (max-width: 991px){
+  body{overflow-x:hidden}
+  .sidebar{width:min(285px,86vw);box-shadow:18px 0 45px rgba(0,0,0,.35)}
+  .main{min-width:0}
+  .topbar{height:68px;padding:0 18px}
+  .topbar>div:first-child{display:flex;align-items:center;gap:10px}
+  .topbar #pageTitle{font-weight:700}
+  .content-section{padding:34px 24px}
+  .page-head{margin-bottom:24px}
+  .page-head h1{font-size:2.35rem}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .stat-card{min-width:0;padding:19px}
+  .quick-btn{min-height:110px;padding:18px}
+  .table-panel{overflow:hidden}
+  .data-row{min-width:0}
+}
+
+@media (max-width: 650px){
+  .auth-shell{padding:16px;min-height:100svh}
+  .auth-card{width:100%;padding:28px 20px;border-radius:20px}
+  .brand-mark{font-size:1.8rem;margin-bottom:24px}
+  .auth-card h1{font-size:1.8rem;line-height:1.15}
+  .auth-card p{font-size:.92rem;line-height:1.5}
+  .auth-card input{min-height:50px;font-size:16px}
+  .auth-card .btn-main{min-height:50px;margin-top:20px}
+  .content-section{padding:25px 14px}
+  .topbar{height:62px;padding:0 14px}
+  .top-actions{gap:9px}
+  .top-actions #saveStatus{display:none}
+  .icon-btn{width:42px;height:42px}
+  .page-head{gap:15px;margin-bottom:20px}
+  .page-head h1{font-size:2rem;margin:5px 0}
+  .page-head p{font-size:.88rem;line-height:1.5;margin-bottom:0}
+  .page-head>.btn-main{width:100%;min-height:46px}
+  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .stat-card{padding:16px 14px;border-radius:15px;min-height:126px}
+  .stat-card i:first-child{font-size:1.05rem}
+  .stat-card b{font-size:1.65rem;margin-top:10px}
+  .stat-card span{font-size:.75rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .quick-grid{grid-template-columns:1fr 1fr;gap:9px;padding:14px}
+  .quick-btn{min-height:105px;padding:15px;border-radius:12px;font-size:.88rem}
+  .quick-btn i{font-size:1.15rem;margin-bottom:10px}
+  .panel-head{padding:16px}
+  .form-grid{padding:18px 15px;display:grid;grid-template-columns:1fr;gap:0}
+  .form-grid .full{grid-column:auto}
+  .form-grid input,.form-grid textarea{font-size:16px}
+  .actions{margin-top:18px}
+  .actions .btn-main{width:100%;min-height:46px}
+  .table-panel{padding:5px;border-radius:15px}
+  .data-row{grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:14px 10px}
+  .data-row b{font-size:.9rem;overflow-wrap:anywhere}
+  .data-row small{font-size:.72rem;display:block;margin-top:3px;overflow-wrap:anywhere}
+  .row-actions{gap:5px}
+  .row-actions button{width:40px;height:40px}
+  .empty-state{padding:45px 18px}
+  .settings-panel{padding:5px 15px}
+  .setting-row{align-items:flex-start;flex-direction:column;padding:17px 0}
+  .setting-row .btn-outline,.setting-row .btn-danger{width:100%;justify-content:center;min-height:44px}
+  .modal-dialog{margin:10px}
+  .admin-modal{border-radius:16px}
+  .modal-body{padding:18px 15px;max-height:70svh;overflow-y:auto}
+  .modal-footer{padding:12px 15px;gap:8px}
+  .modal-footer>*{margin:0!important}
+  .modal-footer .btn-main,.modal-footer .btn-outline{min-height:44px}
+  .editor-grid{grid-template-columns:1fr;gap:0}
+  .editor-grid .full{grid-column:auto}
+  .editor-grid input,.editor-grid textarea{font-size:16px}
+  .sidebar{width:min(290px,88vw);padding:20px 12px}
+  .sidebar-brand{padding:0 12px 22px}
+  .nav-btn,.sidebar-bottom a,.sidebar-bottom button{min-height:44px}
+}
+
+@media (max-width: 380px){
+  .content-section{padding:22px 10px}
+  .stats-grid{gap:8px}
+  .stat-card{padding:14px 11px;min-height:115px}
+  .stat-card b{font-size:1.45rem}
+  .quick-grid{gap:7px;padding:11px}
+  .quick-btn{padding:13px 11px;min-height:98px;font-size:.8rem}
+  .page-head h1{font-size:1.8rem}
+  .data-row{grid-template-columns:1fr}
+  .row-actions{justify-content:flex-end}
+}
+
+/* Better touch and focus behavior */
+button,a,input,textarea{ -webkit-tap-highlight-color:transparent }
+@media (hover:none){
+  .stat-card:hover,.quick-btn:hover{transform:none}
+}
