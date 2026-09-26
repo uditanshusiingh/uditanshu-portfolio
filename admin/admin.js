@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function uploadResume(file) {
     if (!file) return;
     const name = String(file.name || "");
-    const allowed = /\\.(pdf|doc|docx)$/i.test(name);
+    const allowed = /\.(pdf|doc|docx)$/i.test(name);
     if (!allowed) {
       showToast("Resume must be a PDF, DOC, or DOCX file.", true);
       return;
