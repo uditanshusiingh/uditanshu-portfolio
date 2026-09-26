@@ -44,7 +44,7 @@ function renderVault() {
     '<article class="vault-file '+(doc.pinned?"is-pinned":"")+'">'+
       '<div class="vault-file-icon"><i class="bi '+fileIcon(doc.name)+'"></i></div>'+
       '<div class="vault-file-main"><div class="vault-file-title"><strong title="'+esc(doc.name)+'">'+esc(doc.name)+'</strong>'+(doc.pinned?'<span class="vault-pinned"><i class="bi bi-pin-fill"></i> Pinned</span>':"")+'</div>'+
-      '<div class="vault-file-meta"><span><i class="bi bi-hdd"></i> '+formatBytes(doc.size)+'</span><span><i class="bi bi-file-earmark"></i> '+esc(doc.contentType||"Unknown type")+'</span><span><i class="bi bi-calendar3"></i> Uploaded '+formatDate(doc.uploadedAt)+'</span></div></div>'+
+      '<div class="vault-file-meta"><span><i class="bi bi-hdd"></i> '+formatBytes(doc.size)+'</span><span><i class="bi bi-file-earmark"></i> '+esc(doc.contentType||"Unknown type")+'</span><span><i class="bi bi-calendar3"></i> Uploaded '+formatDate(doc.uploadedAt)+'</span>'+(doc.lastModified?'<span><i class="bi bi-clock-history"></i> File modified '+formatDate(doc.lastModified)+'</span>':"")+'</div></div>'+
       '<div class="vault-file-actions"><button type="button" class="vault-action '+(doc.pinned?"active":"")+'" title="'+(doc.pinned?"Unpin":"Pin")+'" data-vault-pin="'+encodeURIComponent(doc.pathname)+'"><i class="bi '+(doc.pinned?"bi-pin-fill":"bi-pin")+'"></i></button>'+
       '<button type="button" class="vault-action" title="Download" data-vault-download="'+encodeURIComponent(doc.pathname)+'"><i class="bi bi-download"></i></button>'+
       '<button type="button" class="vault-action danger" title="Delete" data-vault-delete="'+encodeURIComponent(doc.pathname)+'"><i class="bi bi-trash3"></i></button></div></article>'
