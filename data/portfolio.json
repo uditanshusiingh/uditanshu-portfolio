@@ -222,6 +222,16 @@
       "bullets": "Built responsive layouts for mobile, tablet and desktop.|Worked with REST APIs and JSON fundamentals.|Used Git and GitHub for version control and deployment.",
       "tech": "HTML5, CSS3, JavaScript, Git/GitHub",
       "icon": "bi-code-square"
+    },
+    {
+      "role": "Web Development With Bootstrap",
+      "company": "EISystems Technology & Prabandhan IIT Kanpur",
+      "duration": "2026 · 1 Month",
+      "description": "Developed responsive web pages with HTML, CSS, JavaScript, and Bootstrap, applying current frontend development practices. \nImplemented layouts, navigation menus, forms, cards, and reusable UI components across 6+ pages using Bootstrap's grid system, improving consistency across the site. ",
+      "bullets": "",
+      "tech": "HTML5, CSS3, JavaScript, Bootstrap",
+      "icon": "bi bi-arrows-angle-expand",
+      "id": 1790463082632
     }
   ],
   "education": [
