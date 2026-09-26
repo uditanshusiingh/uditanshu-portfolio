@@ -153,8 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const experienceGrid = document.getElementById("experienceGrid");
     if (experienceGrid) {
       experienceGrid.innerHTML = (data.experience || []).map(item => `<div class="col-lg-6 reveal">
-        <article class="project-card h-100">
-          <div class="project-icon"><i class="bi ${esc(item.icon || "bi-briefcase")}"></i></div>
+        <article class="project-card experience-card h-100">\n          <div class="project-icon"><i class="${esc(String(item.icon || "bi-briefcase").replace(/^bi\s+/, ""))}"></i></div>
           <div class="project-body">
             <span class="project-label">${esc(item.duration || "EXPERIENCE")}</span>
             <h4>${esc(item.role)}</h4>
