@@ -282,13 +282,20 @@ a {
 }
 
 .card-one {
-  left: 0;
-  top: 23%;
+  left: 50%;
+  top: -2%;
+  transform: translateX(-50%);
 }
 
 .card-two {
-  right: 0;
-  bottom: 22%;
+  right: 50%;
+  bottom: -2%;
+  transform: translateX(50%);
+}
+
+.floating-card {
+  z-index: 3;
+  white-space: nowrap;
 }
 
 .section-heading {
