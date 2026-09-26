@@ -34,10 +34,31 @@ function cacheData() {
 }
 
 async function fetchWebsiteData() {
-  const response = await fetch("/api/portfolio-data", { credentials:"same-origin", cache:"no-store" });
+  const response = await fetch("/api/portfolio-data?t=" + Date.now(), {
+    credentials:"same-origin",
+    cache:"no-store",
+    headers:{ "Cache-Control":"no-cache" }
+  });
   const result = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(result.message || "Could not load website data.");
-  return result;
+
+  // Support both the current raw API response and wrapped { data } responses.
+  const websiteData = result?.data && typeof result.data === "object"
+    ? result.data
+    : result;
+
+  if (
+    !websiteData?.profile ||
+    !Array.isArray(websiteData.projects) ||
+    !Array.isArray(websiteData.skills) ||
+    !Array.isArray(websiteData.experience) ||
+    !Array.isArray(websiteData.education) ||
+    !Array.isArray(websiteData.certifications)
+  ) {
+    throw new Error("Website data format is invalid.");
+  }
+
+  return websiteData;
 }
 
 async function publish(nextData) {
@@ -335,10 +356,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await fetch("/api/upload-certificate", { method:"POST", credentials:"same-origin", body:new FormData(form) });
         const result = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(result.message || "Certificate upload failed.");
-        const next = structuredClone(data);
-        next.certifications = [...(next.certifications || []), { ...result.certification, icon: values.icon || "bi-file-earmark-pdf" }];
-        await publish(next);
-        modal.hide(); renderAll(); showToast("Certificate uploaded and published to the website.");
+        // The upload API now registers the certificate in portfolio.json
+        // as part of the upload. Refresh from the server so the admin list
+        // always reflects the exact published data.
+        data = result.data || await fetchWebsiteData();
+        cacheData();
+        document.getElementById("saveStatus").textContent = "Website synced";
+        modal.hide();
+        renderAll();
+        showToast("Certificate uploaded and added to the admin panel.");
       } catch (error) {
         showToast(error.message || "Certificate upload failed.", true);
       } finally {
