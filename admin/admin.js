@@ -132,6 +132,13 @@ function renderProfile() {
       ? "Current resume: " + resumePath.split("/").pop()
       : "No resume uploaded";
   }
+  const profileImageName = document.getElementById("profileImageFileName");
+  if (profileImageName) {
+    const imagePath = data.profile.image || "";
+    profileImageName.textContent = imagePath
+      ? "Current profile picture: " + imagePath.split("/").pop()
+      : "No profile picture uploaded";
+  }
 }
 
 function renderCollection(type) {
@@ -339,6 +346,92 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   mobileMenu?.addEventListener("click", () => document.querySelector(".sidebar").classList.toggle("open"));
 
+
+  async function uploadProfileImage(file) {
+    if (!file) return;
+    const allowed = /\.(png|jpe?g|webp)$/i.test(String(file.name || ""));
+    if (!allowed) {
+      showToast("Profile picture must be JPG, PNG, or WEBP.", true);
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("Profile picture must be 5 MB or smaller.", true);
+      return;
+    }
+
+    const dropzone = document.getElementById("profileImageDropzone");
+    const label = document.getElementById("profileImageFileName");
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    dropzone?.classList.add("uploading");
+    if (label) label.textContent = "Uploading " + file.name + "...";
+
+    try {
+      const response = await fetch("/api/upload-profile-image", {
+        method:"POST",
+        credentials:"same-origin",
+        body:formData
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Profile picture upload failed.");
+
+      data = result.data || await fetchWebsiteData();
+      cacheData();
+      renderAll();
+      document.getElementById("saveStatus").textContent = "Website synced";
+      if (label) label.textContent = "Current profile picture: " + file.name;
+      showToast("Profile picture uploaded and published successfully.");
+    } catch (error) {
+      if (label) label.textContent = data?.profile?.image
+        ? "Current profile picture: " + data.profile.image.split("/").pop()
+        : "No profile picture uploaded";
+      showToast(error.message || "Profile picture upload failed.", true);
+    } finally {
+      dropzone?.classList.remove("uploading");
+    }
+  }
+
+  document.addEventListener("click", e => {
+    const zone = e.target.closest("#profileImageDropzone");
+    if (zone && e.target.id !== "profileImageFile") document.getElementById("profileImageFile")?.click();
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.target.id === "profileImageDropzone" && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      document.getElementById("profileImageFile")?.click();
+    }
+  });
+
+  document.addEventListener("change", e => {
+    if (e.target.id === "profileImageFile") {
+      const file = e.target.files?.[0];
+      if (file) uploadProfileImage(file);
+    }
+  });
+
+  document.addEventListener("dragover", e => {
+    const zone = e.target.closest("#profileImageDropzone");
+    if (zone) {
+      e.preventDefault();
+      zone.classList.add("dragover");
+    }
+  });
+
+  document.addEventListener("dragleave", e => {
+    const zone = e.target.closest("#profileImageDropzone");
+    if (zone) zone.classList.remove("dragover");
+  });
+
+  document.addEventListener("drop", e => {
+    const zone = e.target.closest("#profileImageDropzone");
+    if (!zone) return;
+    e.preventDefault();
+    zone.classList.remove("dragover");
+    const file = e.dataTransfer.files?.[0];
+    if (file) uploadProfileImage(file);
+  });
 
   async function uploadResume(file) {
     if (!file) return;
