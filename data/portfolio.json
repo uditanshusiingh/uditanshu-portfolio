@@ -325,6 +325,14 @@
       "date": "10 July - 8 August 2026 (4 week Course)",
       "url": "assets/certificates/Eisystems Technologies - WEBSITE DEVELOPMENT.pdf",
       "icon": "bi-layers"
+    },
+    {
+      "id": 1790458363550,
+      "title": "Advanced React",
+      "issuer": "Coursera",
+      "date": "2025-07-26",
+      "url": "/assets/certificates/1790458360846-Advanced-React.pdf",
+      "icon": "bi-file-earmark-pdf"
     }
   ]
 }
