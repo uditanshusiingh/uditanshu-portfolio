@@ -125,6 +125,13 @@ function renderProfile() {
     if (!field) return;
     field.value = Array.isArray(value) ? value.join(", ") : (value ?? "");
   });
+  const resumeName = document.getElementById("resumeFileName");
+  if (resumeName) {
+    const resumePath = data.profile.resume || "";
+    resumeName.textContent = resumePath
+      ? "Current resume: " + resumePath.split("/").pop()
+      : "No resume uploaded";
+  }
 }
 
 function renderCollection(type) {
