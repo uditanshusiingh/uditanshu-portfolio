@@ -108,28 +108,49 @@ document.addEventListener("DOMContentLoaded", () => {
       }).join("");
     }
 
-    // Skills: same project-card / skill-item CSS as the original site.
+    // Skills: visual showcase — no proficiency bars or ranking.
     const skillGrid = document.getElementById("skillsGrid");
     if (skillGrid) {
       const groups = [...new Set((data.skills || []).map(s => s.category || "Skills"))];
+      const groupIcons = ["bi-window-stack", "bi-server", "bi-terminal"];
+      const skillIcons = {
+        "HTML5":"bi-filetype-html", "CSS3":"bi-filetype-css", "Bootstrap":"bi-bootstrap",
+        "JavaScript":"bi-filetype-js", "Node.js":"bi-node-plus", "Express.js":"bi-lightning",
+        "MongoDB":"bi-database", "REST / JSON":"bi-braces", "C++":"bi-filetype-cpp",
+        "Python":"bi-filetype-py", "Java":"bi-cup-hot", "Git":"bi-git", "GitHub":"bi-github",
+        "VS Code":"bi-code-square", "Postman":"bi-send", "STL":"bi-boxes"
+      };
       skillGrid.innerHTML = groups.map((group, groupIndex) => {
         const items = (data.skills || []).filter(s => (s.category || "Skills") === group);
-        const icon = items[0]?.icon || (groupIndex === 0 ? "bi-window-stack" : groupIndex === 1 ? "bi-server" : "bi-braces");
+        const icon = items[0]?.icon || groupIcons[groupIndex] || "bi-tools";
         const description = items[0]?.description || "Technologies and tools used across my development workflow.";
-        return `<div class="col-md-6 col-lg-4 reveal">
-          <article class="project-card skill-project-card h-100">
-            <div class="project-icon"><i class="bi ${esc(icon)}"></i></div>
-            <div class="project-body">
-              <span class="project-label">${esc(group)}</span>
-              <h4>${esc(group)}</h4>
-              <p>${esc(description)}</p>
-              ${items.map(s => `<div class="skill-item">
-                <span>${esc(s.name)}</span><b>${Number(s.level) || 0}%</b>
-                <div class="progress"><div style="width:${Math.max(0,Math.min(100,Number(s.level)||0))}%"></div></div>
-              </div>`).join("")}
+        const number = String(groupIndex + 1).padStart(2, "0");
+        const footer = groupIndex === 0
+          ? "Interface & user experience"
+          : groupIndex === 1
+            ? "Services & data layer"
+            : "Development workflow & problem solving";
+        return \`<div class="col-md-6 col-lg-4 reveal">
+          <article class="skill-showcase-card h-100">
+            <div class="skill-showcase-head">
+              <span class="skill-index">\${number}</span>
+              <div class="skill-visual"><i class="bi \${esc(icon)}"></i></div>
+              <span class="skill-arrow"><i class="bi bi-arrow-up-right"></i></span>
+            </div>
+            <div class="skill-showcase-body">
+              <span class="project-label">\${esc(group)}</span>
+              <h4>\${esc(group)}</h4>
+              <p>\${esc(description)}</p>
+              <div class="skill-chips">
+                \${items.map(s => \`<span class="skill-chip"><i class="bi \${esc(skillIcons[s.name] || s.icon || "bi-code-square")}"></i>\${esc(s.name)}</span>\`).join("")}
+              </div>
+              <div class="skill-showcase-footer">
+                <i class="bi bi-stars"></i>
+                <span>\${footer}</span>
+              </div>
             </div>
           </article>
-        </div>`;
+        </div>\`;
       }).join("");
     }
 
