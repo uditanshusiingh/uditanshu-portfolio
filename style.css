@@ -929,69 +929,63 @@ a {
 .light .skill-chip { color:#202536; background:rgba(20,25,40,.035); }
 @media (max-width:575px) { .skill-showcase-head { min-height:165px; } .skill-showcase-body { padding:20px; } .skill-showcase-body h4 { font-size:1.25rem; } }
 
-/* Compact experience cards */
+/* Experience cards: balanced size and consistent styling for all future entries */
+.experience-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+}
 .experience-card .project-icon {
-  height: 125px;
-  font-size: 2.35rem;
+  flex: 0 0 auto;
+  height: 138px;
+  font-size: 2.55rem;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(124,92,255,.26), transparent 65%),
+    linear-gradient(135deg,#171e2c,#10141d);
 }
 .experience-card .project-body {
-  padding: 20px 22px 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 26px 26px;
+}
+.experience-card .project-label {
+  font-size: .73rem;
+  letter-spacing: .1em;
 }
 .experience-card .project-body h4 {
-  margin: 6px 0 8px;
-  font-size: 1.25rem;
+  margin: 9px 0 8px;
+  font-size: 1.38rem;
+  line-height: 1.3;
 }
 .experience-card .project-body p {
-  line-height: 1.55;
-  margin-bottom: 10px;
+  font-size: .97rem;
+  line-height: 1.65;
+  margin-bottom: 12px;
 }
 .experience-card .project-body ul {
-  margin-bottom: 10px;
-  line-height: 1.55;
-}
-.experience-card .project-body .tags {
-  margin-top: 12px !important;
-}
-@media (max-width: 767px) {
-  .experience-card .project-icon {
-    height: 105px;
-  }
-  .experience-card .project-body {
-    padding: 18px;
-  }
-}
-
-/* Extra compact experience cards */
-.experience-card .project-icon {
-  height: 90px;
-  font-size: 1.9rem;
-}
-.experience-card .project-body {
-  padding: 16px 18px 18px;
-}
-.experience-card .project-body h4 {
-  margin: 5px 0 6px;
-  font-size: 1.1rem;
-}
-.experience-card .project-body p {
-  line-height: 1.4;
-  margin-bottom: 7px;
-  font-size: .88rem;
-}
-.experience-card .project-body ul {
-  margin: 6px 0;
-  padding-left: 16px !important;
-  line-height: 1.4;
-  font-size: .84rem;
+  padding-left: 20px !important;
+  margin: 3px 0 14px;
+  font-size: .92rem;
+  line-height: 1.65;
 }
 .experience-card .project-body li {
-  margin-bottom: 3px !important;
+  margin-bottom: 5px !important;
 }
 .experience-card .project-body .tags {
-  margin-top: 8px !important;
-  gap: 5px;
+  margin-top: auto !important;
+  padding-top: 10px;
+  gap: 8px;
 }
 .experience-card .project-body .tags span {
-  padding: 5px 8px;
-  font-size: .66rem;
+  padding: 7px 11px;
+  font-size: .72rem;
+}
+@media (max-width: 767px) {
+  .experience-card .project-icon { height: 118px; font-size: 2.3rem; }
+  .experience-card .project-body { padding: 21px; }
+  .experience-card .project-body h4 { font-size: 1.27rem; }
+  .experience-card .project-body p { font-size: .94rem; }
+  .experience-card .project-body ul { font-size: .9rem; }
 }
