@@ -493,7 +493,7 @@ Authenticated upload token
     ↓
 Private Vercel Blob
     ↓
-Encrypted/private cloud storage
+Private cloud storage
     ↓
 Authenticated list / download / pin / delete
 ```
