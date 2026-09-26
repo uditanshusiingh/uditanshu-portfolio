@@ -436,3 +436,67 @@ Haridwar University
 This project is a personal portfolio project. The source code is available for learning and reference.
 
 Personal assets such as profile images, certificates and resume belong to the respective owner and should not be reused without permission.
+
+
+---
+
+## 🔒 Private Document Vault
+
+The admin panel includes a **Documents** section that works as a private personal document vault.
+
+The vault is intentionally separate from the public portfolio:
+
+- Documents never appear on the public website.
+- Documents are stored in a **private Vercel Blob store**, not in the GitHub repository.
+- Access requires the existing admin authentication session.
+- Drag & drop and multi-file upload are supported.
+- Large files use direct client-to-Blob uploads with multipart support.
+- Every document shows its filename, size, file type, upload date/time and pinned status.
+- Documents can be pinned, downloaded or permanently deleted.
+- The vault can be accessed from any device by signing into the admin panel.
+- Downloads are served through an authenticated server endpoint and sent as attachments.
+
+Vercel Private Blob is designed for sensitive documents and requires authenticated access; public Blob storage should not be used for this vault. See the official Vercel documentation for private storage. 
+
+### One-time Vercel setup
+
+Create a **private** Blob store and connect it to this Vercel project:
+
+1. Open the Vercel project.
+2. Go to **Storage**.
+3. Create a **Blob** store.
+4. Set its access mode to **Private**.
+5. Connect the store to the project and enable the production environment.
+6. Vercel will provide the Blob credentials required by the server functions.
+7. Redeploy the project.
+
+The application expects:
+
+```env
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-token
+```
+
+Do not commit this value to GitHub.
+
+The vault uses the existing admin session for application-level authorization in addition to Vercel Blob's private storage controls.
+
+### Vault flow
+
+```
+Admin login
+    ↓
+Documents section
+    ↓
+Drag & drop file
+    ↓
+Authenticated upload token
+    ↓
+Private Vercel Blob
+    ↓
+Encrypted/private cloud storage
+    ↓
+Authenticated list / download / pin / delete
+```
+
+The document vault is an **admin-only utility** and has no dependency on the public portfolio content model in `data/portfolio.json`.
+
