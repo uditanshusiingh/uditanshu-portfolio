@@ -27,7 +27,6 @@ module.exports = async function handler(req, res) {
           throw new Error("Invalid vault upload path.");
         }
         return {
-          access: "private",
           addRandomSuffix: false,
           maximumSizeInBytes: 5 * 1024 * 1024 * 1024,
           allowedContentTypes: ["*/*"],
