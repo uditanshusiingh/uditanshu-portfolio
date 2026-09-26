@@ -156,9 +156,9 @@ module.exports = async function handler(req, res) {
     const currentIndex = await githubRequest(`https://api.github.com/repos/${repo}/contents/index.html?ref=main`);
     const currentHtml = Buffer.from(currentIndex.content, "base64").toString("utf8");
 
-    const marker = '        <div class="modal-footer">';
+    const marker = '            <!-- CERTIFICATIONS END -->';
     const insertAt = currentHtml.lastIndexOf(marker);
-    if (insertAt === -1) throw new Error("Certification section could not be located in index.html.");
+    if (insertAt === -1) throw new Error("Certification grid could not be located in index.html.");
 
     const card = certificateCard({
       title,
