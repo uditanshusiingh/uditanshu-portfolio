@@ -156,16 +156,53 @@ module.exports = async function handler(req, res) {
       throw new Error("GitHub did not confirm the certificate file upload.");
     }
 
+    // Keep the admin panel and public portfolio in sync from the same upload.
+    // The PDF alone is not enough because the public site reads certificates
+    // from data/portfolio.json.
+    const dataPath = "data/portfolio.json";
+    const currentData = await githubRequest(
+      `https://api.github.com/repos/${repo}/contents/${dataPath}?ref=main`
+    );
+    const portfolio = JSON.parse(
+      Buffer.from(currentData.content, "base64").toString("utf8")
+    );
+
+    if (!portfolio || typeof portfolio !== "object" || !Array.isArray(portfolio.certifications)) {
+      throw new Error("Portfolio certificate data is invalid.");
+    }
+
+    const certification = {
+      id: Date.now(),
+      title,
+      issuer,
+      date,
+      url: publicPath,
+      icon
+    };
+
+    portfolio.certifications.push(certification);
+
+    await githubRequest(
+      `https://api.github.com/repos/${repo}/contents/${dataPath}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: `Register certificate: ${title}`,
+          content: Buffer.from(
+            JSON.stringify(portfolio, null, 2) + "\n",
+            "utf8"
+          ).toString("base64"),
+          sha: currentData.sha,
+          branch: "main"
+        })
+      }
+    );
+
     return json(res, 200, {
       success: true,
-      certification: {
-        id: Date.now(),
-        title,
-        issuer,
-        date,
-        url: publicPath,
-        icon
-      }
+      certification,
+      data: portfolio
     });
   } catch (error) {
     const message = String(error?.message || "Certificate upload failed.");
