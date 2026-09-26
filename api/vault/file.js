@@ -1,4 +1,5 @@
 const { get } = require("@vercel/blob");
+const { Readable } = require("node:stream");
 const { COOKIE_NAME, getCookie, verifySession } = require("../auth/_session");
 
 const PREFIX = "vault/files/";
@@ -47,7 +48,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("Cache-Control", "private, no-store");
     if (result.blob.size != null) res.setHeader("Content-Length", String(result.blob.size));
 
-    return new Response(result.stream).arrayBuffer().then(buffer => res.end(Buffer.from(buffer)));
+    return Readable.fromWeb(result.stream).pipe(res);
   } catch (error) {
     return json(res, 500, { message: error?.message || "Document download failed." });
   }
