@@ -84,7 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Projects
     const projectGrid = document.getElementById("projectsGrid");
     if (projectGrid) {
-      projectGrid.innerHTML = (data.projects || []).map(project => {
+      const projects = [...(data.projects || [])].sort((a,b) => {
+        const pa = Number.isFinite(Number(a.priority)) ? Number(a.priority) : 999999;
+        const pb = Number.isFinite(Number(b.priority)) ? Number(b.priority) : 999999;
+        return pa - pb || Number(a.id || 0) - Number(b.id || 0);
+      });
+      projectGrid.innerHTML = projects.map(project => {
         const href = project.live || project.github || "#";
         const tags = split(project.tech).map(t => `<span>${esc(t)}</span>`).join("");
         return `<div class="col-lg-4 reveal">
