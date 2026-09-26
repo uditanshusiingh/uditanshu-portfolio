@@ -1,3 +1,5 @@
+module.exports.config = { api: { bodyParser: false } };
+
 const fs = require("fs");
 const path = require("path");
 const { formidable } = require("formidable");
