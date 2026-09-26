@@ -33,7 +33,7 @@
       "category": "Web Development",
       "description": "Responsive personal website built from scratch with HTML5, CSS3 and vanilla JavaScript, with smooth navigation and cross-device testing.",
       "tech": "HTML5, CSS3, JavaScript",
-      "live": "https://uditanshu-portfolio.vercel.app/#home",
+      "live": "https://uditanshu-portfolio.vercel.app",
       "github": "https://github.com/uditanshusiingh/uditanshu-portfolio",
       "featured": true,
       "icon": "bi-person-badge"
