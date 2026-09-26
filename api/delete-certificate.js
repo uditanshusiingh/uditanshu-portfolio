@@ -1,5 +1,3 @@
-module.exports.config = { api: { bodyParser: false } };
-
 const { COOKIE_NAME, getCookie, verifySession } = require("./auth/_session");
 
 function json(res, status, body) {
