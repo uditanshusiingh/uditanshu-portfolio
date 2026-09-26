@@ -160,17 +160,6 @@ module.exports = async function handler(req, res) {
     // The PDF alone is not enough because the public site reads certificates
     // from data/portfolio.json.
     const dataPath = "data/portfolio.json";
-    const currentData = await githubRequest(
-      `https://api.github.com/repos/${repo}/contents/${dataPath}?ref=main`
-    );
-    const portfolio = JSON.parse(
-      Buffer.from(currentData.content, "base64").toString("utf8")
-    );
-
-    if (!portfolio || typeof portfolio !== "object" || !Array.isArray(portfolio.certifications)) {
-      throw new Error("Portfolio certificate data is invalid.");
-    }
-
     const certification = {
       id: Date.now(),
       title,
@@ -179,25 +168,47 @@ module.exports = async function handler(req, res) {
       url: publicPath,
       icon
     };
+    let portfolio;
 
-    portfolio.certifications.push(certification);
+    // Re-read portfolio.json when GitHub reports a stale blob SHA.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const currentData = await githubRequest(
+        `https://api.github.com/repos/${repo}/contents/${dataPath}?ref=main&t=${Date.now()}`
+      );
+      portfolio = JSON.parse(
+        Buffer.from(currentData.content, "base64").toString("utf8")
+      );
 
-    await githubRequest(
-      `https://api.github.com/repos/${repo}/contents/${dataPath}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: `Register certificate: ${title}`,
-          content: Buffer.from(
-            JSON.stringify(portfolio, null, 2) + "\n",
-            "utf8"
-          ).toString("base64"),
-          sha: currentData.sha,
-          branch: "main"
-        })
+      if (!portfolio || typeof portfolio !== "object" || !Array.isArray(portfolio.certifications)) {
+        throw new Error("Portfolio certificate data is invalid.");
       }
-    );
+
+      portfolio.certifications.push(certification);
+
+      try {
+        await githubRequest(
+          `https://api.github.com/repos/${repo}/contents/${dataPath}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: `Register certificate: ${title}`,
+              content: Buffer.from(
+                JSON.stringify(portfolio, null, 2) + "\n",
+                "utf8"
+              ).toString("base64"),
+              sha: currentData.sha,
+              branch: "main"
+            })
+          }
+        );
+        break;
+      } catch (error) {
+        if (!/does not match|sha|409|conflict/i.test(String(error.message || "")) || attempt === 2) {
+          throw error;
+        }
+      }
+    }
 
     return json(res, 200, {
       success: true,
