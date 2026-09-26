@@ -35,7 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) metaDescription.content = displayName + " — " + (p.role || "Web Developer") + " and Computer Science undergraduate portfolio.";
     const profileImage = document.querySelector(".profile-img");
-    if (profileImage) profileImage.alt = displayName;
+    if (profileImage) {
+      profileImage.src = p.image || "assets/profile.png";
+      profileImage.alt = displayName;
+    }
     const heroCopy = document.getElementById("heroCopy");
     if (heroCopy) heroCopy.textContent = p.bio || "";
 
