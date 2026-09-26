@@ -23,9 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const p = data.profile || {};
 
     // Profile / hero
-    const nameTargets = document.querySelectorAll(".gradient-text, .footer p");
-    const heroName = document.querySelector(".gradient-text");
-    if (heroName) heroName.textContent = p.name || "Uditanshu Kumar";
+    const displayName = p.name || "Uditanshu Kumar";
+    const nameTargets = document.querySelectorAll(".gradient-text");
+    nameTargets.forEach(el => { el.textContent = displayName; });
+
+    // Keep browser metadata and the profile image accessible name in sync too.
+    document.title = displayName + " | " + (p.role || "Web Developer");
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) metaDescription.content = displayName + " — " + (p.role || "Web Developer") + " and Computer Science undergraduate portfolio.";
+    const profileImage = document.querySelector(".profile-img");
+    if (profileImage) profileImage.alt = displayName;
     const heroCopy = document.getElementById("heroCopy");
     if (heroCopy) heroCopy.textContent = p.bio || "";
 
