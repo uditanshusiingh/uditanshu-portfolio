@@ -67,6 +67,7 @@ module.exports = async function handler(req, res) {
           size: blob.size || 0,
           uploadedAt: blob.uploadedAt || meta.uploadedAt || new Date().toISOString(),
           contentType: meta.contentType || "application/octet-stream",
+          lastModified: meta.lastModified || null,
           pinned: Boolean(meta.pinned)
         };
       }).sort((a,b) => Number(b.pinned) - Number(a.pinned) || new Date(b.uploadedAt) - new Date(a.uploadedAt));
@@ -90,6 +91,7 @@ module.exports = async function handler(req, res) {
         originalName: safeName(body.originalName || pathname.split("/").pop()),
         contentType: String(body.contentType || "application/octet-stream").slice(0, 180),
         uploadedAt: body.uploadedAt || new Date().toISOString(),
+        lastModified: body.lastModified || null,
         pinned: false
       };
       await writeManifest(manifest);
