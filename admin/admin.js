@@ -1,12 +1,438 @@
-const KEY="uditanshu-portfolio-admin-data-v1";function showToast(message){let toast=document.getElementById("adminToast");if(!toast){toast=document.createElement("div");toast.id="adminToast";toast.className="admin-toast";document.body.appendChild(toast)}toast.textContent=message;toast.classList.add("show");clearTimeout(window.__adminToastTimer);window.__adminToastTimer=setTimeout(()=>toast.classList.remove("show"),3500)}const initial={profile:{name:"Uditanshu Kumar",role:"Web Developer",location:"Sasaram, Bihar",email:"uditsingh9939@gmail.com",bio:"Computer Science undergraduate and frontend-focused web developer.",github:"https://github.com/uditanshusiingh",linkedin:"https://www.linkedin.com/in/uditanshusiingh/"},projects:[{id:1,title:"Personal Portfolio",category:"Web Development",description:"Responsive personal website built with HTML5, CSS3 and vanilla JavaScript.",tech:"HTML5, CSS3, JavaScript",live:"https://uditanshu-portfolio.vercel.app/",github:"",featured:true},{id:2,title:"Discover Bihar - Heritage Explorer",category:"Web Development",description:"Responsive tourism website showcasing Bihar's heritage, culture and destinations.",tech:"HTML5, CSS3, Bootstrap 5, JavaScript",live:"https://discover-bihar.vercel.app/",github:"",featured:true}],skills:[{id:1,name:"HTML5",category:"Frontend",level:95},{id:2,name:"CSS3",category:"Frontend",level:90},{id:3,name:"Bootstrap",category:"Frontend",level:90},{id:4,name:"JavaScript",category:"Frontend",level:85},{id:5,name:"Node.js",category:"Backend",level:70},{id:6,name:"MongoDB",category:"Backend",level:65},{id:7,name:"C++",category:"Programming",level:80}],experience:[{id:1,role:"Data Science Intern",company:"Haridwar University",duration:"2025 · 1 Month",description:"Worked through data cleaning, machine learning and model evaluation.",tech:"Python, Machine Learning, Data Analysis"}],education:[{id:1,degree:"B.Tech CSE",institution:"Haridwar University",duration:"2023 - Present",description:"Bachelor of Technology in Computer Science and Engineering."}],certifications:[
-{id:1,title:"Introduction to Front-End Development",issuer:"Meta · Coursera",date:"Completed January 30, 2025",url:"assets/certificates/Introduction to Frontend Development (1).pdf"},
-{id:2,title:"Introduction to CSS",issuer:"CSS Course",date:"Certificate",url:"assets/certificates/Introduction to CSS ( 3h ).pdf"},
-{id:3,title:"Introduction to C++",issuer:"C++ Programming",date:"6 Hour Course",url:"assets/certificates/Introduction to C plus plus ( 6h).pdf"},
-{id:4,title:"MERN Full Stack Development",issuer:"Full Stack Web Development",date:"Virtual Internship",url:"assets/certificates/MERN full Stack Development With Project Virtual Internship.pdf"},
-{id:5,title:"Programming in Java",issuer:"NPTEL",date:"Jan–Apr 2025 · 12 Week Course",url:"assets/certificates/Programming In Java ( NPTEL ).pdf"},
-{id:6,title:"Programming with JavaScript",issuer:"Meta · Coursera",date:"Completed January 30, 2025",url:"assets/certificates/Programming with JavaScript.pdf"},
-{id:7,title:"Python for Data Science",issuer:"NPTEL",date:"Jan–Feb 2026 · 4 Week Course",url:"assets/certificates/Python for Data Science ( NPTEL ).pdf"},
-{id:8,title:"Delta — Full Stack Web Development",issuer:"Apna College",date:"Course Completion Certificate",url:"assets/certificates/Delta (Full Stack Web Development)..pdf"},
-{id:9,title:"Web Development",issuer:"EISystems Technologies & Prabandhan IIT Kanpur",date:"10 July - 8 August 2026 (4 week Course)",url:"assets/certificates/Eisystems Technologies - WEBSITE DEVELOPMENT.pdf"}
-]};let data=loadData(),editType=null,editId=null,modal;function loadData(){try{const stored=JSON.parse(localStorage.getItem(KEY));if(!stored)return structuredClone(initial);if(Array.isArray(stored.certifications)&&stored.certifications.length===1&&stored.certifications[0]?.title==="Web Development Certification"){stored.certifications=structuredClone(initial.certifications);localStorage.setItem(KEY,JSON.stringify(stored))}return stored}catch{return structuredClone(initial)}}function save(){localStorage.setItem(KEY,JSON.stringify(data));document.getElementById("saveStatus").textContent="Saved locally";setTimeout(()=>document.getElementById("saveStatus").textContent="Local data",1200)}function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}function show(section){document.querySelectorAll(".content-section").forEach(x=>x.classList.toggle("active",x.id===section));document.querySelectorAll(".nav-btn").forEach(x=>x.classList.toggle("active",x.dataset.section===section));document.getElementById("pageTitle").textContent=section[0].toUpperCase()+section.slice(1);renderAll();document.querySelector(".sidebar")?.classList.remove("open")}function renderAll(){renderStats();renderProfile();["projects","skills","experience","education","certifications"].forEach(t=>renderCollection(t))}function renderStats(){const items=[["bi-folder2-open","Projects",data.projects.length,"projects"],["bi-code-slash","Skills",data.skills.length,"skills"],["bi-briefcase","Experience",data.experience.length,"experience"],["bi-patch-check","Certifications",data.certifications.length,"certifications"]];document.getElementById("statsGrid").innerHTML=items.map(x=>'<button type="button" class="stat-card" data-open="'+x[3]+'" aria-label="Open '+x[1]+'"><i class="bi '+x[0]+'"></i><b>'+x[2]+'</b><span>'+x[1]+'</span></button>').join("")}function renderProfile(){const f=document.getElementById("profileForm");Object.entries(data.profile).forEach(([k,v])=>{if(f.elements[k])f.elements[k].value=v||""})}function renderCollection(type){const el=document.getElementById(type+"List"),arr=data[type]||[];if(!arr.length){el.innerHTML='<div class="empty-state"><i class="bi bi-inbox"></i><h3>No items yet</h3><p>Use the button above to add your first item.</p></div>';return}const labels={projects:["title","category"],skills:["name","category"],experience:["role","company"],education:["degree","institution"],certifications:["title","issuer"]};el.innerHTML=arr.map(x=>'<div class="data-row"><div><b>'+esc(x[labels[type][0]])+'</b><small>'+esc(x[labels[type][1]]||"")+'</small></div><div class="row-actions"><button onclick="editItem(\''+type+'\','+x.id+')"><i class="bi bi-pencil"></i></button><button class="delete" onclick="deleteItem(\''+type+'\','+x.id+')"><i class="bi bi-trash"></i></button></div></div>').join("")}function fields(type,item={}){if(type==="certifications"){return '<div class="editor-grid certification-editor"><div><label>Certificate title</label><input name="title" type="text" value="'+esc(item.title||"")+'" required></div><div><label>Issuer / Platform</label><input name="issuer" type="text" value="'+esc(item.issuer||"")+'" required></div><div><label>Date</label><input name="date" type="date" value="'+esc(item.date||"")+'" required></div><div class="full"><label>Certificate file</label><div id="certificateDropzone" class="certificate-dropzone" tabindex="0"><input id="certificateFile" name="certificate" type="file" accept="application/pdf,.pdf" hidden><i class="bi bi-cloud-arrow-up"></i><strong>Drag & drop certificate here</strong><span>or click to browse · PDF only · max 10 MB</span><small id="certificateFileName">'+(item.url?"Current certificate: "+esc(item.url.split("/").pop()):"No file selected")+'</small></div></div></div>'}const specs={projects:[["title","Title","text"],["category","Category","text"],["description","Description","textarea"],["tech","Technologies","text"],["live","Live URL","url"],["github","GitHub URL","url"],["featured","Featured","checkbox"]],skills:[["name","Skill name","text"],["category","Category","text"],["level","Proficiency %","number"]],experience:[["role","Role","text"],["company","Company","text"],["duration","Duration","text"],["description","Description","textarea"],["tech","Technologies","text"]],education:[["degree","Degree","text"],["institution","Institution","text"],["duration","Duration","text"],["description","Description","textarea"]]};return '<div class="editor-grid">'+specs[type].map(([n,l,t])=>t==="textarea"?'<div class="full"><label>'+l+'</label><textarea name="'+n+'" rows="4">'+esc(item[n]||"")+'</textarea></div>':t==="checkbox"?'<div class="full form-check"><input class="form-check-input" name="'+n+'" type="checkbox" '+(item[n]?"checked":"")+'><label class="d-inline ms-2">'+l+'</label></div>':'<div><label>'+l+'</label><input name="'+n+'" type="'+t+'" value="'+esc(item[n]??"")+'"></div>').join("")+'</div>'}function editItem(type,id=null){editType=type;editId=id;const item=id?data[type].find(x=>x.id===id):{};document.getElementById("modalTitle").textContent=(id?"Edit ":"Add ")+type.slice(0,-1);document.getElementById("modalBody").innerHTML=fields(type,item);modal.show()}async function deleteItem(type,id){if(!confirm(type==="certifications"?"Delete this certificate from the admin panel and portfolio?":"Delete this item?"))return;const item=(data[type]||[]).find(x=>x.id===id);if(!item)return;if(type==="certifications"&&item.url){try{const response=await fetch("/api/delete-certificate",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({url:item.url,title:item.title})});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.message||"Certificate deletion failed.");}catch(error){showToast(error.message||"Certificate deletion failed.");return}}data[type]=data[type].filter(x=>x.id!==id);save();renderAll();if(type==="certifications")showToast("Your certificate has been deleted successfully.");}document.addEventListener("DOMContentLoaded",async()=>{modal=new bootstrap.Modal("#editorModal");const loginView=document.getElementById("loginView"),appView=document.getElementById("appView"),loginForm=document.getElementById("loginForm"),loginEmail=document.getElementById("loginEmail"),loginPassword=document.getElementById("loginPassword"),loginError=document.getElementById("loginError"),logoutBtn=document.getElementById("logoutBtn");const showApp=()=>{loginView.classList.add("d-none");appView.classList.remove("d-none");renderAll()};const showLogin=()=>{appView.classList.add("d-none");loginView.classList.remove("d-none")};const checkAuth=async()=>{try{const response=await fetch("/api/auth/me",{credentials:"same-origin",cache:"no-store"});if(response.ok){showApp();return true}if(response.status===401){showLogin();return false}throw new Error("Authentication service unavailable")}catch(error){showLogin();loginError.textContent="Cannot reach authentication server. Please try again.";return false}};document.querySelectorAll(".nav-btn").forEach(b=>b.onclick=()=>show(b.dataset.section));document.addEventListener("click",e=>{const target=e.target.closest("[data-open]");if(target)show(target.dataset.open)});loginForm.onsubmit=async e=>{e.preventDefault();loginError.textContent="";const button=loginForm.querySelector("button[type=submit]");button.disabled=true;button.innerHTML="Signing in...";try{const response=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({email:loginEmail.value,password:loginPassword.value})});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.message||"Sign in failed.");loginPassword.value="";showApp()}catch(error){loginError.textContent=error.message||"Sign in failed."}finally{button.disabled=false;button.innerHTML='Sign in <i class="bi bi-arrow-right"></i>'}};logoutBtn.onclick=async()=>{try{await fetch("/api/auth/logout",{method:"POST",credentials:"same-origin"})}finally{location.reload()}};const savedTheme=localStorage.getItem("uditanshu-portfolio-theme");if(savedTheme==="light")document.body.classList.add("light-mode");const updateThemeIcon=()=>{const light=document.body.classList.contains("light-mode");const icon=document.querySelector("#sidebarThemeBtn i");if(icon)icon.className=light?"bi bi-sun":"bi bi-moon"};updateThemeIcon();const toggleTheme=()=>{document.body.classList.toggle("light-mode");localStorage.setItem("uditanshu-portfolio-theme",document.body.classList.contains("light-mode")?"light":"dark");updateThemeIcon()};sidebarThemeBtn.onclick=toggleTheme;mobileMenu.onclick=()=>document.querySelector(".sidebar").classList.toggle("open");profileForm.onsubmit=e=>{e.preventDefault();data.profile=Object.fromEntries(new FormData(e.target));save()};editorForm.onsubmit=async e=>{e.preventDefault();const form=e.target;const f=new FormData(form);const o={};f.forEach((v,k)=>{if(k!=="certificate")o[k]=v});if(form.elements.featured)o.featured=form.elements.featured.checked;o.id=editId||Date.now();if(editType==="certifications"&&!editId){const file=form.elements.certificate?.files?.[0];if(!file){alert("Please select a certificate PDF.");return}const button=form.querySelector('button[type="submit"]');const original=button.innerHTML;button.disabled=true;button.innerHTML='<i class="bi bi-arrow-repeat"></i> Uploading...';try{const response=await fetch("/api/upload-certificate",{method:"POST",credentials:"same-origin",body:f});const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.message||"Certificate upload failed.");data.certifications=[...data.certifications,result.certification];save();modal.hide();renderAll();showToast("Your certificate is uploaded successfully.");}catch(error){alert(error.message||"Certificate upload failed.");}finally{button.disabled=false;button.innerHTML=original}return}data[editType]=editId?data[editType].map(x=>x.id===editId?{...x,...o}:x):[...data[editType],o];save();modal.hide();renderAll()};addProject.onclick=()=>editItem("projects");addSkill.onclick=()=>editItem("skills");addExperience.onclick=()=>editItem("experience");addEducation.onclick=()=>editItem("education");addCertification.onclick=()=>editItem("certifications");exportData.onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download="uditanshu-portfolio-backup.json";a.click()};importData.onchange=e=>{const r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save();renderAll();alert("Imported")}catch{alert("Invalid JSON")}};r.readAsText(e.target.files[0])};resetData.onclick=()=>{if(confirm("Reset local data?")){localStorage.removeItem(KEY);location.reload()}};document.addEventListener("click",e=>{const zone=e.target.closest("#certificateDropzone");if(zone){document.getElementById("certificateFile")?.click()}});document.addEventListener("keydown",e=>{if(e.target.id==="certificateDropzone"&&(e.key==="Enter"||e.key===" ")){e.preventDefault();document.getElementById("certificateFile")?.click()}});document.addEventListener("change",e=>{if(e.target.id==="certificateFile"){const file=e.target.files?.[0];if(file)document.getElementById("certificateFileName").textContent=file.name}});document.addEventListener("dragover",e=>{const zone=e.target.closest("#certificateDropzone");if(zone){e.preventDefault();zone.classList.add("dragover")}});document.addEventListener("dragleave",e=>{const zone=e.target.closest("#certificateDropzone");if(zone)zone.classList.remove("dragover")});document.addEventListener("drop",e=>{const zone=e.target.closest("#certificateDropzone");if(!zone)return;e.preventDefault();zone.classList.remove("dragover");const file=e.dataTransfer.files?.[0];if(!file)return;const input=document.getElementById("certificateFile");if(input){const dt=new DataTransfer();dt.items.add(file);input.files=dt.files;document.getElementById("certificateFileName").textContent=file.name}});await checkAuth()});
-window.editItem=editItem;window.deleteItem=deleteItem;
+const KEY = "uditanshu-portfolio-admin-data-v1";
+
+let data = null;
+let editType = null;
+let editId = null;
+let modal = null;
+
+const fallback = {
+  profile: { name:"Uditanshu Kumar", role:"Web Developer", roles:["Web Developer"], location:"Sasaram, Bihar", email:"uditsingh9939@gmail.com", phone:"+91 91429 38826", bio:"Computer Science undergraduate and frontend-focused web developer.", aboutLead:"", aboutMuted:"", semester:"7th", dsaCount:"5+", certCount:"9+", screenSizes:"3", degree:"B.Tech CSE — Haridwar University", focus:"Frontend + MERN fundamentals", languages:"English · Hindi · Bhojpuri", github:"https://github.com/uditanshusiingh", linkedin:"https://www.linkedin.com/in/uditanshusiingh/", resume:"assets/Uditanshu_Kumar_Resume.docx" },
+  projects: [], skills: [], experience: [], education: [], certifications: []
+};
+
+function esc(value = "") {
+  return String(value).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+}
+
+function showToast(message, error = false) {
+  let toast = document.getElementById("adminToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "adminToast";
+    toast.className = "admin-toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.toggle("error", error);
+  toast.classList.add("show");
+  clearTimeout(window.__adminToastTimer);
+  window.__adminToastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+function cacheData() {
+  localStorage.setItem(KEY, JSON.stringify(data));
+}
+
+async function fetchWebsiteData() {
+  const response = await fetch("/api/portfolio-data", { credentials:"same-origin", cache:"no-store" });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.message || "Could not load website data.");
+  return result;
+}
+
+async function publish(nextData) {
+  const response = await fetch("/api/portfolio-data", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"same-origin",
+    body:JSON.stringify(nextData)
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.message || "Could not publish changes.");
+  data = result.data || nextData;
+  cacheData();
+  document.getElementById("saveStatus").textContent = "Website synced";
+  setTimeout(() => document.getElementById("saveStatus").textContent = "Website synced", 1600);
+}
+
+async function saveData(nextData, successMessage = "Changes published successfully.") {
+  const previous = data;
+  try {
+    await publish(nextData);
+    renderAll();
+    showToast(successMessage);
+  } catch (error) {
+    data = previous;
+    renderAll();
+    showToast(error.message || "Could not publish changes.", true);
+    throw error;
+  }
+}
+
+function show(section) {
+  document.querySelectorAll(".content-section").forEach(x => x.classList.toggle("active", x.id === section));
+  document.querySelectorAll(".nav-btn").forEach(x => x.classList.toggle("active", x.dataset.section === section));
+  document.getElementById("pageTitle").textContent = section[0].toUpperCase() + section.slice(1);
+  renderAll();
+  document.querySelector(".sidebar")?.classList.remove("open");
+}
+
+function renderAll() {
+  if (!data) return;
+  renderStats();
+  renderProfile();
+  ["projects","skills","experience","education","certifications"].forEach(renderCollection);
+}
+
+function renderStats() {
+  const items = [
+    ["bi-folder2-open","Projects",(data.projects || []).length,"projects"],
+    ["bi-code-slash","Skills",(data.skills || []).length,"skills"],
+    ["bi-briefcase","Experience",(data.experience || []).length,"experience"],
+    ["bi-patch-check","Certifications",(data.certifications || []).length,"certifications"]
+  ];
+  document.getElementById("statsGrid").innerHTML = items.map(x =>
+    `<button type="button" class="stat-card" data-open="${x[3]}"><i class="bi ${x[0]}"></i><b>${x[2]}</b><span>${x[1]}</span></button>`
+  ).join("");
+}
+
+function renderProfile() {
+  const form = document.getElementById("profileForm");
+  if (!form || !data.profile) return;
+  Object.entries(data.profile).forEach(([key,value]) => {
+    const field = form.elements[key];
+    if (!field) return;
+    field.value = Array.isArray(value) ? value.join(", ") : (value ?? "");
+  });
+}
+
+function renderCollection(type) {
+  const el = document.getElementById(type + "List");
+  const arr = data[type] || [];
+  if (!arr.length) {
+    el.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i><h3>No items yet</h3><p>Use the button above to add your first item.</p></div>';
+    return;
+  }
+  const labels = {
+    projects:["title","category"],
+    skills:["name","category"],
+    experience:["role","company"],
+    education:["degree","institution"],
+    certifications:["title","issuer"]
+  };
+  el.innerHTML = arr.map(item =>
+    `<div class="data-row"><div><b>${esc(item[labels[type][0]])}</b><small>${esc(item[labels[type][1]] || "")}</small></div>
+      <div class="row-actions"><button type="button" onclick="editItem('${type}',${item.id})"><i class="bi bi-pencil"></i></button>
+      <button type="button" class="delete" onclick="deleteItem('${type}',${item.id})"><i class="bi bi-trash"></i></button></div>
+    </div>`
+  ).join("");
+}
+
+function fields(type, item = {}) {
+  if (type === "certifications") {
+    return `<div class="editor-grid certification-editor">
+      <div><label>Certificate title</label><input name="title" type="text" value="${esc(item.title || "")}" required></div>
+      <div><label>Issuer / Platform</label><input name="issuer" type="text" value="${esc(item.issuer || "")}" required></div>
+      <div><label>Date <small>(calendar)</small></label><input name="date" type="date" value="${/^\d{4}-\d{2}-\d{2}$/.test(item.date || "") ? esc(item.date) : ""}" ${item.id ? "" : "required"}></div>
+      <div><label>Icon class</label><input name="icon" type="text" value="${esc(item.icon || "bi-file-earmark-pdf")}"></div>
+      <div class="full"><label>Certificate file ${item.id ? "(leave empty to keep current file)" : ""}</label>
+        <div id="certificateDropzone" class="certificate-dropzone" tabindex="0">
+          <input id="certificateFile" name="certificate" type="file" accept="application/pdf,.pdf" hidden>
+          <i class="bi bi-cloud-arrow-up"></i><strong>Drag & drop certificate here</strong>
+          <span>or click to browse · PDF only · max 10 MB</span>
+          <small id="certificateFileName">${item.url ? "Current certificate: " + esc(item.url.split("/").pop()) : "No file selected"}</small>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const specs = {
+    projects:[
+      ["title","Title","text"],["category","Category","text"],["description","Description","textarea"],
+      ["tech","Technologies (comma separated)","text"],["live","Live URL","url"],["github","GitHub URL","url"],
+      ["icon","Bootstrap icon class","text"],["featured","Featured","checkbox"]
+    ],
+    skills:[
+      ["name","Skill name","text"],["category","Category / group","text"],["level","Proficiency %","number"],
+      ["description","Group description","textarea"],["icon","Bootstrap icon class","text"]
+    ],
+    experience:[
+      ["role","Role","text"],["company","Company / organization","text"],["duration","Duration / label","text"],
+      ["description","Description","textarea"],["bullets","Bullet points (use | between points)","textarea"],
+      ["tech","Technologies (comma separated)","text"],["icon","Bootstrap icon class","text"]
+    ],
+    education:[
+      ["degree","Degree / qualification","text"],["institution","Institution","text"],["duration","Duration / label","text"],
+      ["description","Description","textarea"],["tags","Tags (use | between tags)","text"],["icon","Bootstrap icon class","text"]
+    ]
+  };
+
+  return '<div class="editor-grid">' + (specs[type] || []).map(([name,label,inputType]) => {
+    if (inputType === "textarea") return `<div class="full"><label>${label}</label><textarea name="${name}" rows="4">${esc(item[name] || "")}</textarea></div>`;
+    if (inputType === "checkbox") return `<div class="full form-check"><input class="form-check-input" name="${name}" type="checkbox" ${item[name] ? "checked" : ""}><label class="d-inline ms-2">${label}</label></div>`;
+    return `<div><label>${label}</label><input name="${name}" type="${inputType}" value="${esc(item[name] ?? "")}"></div>`;
+  }).join("") + "</div>";
+}
+
+function editItem(type, id = null) {
+  editType = type;
+  editId = id;
+  const item = id ? (data[type] || []).find(x => x.id === id) : {};
+  document.getElementById("modalTitle").textContent = (id ? "Edit " : "Add ") + type.replace(/s$/, "");
+  document.getElementById("modalBody").innerHTML = fields(type, item);
+  modal.show();
+}
+
+async function deleteItem(type, id) {
+  if (!confirm(type === "certifications" ? "Delete this certificate from the admin panel and public website?" : "Delete this item from the admin panel and public website?")) return;
+  const item = (data[type] || []).find(x => x.id === id);
+  if (!item) return;
+
+  const previous = structuredClone(data);
+  try {
+    if (type === "certifications" && item.url) {
+      const response = await fetch("/api/delete-certificate", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        credentials:"same-origin",
+        body:JSON.stringify({ url:item.url, title:item.title })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Certificate deletion failed.");
+    }
+    const next = structuredClone(data);
+    next[type] = next[type].filter(x => x.id !== id);
+    await publish(next);
+    renderAll();
+    showToast(type === "certifications" ? "Certificate deleted from the website." : "Item deleted from the website.");
+  } catch (error) {
+    data = previous;
+    renderAll();
+    showToast(error.message || "Deletion failed.", true);
+  }
+}
+
+function collectForm(form) {
+  const result = {};
+  new FormData(form).forEach((value,key) => {
+    if (key !== "certificate") result[key] = value;
+  });
+  if (form.elements.featured) result.featured = form.elements.featured.checked;
+  return result;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  modal = new bootstrap.Modal("#editorModal");
+
+  const loginView = document.getElementById("loginView");
+  const appView = document.getElementById("appView");
+  const loginForm = document.getElementById("loginForm");
+  const loginEmail = document.getElementById("loginEmail");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginError = document.getElementById("loginError");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const sidebarThemeBtn = document.getElementById("sidebarThemeBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const profileForm = document.getElementById("profileForm");
+  const editorForm = document.getElementById("editorForm");
+
+  const showApp = () => { loginView.classList.add("d-none"); appView.classList.remove("d-none"); renderAll(); };
+  const showLogin = () => { appView.classList.add("d-none"); loginView.classList.remove("d-none"); };
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch("/api/auth/me", { credentials:"same-origin", cache:"no-store" });
+      if (!response.ok) { showLogin(); return false; }
+      try { data = await fetchWebsiteData(); cacheData(); }
+      catch {
+        const stored = localStorage.getItem(KEY);
+        data = stored ? JSON.parse(stored) : structuredClone(fallback);
+        showToast("Using cached admin data. Website sync is unavailable.", true);
+      }
+      showApp();
+      return true;
+    } catch {
+      showLogin();
+      loginError.textContent = "Cannot reach authentication server. Please try again.";
+      return false;
+    }
+  };
+
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.onclick = () => show(btn.dataset.section));
+  document.addEventListener("click", e => {
+    const target = e.target.closest("[data-open]");
+    if (target) show(target.dataset.open);
+  });
+
+  loginForm.onsubmit = async e => {
+    e.preventDefault();
+    loginError.textContent = "";
+    const button = loginForm.querySelector('button[type="submit"]');
+    button.disabled = true; button.innerHTML = "Signing in...";
+    try {
+      const response = await fetch("/api/auth/login", {
+        method:"POST", headers:{"Content-Type":"application/json"}, credentials:"same-origin",
+        body:JSON.stringify({email:loginEmail.value,password:loginPassword.value})
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Sign in failed.");
+      loginPassword.value = "";
+      await checkAuth();
+    } catch (error) {
+      loginError.textContent = error.message || "Sign in failed.";
+    } finally {
+      button.disabled = false;
+      button.innerHTML = 'Sign in <i class="bi bi-arrow-right"></i>';
+    }
+  };
+
+  logoutBtn.onclick = async () => {
+    try { await fetch("/api/auth/logout",{method:"POST",credentials:"same-origin"}); }
+    finally { location.reload(); }
+  };
+
+  const savedTheme = localStorage.getItem("uditanshu-portfolio-theme");
+  if (savedTheme === "light") document.body.classList.add("light-mode");
+  const updateThemeIcon = () => {
+    const light = document.body.classList.contains("light-mode");
+    const icon = sidebarThemeBtn?.querySelector("i");
+    if (icon) icon.className = light ? "bi bi-sun" : "bi bi-moon";
+  };
+  updateThemeIcon();
+  sidebarThemeBtn?.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    localStorage.setItem("uditanshu-portfolio-theme", document.body.classList.contains("light-mode") ? "light" : "dark");
+    updateThemeIcon();
+  });
+  mobileMenu?.addEventListener("click", () => document.querySelector(".sidebar").classList.toggle("open"));
+
+  profileForm.onsubmit = async e => {
+    e.preventDefault();
+    const next = structuredClone(data);
+    const formData = new FormData(e.target);
+    const profile = {};
+    formData.forEach((value,key) => {
+      profile[key] = key === "roles" ? String(value).split(",").map(v => v.trim()).filter(Boolean) : value;
+    });
+    next.profile = { ...next.profile, ...profile };
+    try { await saveData(next, "Profile changes published to the website."); } catch {}
+  };
+
+  editorForm.onsubmit = async e => {
+    e.preventDefault();
+    const form = e.target;
+    const values = collectForm(form);
+    const existing = editId ? (data[editType] || []).find(x => x.id === editId) : null;
+    values.id = editId || Date.now();
+
+    if (editType === "certifications" && !editId) {
+      const file = form.elements.certificate?.files?.[0];
+      if (!file) { showToast("Please select a certificate PDF.", true); return; }
+      const button = form.querySelector('button[type="submit"]');
+      const original = button.innerHTML;
+      button.disabled = true; button.innerHTML = '<i class="bi bi-arrow-repeat"></i> Uploading...';
+      try {
+        const response = await fetch("/api/upload-certificate", { method:"POST", credentials:"same-origin", body:new FormData(form) });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.message || "Certificate upload failed.");
+        const next = structuredClone(data);
+        next.certifications = [...(next.certifications || []), { ...result.certification, icon: values.icon || "bi-file-earmark-pdf" }];
+        await publish(next);
+        modal.hide(); renderAll(); showToast("Certificate uploaded and published to the website.");
+      } catch (error) {
+        showToast(error.message || "Certificate upload failed.", true);
+      } finally {
+        button.disabled = false; button.innerHTML = original;
+      }
+      return;
+    }
+
+    if (editType === "certifications" && editId && !values.date && existing?.date) values.date = existing.date;
+    if (editType === "certifications" && editId) values.url = existing?.url || "";
+    const next = structuredClone(data);
+    next[editType] = editId
+      ? next[editType].map(x => x.id === editId ? { ...x, ...values } : x)
+      : [...next[editType], values];
+
+    try {
+      await saveData(next, (editId ? "Changes published to the website." : "Item published to the website."));
+      modal.hide();
+    } catch {}
+  };
+
+  document.getElementById("addProject").onclick = () => editItem("projects");
+  document.getElementById("addSkill").onclick = () => editItem("skills");
+  document.getElementById("addExperience").onclick = () => editItem("experience");
+  document.getElementById("addEducation").onclick = () => editItem("education");
+  document.getElementById("addCertification").onclick = () => editItem("certifications");
+
+  document.getElementById("exportData").onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));
+    a.download = "uditanshu-portfolio-backup.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  document.getElementById("importData").onchange = async e => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const imported = JSON.parse(await file.text());
+      if (!imported.profile || !Array.isArray(imported.projects) || !Array.isArray(imported.skills) || !Array.isArray(imported.experience) || !Array.isArray(imported.education) || !Array.isArray(imported.certifications)) throw new Error("Invalid portfolio backup.");
+      await saveData(imported, "Backup imported and published to the website.");
+    } catch (error) {
+      showToast(error.message || "Invalid JSON backup.", true);
+    } finally {
+      e.target.value = "";
+    }
+  };
+
+  document.getElementById("resetData").onclick = () => {
+    showToast("Reset only clears this browser cache. Published website content is kept safe.", true);
+    localStorage.removeItem(KEY);
+  };
+
+  document.addEventListener("click", e => {
+    const zone = e.target.closest("#certificateDropzone");
+    if (zone && e.target.id !== "certificateFile") document.getElementById("certificateFile")?.click();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.target.id === "certificateDropzone" && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault(); document.getElementById("certificateFile")?.click();
+    }
+  });
+  document.addEventListener("change", e => {
+    if (e.target.id === "certificateFile") {
+      const file = e.target.files?.[0];
+      if (file) document.getElementById("certificateFileName").textContent = file.name;
+    }
+  });
+  document.addEventListener("dragover", e => {
+    const zone = e.target.closest("#certificateDropzone");
+    if (zone) { e.preventDefault(); zone.classList.add("dragover"); }
+  });
+  document.addEventListener("dragleave", e => {
+    const zone = e.target.closest("#certificateDropzone");
+    if (zone) zone.classList.remove("dragover");
+  });
+  document.addEventListener("drop", e => {
+    const zone = e.target.closest("#certificateDropzone");
+    if (!zone) return;
+    e.preventDefault(); zone.classList.remove("dragover");
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    const input = document.getElementById("certificateFile");
+    if (input) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+      document.getElementById("certificateFileName").textContent = file.name;
+    }
+  });
+
+  await checkAuth();
+});
+
+window.editItem = editItem;
+window.deleteItem = deleteItem;
