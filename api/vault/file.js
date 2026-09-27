@@ -27,6 +27,7 @@ module.exports = async function handler(req, res) {
   try {
     const url = new URL(req.url, "http://localhost");
     const pathname = url.searchParams.get("pathname");
+    const view = url.searchParams.get("view") === "1";
     const filename = url.searchParams.get("name") || pathname?.split("/").pop() || "document";
 
     if (!validPath(pathname)) return json(res, 400, { message: "Invalid vault file." });
@@ -43,7 +44,7 @@ module.exports = async function handler(req, res) {
 
     res.statusCode = 200;
     res.setHeader("Content-Type", result.blob.contentType || "application/octet-stream");
-    res.setHeader("Content-Disposition", `attachment; filename="${safeFilename}"`);
+    res.setHeader("Content-Disposition", `${view ? "inline" : "attachment"}; filename="${safeFilename}"`);
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Cache-Control", "private, no-store");
     if (result.blob.size != null) res.setHeader("Content-Length", String(result.blob.size));
