@@ -151,14 +151,14 @@ function showDeleteDialog(doc) {
       '<div class="vault-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="vaultDeleteTitle">'+
         '<div class="vault-delete-icon"><i class="bi bi-trash3"></i></div>'+
         '<div class="vault-delete-content">'+
-          '<span class="vault-dialog-eyebrow">DELETE DOCUMENT</span>'+\
-          '<h3 id="vaultDeleteTitle">Delete this document?</h3>'+\
-          '<p>Are you sure you want to permanently delete <strong>'+esc(doc.name)+'</strong> from your private vault?</p>'+\
-        '</div>'+\
-        '<div class="vault-delete-actions">'+\
-          '<button type="button" class="btn-outline" data-vault-dialog-cancel>Cancel</button>'+\
-          '<button type="button" class="btn-danger" data-vault-dialog-confirm><i class="bi bi-trash3"></i> Delete permanently</button>'+\
-        '</div>'+\
+          '<span class="vault-dialog-eyebrow">DELETE DOCUMENT</span>'+
+          '<h3 id="vaultDeleteTitle">Delete this document?</h3>'+
+          '<p>Are you sure you want to permanently delete <strong>'+esc(doc.name)+'</strong> from your private vault?</p>'+
+        '</div>'+
+        '<div class="vault-delete-actions">'+
+          '<button type="button" class="btn-outline" data-vault-dialog-cancel>Cancel</button>'+
+          '<button type="button" class="btn-danger" data-vault-dialog-confirm><i class="bi bi-trash3"></i> Delete permanently</button>'+
+        '</div>'+
       '</div>';
     document.body.appendChild(overlay);
     const close=value=>{overlay.classList.add("closing");setTimeout(()=>overlay.remove(),160);resolve(value);};
