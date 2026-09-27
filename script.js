@@ -339,12 +339,26 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
         const result = await response.json().catch(() => ({}));
-        if (response.ok && result.success) {
-          successMessage.style.display = "block";
-          contactForm.reset();
-        } else {
+        if (!response.ok || !result.success) {
           throw new Error(result.message || "Message could not be sent.");
         }
+
+        // Send the same submission directly from the browser to Formspree.
+        // This preserves the existing email notification flow independently
+        // of the private Vercel Blob inbox.
+        const formspreeResponse = await fetch("https://formspree.io/f/xjybjegw", {
+          method: "POST",
+          body: new FormData(contactForm),
+          headers: { Accept: "application/json" }
+        });
+        const formspreeResult = await formspreeResponse.json().catch(() => ({}));
+
+        if (!formspreeResponse.ok) {
+          throw new Error(formspreeResult.errors?.[0]?.message || "Message was saved, but the email notification could not be sent.");
+        }
+
+        successMessage.style.display = "block";
+        contactForm.reset();
       } catch {
         errorMessage.style.display = "block";
       } finally {
