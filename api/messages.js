@@ -32,13 +32,15 @@ function validPath(pathname) {
     pathname.length < 300;
 }
 
-function requestBody(req) {
-  if (req.body && typeof req.body === "object") return req.body;
-  if (typeof req.body === "string") {
+async function requestBody(req) {
+  if (req.body && typeof req.body === "object" && !Buffer.isBuffer(req.body)) return req.body;
+
+  if (typeof req.body === "string" || Buffer.isBuffer(req.body)) {
+    var raw = Buffer.isBuffer(req.body) ? req.body.toString("utf8") : req.body;
     try {
-      return JSON.parse(req.body);
+      return JSON.parse(raw);
     } catch (e) {
-      var params = new URLSearchParams(req.body);
+      var params = new URLSearchParams(raw);
       var parsed = {};
       params.forEach(function (value, key) {
         parsed[key] = value;
@@ -46,6 +48,24 @@ function requestBody(req) {
       return parsed;
     }
   }
+
+  if (req.readable) {
+    var chunks = [];
+    for await (var chunk of req) chunks.push(Buffer.from(chunk));
+    var streamBody = Buffer.concat(chunks).toString("utf8");
+    if (!streamBody) return {};
+    try {
+      return JSON.parse(streamBody);
+    } catch (e) {
+      var streamParams = new URLSearchParams(streamBody);
+      var streamParsed = {};
+      streamParams.forEach(function (value, key) {
+        streamParsed[key] = value;
+      });
+      return streamParsed;
+    }
+  }
+
   return {};
 }
 
@@ -144,7 +164,7 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === "POST") {
-      body = requestBody(req);
+      body = await requestBody(req);
       action = String(body.action || "");
 
       // Public contact form submission.
