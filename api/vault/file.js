@@ -27,6 +27,9 @@ module.exports = async function handler(req, res) {
     const url = new URL(req.url, "http://localhost");
     const pathname = url.searchParams.get("pathname");
     const view = url.searchParams.get("view") === "1";
+    const requestedName = url.searchParams.get("name") || pathname.split("/").pop() || "document";
+    const extension = requestedName.split(".").pop().toLowerCase();
+    const officeExtensions = new Set(["doc", "docx", "docm", "dot", "dotx", "dotm", "ppt", "pptx", "pps", "ppsx", "pot", "potx", "xls", "xlsx", "xlsm", "xlsb", "csv"]);
 
     if (!validPath(pathname)) return json(res, 400, { message: "Invalid vault file." });
 
@@ -47,8 +50,16 @@ module.exports = async function handler(req, res) {
       useCache: false
     });
 
-    res.statusCode = 302;
-    res.setHeader("Location", presignedUrl);
+    // PDF and browser-native formats can be rendered directly. Office formats
+    // need a document viewer because browsers do not natively render DOCX/PPT/PPTX.
+    if (view && officeExtensions.has(extension)) {
+      const officeViewerUrl = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(presignedUrl);
+      res.statusCode = 302;
+      res.setHeader("Location", officeViewerUrl);
+    } else {
+      res.statusCode = 302;
+      res.setHeader("Location", presignedUrl);
+    }
     res.setHeader("Cache-Control", "private, no-store");
     return res.end();
   } catch (error) {
