@@ -29,11 +29,20 @@ async function request(method,payload={}) {
   const response=await fetch("/api/vault",{method,credentials:"same-origin",cache:"no-store",headers:method==="GET"?{}:{"Content-Type":"application/json"},body:method==="GET"?undefined:JSON.stringify(payload)});
   const result=await response.json().catch(()=>({})); if(!response.ok) throw new Error(result.message||"Vault request failed."); return result;
 }
-async function loadVault() {
-  const list=document.getElementById("vaultList"); if(!list) return;
-  list.innerHTML='<div class="vault-loading"><i class="bi bi-arrow-repeat"></i> Loading your private vault...</div>';
-  try { const result=await request("GET"); vault.docs=Array.isArray(result.documents)?result.documents:[]; renderVault(); }
-  catch(error) { list.innerHTML='<div class="vault-error"><i class="bi bi-shield-x"></i><b>Vault unavailable</b><span>'+esc(error.message)+'</span></div>'; }
+async function loadVault({showLoading=true}={}) {
+  const list=document.getElementById("vaultList"); if(!list) return false;
+  if(showLoading) list.innerHTML='<div class="vault-loading"><i class="bi bi-arrow-repeat"></i> Loading your private vault...</div>';
+  try {
+    const result=await request("GET");
+    vault.docs=Array.isArray(result.documents)?result.documents:[];
+    renderVault();
+    const updated=document.getElementById("vaultUpdated");
+    if(updated) updated.textContent="Last refreshed "+formatDate(result.refreshedAt || new Date().toISOString());
+    return true;
+  } catch(error) {
+    if(showLoading) list.innerHTML='<div class="vault-error"><i class="bi bi-shield-x"></i><b>Vault unavailable</b><span>'+esc(error.message)+'</span></div>';
+    return false;
+  }
 }
 function renderVault() {
   const list=document.getElementById("vaultList"), count=document.getElementById("vaultCount"); if(!list) return;
@@ -56,7 +65,7 @@ async function uploadOne(file) {
   status.textContent="Uploading "+file.name+" — 0%";
   try {
     const blob=await upload(pathname,file,{access:"private",handleUploadUrl:"/api/vault/upload",multipart:file.size>4*1024*1024,onUploadProgress:event=>{status.textContent="Uploading "+file.name+" — "+Math.round(event.percentage||0)+"%";}});
-    await request("POST",{action:"register",pathname:blob.pathname,originalName:file.name,contentType:file.type||blob.contentType||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
+    await request("POST",{action:"register",pathname:blob.pathname,originalName:file.name,size:file.size,contentType:file.type||blob.contentType||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
     status.textContent=file.name+" uploaded successfully.";
   } catch(error) { try { await request("POST",{action:"delete",pathname}); } catch {} throw error; }
 }
@@ -79,12 +88,6 @@ function setupVault() {
   let dragDepth=0;
   const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
 
-  zone.addEventListener("click",e=>{
-    if(e.target.closest("button") || vault.loading) return;
-    e.preventDefault();
-    // Use the native input click; this works reliably with hidden file inputs.
-    input.click();
-  });
   zone.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
   input.addEventListener("change",e=>uploadFiles(e.target.files));
 
@@ -134,10 +137,16 @@ function setupVault() {
 
   const refreshButton=document.getElementById("vaultRefresh");
   refreshButton?.addEventListener("click",async()=>{
-    if(refreshButton.classList.contains("is-refreshing")) return;
+    if(refreshButton.classList.contains("is-refreshing") || vault.loading) return;
     refreshButton.classList.add("is-refreshing");
-    try { await loadVault(); }
-    finally { setTimeout(()=>refreshButton.classList.remove("is-refreshing"),450); }
+    refreshButton.setAttribute("aria-busy","true");
+    try { await loadVault({showLoading:false}); }
+    finally {
+      setTimeout(()=>{
+        refreshButton.classList.remove("is-refreshing");
+        refreshButton.removeAttribute("aria-busy");
+      },900);
+    }
   });
   document.addEventListener("click",async e=>{
     const pin=e.target.closest("[data-vault-pin]"), download=e.target.closest("[data-vault-download]"), del=e.target.closest("[data-vault-delete]");
