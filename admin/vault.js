@@ -55,6 +55,7 @@ function renderVault() {
       '<div class="vault-file-main"><div class="vault-file-title"><strong title="'+esc(doc.name)+'">'+esc(doc.name)+'</strong>'+(doc.pinned?'<span class="vault-pinned"><i class="bi bi-pin-fill"></i> Pinned</span>':"")+'</div>'+
       '<div class="vault-file-meta"><span><i class="bi bi-hdd"></i> '+formatBytes(doc.size)+'</span><span><i class="bi bi-file-earmark"></i> '+esc(doc.contentType||"Unknown type")+'</span><span><i class="bi bi-calendar3"></i> Uploaded '+formatDate(doc.uploadedAt)+'</span>'+(doc.lastModified?'<span><i class="bi bi-clock-history"></i> File modified '+formatDate(doc.lastModified)+'</span>':"")+'</div></div>'+
       '<div class="vault-file-actions"><button type="button" class="vault-action '+(doc.pinned?"active":"")+'" title="'+(doc.pinned?"Unpin":"Pin")+'" data-vault-pin="'+encodeURIComponent(doc.pathname)+'"><i class="bi '+(doc.pinned?"bi-pin-fill":"bi-pin")+'"></i></button>'+
+      '<button type="button" class="vault-action" title="View" data-vault-view="'+encodeURIComponent(doc.pathname)+'"><i class="bi bi-eye"></i></button>'+
       '<button type="button" class="vault-action" title="Download" data-vault-download="'+encodeURIComponent(doc.pathname)+'"><i class="bi bi-download"></i></button>'+
       '<button type="button" class="vault-action danger" title="Delete" data-vault-delete="'+encodeURIComponent(doc.pathname)+'"><i class="bi bi-trash3"></i></button></div></article>'
   ).join("");
@@ -119,6 +120,26 @@ async function uploadFiles(files) {
 async function togglePin(doc) { await request("POST",{action:"pin",pathname:doc.pathname,pinned:!doc.pinned,originalName:doc.name}); await loadVault(); toast(doc.pinned?"Document unpinned.":"Document pinned."); }
 function downloadDocument(doc) {
   const link=document.createElement("a"); link.href="/api/vault/file?pathname="+encodeURIComponent(doc.pathname)+"&name="+encodeURIComponent(doc.name); link.download=doc.name; document.body.appendChild(link); link.click(); link.remove();
+}
+function viewDocument(doc) {
+  document.getElementById("vaultViewer")?.remove();
+  const overlay=document.createElement("div");
+  overlay.id="vaultViewer";
+  overlay.className="vault-viewer-backdrop";
+  const src="/api/vault/file?pathname="+encodeURIComponent(doc.pathname)+"&name="+encodeURIComponent(doc.name)+"&view=1";
+  overlay.innerHTML=
+    '<div class="vault-viewer" role="dialog" aria-modal="true" aria-label="Preview '+esc(doc.name)+'">'+
+      '<div class="vault-viewer-head"><div><i class="bi '+fileIcon(doc.name)+'"></i><strong title="'+esc(doc.name)+'">'+esc(doc.name)+'</strong></div>'+
+      '<div class="vault-viewer-head-actions"><button type="button" class="vault-action" data-vault-view-download title="Download"><i class="bi bi-download"></i></button><button type="button" class="vault-viewer-close" data-vault-view-close title="Close"><i class="bi bi-x-lg"></i></button></div></div>'+
+      '<div class="vault-viewer-body"><iframe src="'+src+'" title="Preview '+esc(doc.name)+'"></iframe></div>'+
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.querySelector("[data-vault-view-download]")?.addEventListener("click",()=>downloadDocument(doc));
+  const close=()=>{overlay.classList.add("closing");setTimeout(()=>overlay.remove(),150);};
+  overlay.querySelector("[data-vault-view-close]")?.addEventListener("click",close);
+  overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
+  const onKey=e=>{if(e.key==="Escape"){document.removeEventListener("keydown",onKey);close();}};
+  document.addEventListener("keydown",onKey);
 }
 function showDeleteDialog(doc) {
   return new Promise(resolve => {
@@ -226,9 +247,10 @@ async function setupVault() {
     }
   });
   document.addEventListener("click",async e=>{
-    const pin=e.target.closest("[data-vault-pin]"), download=e.target.closest("[data-vault-download]"), del=e.target.closest("[data-vault-delete]");
+    const pin=e.target.closest("[data-vault-pin]"), view=e.target.closest("[data-vault-view]"), download=e.target.closest("[data-vault-download]"), del=e.target.closest("[data-vault-delete]");
     try {
       if(pin){const doc=vault.docs.find(x=>x.pathname===decodeURIComponent(pin.dataset.vaultPin));if(doc)await togglePin(doc);}
+      else if(view){const doc=vault.docs.find(x=>x.pathname===decodeURIComponent(view.dataset.vaultView));if(doc)viewDocument(doc);}
       else if(download){const doc=vault.docs.find(x=>x.pathname===decodeURIComponent(download.dataset.vaultDownload));if(doc)downloadDocument(doc);}
       else if(del){const doc=vault.docs.find(x=>x.pathname===decodeURIComponent(del.dataset.vaultDelete));if(doc)await deleteDocument(doc);}
     } catch(error){toast(error.message||"Vault action failed.",true);}
