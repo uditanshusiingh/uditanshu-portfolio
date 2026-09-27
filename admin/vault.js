@@ -120,8 +120,37 @@ async function togglePin(doc) { await request("POST",{action:"pin",pathname:doc.
 function downloadDocument(doc) {
   const link=document.createElement("a"); link.href="/api/vault/file?pathname="+encodeURIComponent(doc.pathname)+"&name="+encodeURIComponent(doc.name); link.download=doc.name; document.body.appendChild(link); link.click(); link.remove();
 }
+function showDeleteDialog(doc) {
+  return new Promise(resolve => {
+    document.getElementById("vaultDeleteDialog")?.remove();
+    const overlay=document.createElement("div");
+    overlay.id="vaultDeleteDialog";
+    overlay.className="vault-dialog-backdrop";
+    overlay.innerHTML=
+      '<div class="vault-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="vaultDeleteTitle">'+
+        '<div class="vault-delete-icon"><i class="bi bi-trash3"></i></div>'+
+        '<div class="vault-delete-content">'+
+          '<span class="vault-dialog-eyebrow">DELETE DOCUMENT</span>'+\
+          '<h3 id="vaultDeleteTitle">Delete this document?</h3>'+\
+          '<p>Are you sure you want to permanently delete <strong>'+esc(doc.name)+'</strong> from your private vault?</p>'+\
+        '</div>'+\
+        '<div class="vault-delete-actions">'+\
+          '<button type="button" class="btn-outline" data-vault-dialog-cancel>Cancel</button>'+\
+          '<button type="button" class="btn-danger" data-vault-dialog-confirm><i class="bi bi-trash3"></i> Delete permanently</button>'+\
+        '</div>'+\
+      '</div>';
+    document.body.appendChild(overlay);
+    const close=value=>{overlay.classList.add("closing");setTimeout(()=>overlay.remove(),160);resolve(value);};
+    overlay.querySelector("[data-vault-dialog-cancel]")?.addEventListener("click",()=>close(false));
+    overlay.querySelector("[data-vault-dialog-confirm]")?.addEventListener("click",()=>close(true));
+    overlay.addEventListener("click",e=>{if(e.target===overlay)close(false);});
+    const onKey=e=>{if(e.key==="Escape"){document.removeEventListener("keydown",onKey);close(false);}};
+    document.addEventListener("keydown",onKey);
+    setTimeout(()=>overlay.querySelector("[data-vault-dialog-cancel]")?.focus(),0);
+  });
+}
 async function deleteDocument(doc) {
-  if(!confirm('Delete "'+doc.name+'" permanently from your private vault?')) return;
+  if(!(await showDeleteDialog(doc))) return;
   await request("POST",{action:"delete",pathname:doc.pathname}); await loadVault(); toast("Document deleted from your private vault.");
 }
 async function setupVault() {
