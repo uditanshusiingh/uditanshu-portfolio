@@ -120,8 +120,14 @@ function setupVault() {
   let dragDepth=0;
   const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
 
+  const setStatus = message => { const status=document.getElementById("vaultUploadStatus"); if(status) status.textContent=message; };
+  zone.addEventListener("click",e=>{ if(e.target===input) return; input.click(); });
   zone.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
-  input.addEventListener("change",e=>uploadFiles(e.target.files));
+  input.addEventListener("change",e=>{
+    const files=e.target.files;
+    if(files?.length) setStatus(files.length===1 ? "Selected: "+files[0].name+" — starting upload..." : files.length+" files selected — starting upload...");
+    uploadFiles(files);
+  });
 
   // Handle Windows/macOS file drops reliably, including when child elements are under the pointer.
   zone.addEventListener("dragenter",e=>{
@@ -189,6 +195,12 @@ function setupVault() {
     } catch(error){toast(error.message||"Vault action failed.",true);}
   });
   document.querySelectorAll(".nav-btn").forEach(button=>button.addEventListener("click",()=>{if(button.dataset.section==="documents")setTimeout(loadVault,0);}));
+  setStatus("Vault ready — click here or drag files into this area.");
   loadVault();
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupVault);else setupVault();
+try {
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupVault);else setupVault();
+} catch(error) {
+  const status=document.getElementById("vaultUploadStatus");
+  if(status) status.textContent="Vault UI error: "+(error?.message||"Could not initialize upload.");
+}
