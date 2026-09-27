@@ -19,7 +19,14 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = req.body || {};
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    if (!token) {
+      return json(res, 500, {
+        message: "Vault upload is not configured: BLOB_READ_WRITE_TOKEN is missing. Connect the Blob store with a read-write token and redeploy."
+      });
+    }
     const result = await handleUpload({
+      token,
       request: req,
       body,
       onBeforeGenerateToken: async (pathname) => {
