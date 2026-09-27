@@ -52,8 +52,9 @@ module.exports = async function handler(req, res) {
       const uploaded = getSingle(files.file);
       if (!uploaded) return json(res, 400, { message: "Document file is required." });
 
-      const pathname = safeName(fields.pathname || "") || "";
-      if (!pathname.startsWith("vault/files/")) {
+      const pathnameValue = getSingle(fields.pathname);
+      const pathname = String(pathnameValue || "");
+      if (!pathname.startsWith("vault/files/") || pathname.includes("..") || pathname.length > 500) {
         return json(res, 400, { message: "Invalid vault upload path." });
       }
 
