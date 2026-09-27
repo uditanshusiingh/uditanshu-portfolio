@@ -82,9 +82,8 @@ function setupVault() {
   zone.addEventListener("click",e=>{
     if(e.target.closest("button") || vault.loading) return;
     e.preventDefault();
-    // Chrome/Edge: show the native file picker directly from the user click.
-    if(typeof input.showPicker==="function") input.showPicker();
-    else input.click();
+    // Use the native input click; this works reliably with hidden file inputs.
+    input.click();
   });
   zone.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
   input.addEventListener("change",e=>uploadFiles(e.target.files));
