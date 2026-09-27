@@ -76,12 +76,57 @@ async function deleteDocument(doc) {
 }
 function setupVault() {
   const zone=document.getElementById("vaultDropzone"), input=document.getElementById("vaultFileInput"); if(!zone||!input) return;
+  let dragDepth=0;
+  const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
+
   zone.addEventListener("click",e=>{if(!e.target.closest("button")) input.click();});
   zone.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
   input.addEventListener("change",e=>uploadFiles(e.target.files));
-  ["dragenter","dragover"].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();e.stopPropagation();zone.classList.add("dragover");}));
-  ["dragleave","drop"].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();e.stopPropagation();zone.classList.remove("dragover");}));
-  zone.addEventListener("drop",e=>uploadFiles(e.dataTransfer.files));
+
+  // Handle Windows/macOS file drops reliably, including when child elements are under the pointer.
+  zone.addEventListener("dragenter",e=>{
+    if(!isFileDrag(e)) return;
+    e.preventDefault(); e.stopPropagation();
+    dragDepth++;
+    zone.classList.add("dragover");
+  }, true);
+
+  zone.addEventListener("dragover",e=>{
+    if(!isFileDrag(e)) return;
+    e.preventDefault(); e.stopPropagation();
+    if(e.dataTransfer) e.dataTransfer.dropEffect="copy";
+    zone.classList.add("dragover");
+  }, true);
+
+  zone.addEventListener("dragleave",e=>{
+    if(!isFileDrag(e)) return;
+    e.preventDefault(); e.stopPropagation();
+    dragDepth=Math.max(0,dragDepth-1);
+    if(!dragDepth) zone.classList.remove("dragover");
+  }, true);
+
+  zone.addEventListener("drop",e=>{
+    if(!isFileDrag(e)) return;
+    e.preventDefault(); e.stopPropagation();
+    dragDepth=0;
+    zone.classList.remove("dragover");
+    const files=e.dataTransfer?.files;
+    if(files?.length) uploadFiles(files);
+  }, true);
+
+  // Prevent the browser from navigating away if a file is released just outside the dropzone.
+  window.addEventListener("dragover",e=>{
+    if(isFileDrag(e)) e.preventDefault();
+  });
+  window.addEventListener("drop",e=>{
+    if(!isFileDrag(e)) return;
+    e.preventDefault();
+    if(e.target!==zone && !zone.contains(e.target)) {
+      zone.classList.remove("dragover");
+      dragDepth=0;
+    }
+  });
+
   document.getElementById("vaultRefresh")?.addEventListener("click",loadVault);
   document.addEventListener("click",async e=>{
     const pin=e.target.closest("[data-vault-pin]"), download=e.target.closest("[data-vault-download]"), del=e.target.closest("[data-vault-delete]");
