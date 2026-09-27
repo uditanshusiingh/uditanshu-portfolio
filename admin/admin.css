@@ -379,3 +379,30 @@ button,a,input,textarea{ -webkit-tap-highlight-color:transparent }
 .light-mode .form-check label{
   color:var(--text);
 }
+
+/* Vault interaction polish */
+.vault-dropzone{
+  cursor:pointer;
+  user-select:none;
+}
+.vault-dropzone input[type="file"]{
+  position:absolute;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+.vault-dropzone.dragover{
+  transform:translateY(-1px);
+}
+#vaultRefresh{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+#vaultRefresh.is-refreshing i{
+  animation:vaultRefreshSpin .65s linear infinite;
+}
+@keyframes vaultRefreshSpin{
+  to{transform:rotate(360deg);}
+}
