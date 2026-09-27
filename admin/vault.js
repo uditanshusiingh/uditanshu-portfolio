@@ -70,10 +70,42 @@ async function uploadOne(file) {
   } catch(error) { try { await request("POST",{action:"delete",pathname}); } catch {} throw error; }
 }
 async function uploadFiles(files) {
-  const selected=Array.from(files||[]).filter(Boolean); if(!selected.length||vault.loading) return;
-  vault.loading=true; document.getElementById("vaultDropzone")?.classList.add("uploading"); let success=0;
-  try { for(const file of selected){ try{await uploadOne(file);success++;}catch(error){toast(file.name+": "+error.message,true);} } await loadVault(); if(success) toast(success+" document"+(success===1?"":"s")+" uploaded to your private vault."); }
-  finally { vault.loading=false; document.getElementById("vaultDropzone")?.classList.remove("uploading"); const input=document.getElementById("vaultFileInput"); if(input) input.value=""; document.getElementById("vaultUploadStatus").textContent="Files stay private and are never rendered on the public website."; }
+  const selected=Array.from(files||[]).filter(Boolean);
+  if(!selected.length||vault.loading) return;
+  vault.loading=true;
+  const zone=document.getElementById("vaultDropzone");
+  const status=document.getElementById("vaultUploadStatus");
+  zone?.classList.add("uploading");
+  let success=0, failed=0, lastError="";
+  try {
+    for(const file of selected){
+      try{
+        await uploadOne(file);
+        success++;
+      }catch(error){
+        failed++;
+        lastError=error?.message||"Upload failed.";
+        status.textContent=file.name+" — "+lastError;
+        toast(file.name+": "+lastError,true);
+      }
+    }
+    if(success) {
+      await loadVault({showLoading:false});
+      toast(success+" document"+(success===1?"":"s")+" uploaded to your private vault.");
+    }
+    if(failed && !success) status.textContent="Upload failed — "+lastError;
+    else if(failed) status.textContent=success+" uploaded, "+failed+" failed.";
+  } finally {
+    vault.loading=false;
+    zone?.classList.remove("uploading");
+    const input=document.getElementById("vaultFileInput");
+    if(input) input.value="";
+    if(!failed) {
+      setTimeout(()=>{
+        if(status) status.textContent="Files stay private and are never rendered on the public website.";
+      },2500);
+    }
+  }
 }
 async function togglePin(doc) { await request("POST",{action:"pin",pathname:doc.pathname,pinned:!doc.pinned,originalName:doc.name}); await loadVault(); toast(doc.pinned?"Document unpinned.":"Document pinned."); }
 function downloadDocument(doc) {
