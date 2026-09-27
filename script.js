@@ -329,15 +329,22 @@ document.addEventListener("DOMContentLoaded", () => {
       submitText.style.display = "none";
       submitLoading.style.display = "inline";
       try {
+        const formData = new FormData(contactForm);
         const response = await fetch(contactForm.action, {
           method: "POST",
-          body: new FormData(contactForm),
-          headers: { Accept: "application/json" }
+          body: new URLSearchParams(formData),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          }
         });
-        if (response.ok) {
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && result.success) {
           successMessage.style.display = "block";
           contactForm.reset();
-        } else errorMessage.style.display = "block";
+        } else {
+          throw new Error(result.message || "Message could not be sent.");
+        }
       } catch {
         errorMessage.style.display = "block";
       } finally {
