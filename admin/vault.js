@@ -1,4 +1,4 @@
-import { upload } from "https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm";
+let upload;
 
 const vault = { docs: [], loading: false };
 
@@ -115,8 +115,16 @@ async function deleteDocument(doc) {
   if(!confirm('Delete "'+doc.name+'" permanently from your private vault?')) return;
   await request("POST",{action:"delete",pathname:doc.pathname}); await loadVault(); toast("Document deleted from your private vault.");
 }
-function setupVault() {
+async function setupVault() {
   const zone=document.getElementById("vaultDropzone"), input=document.getElementById("vaultFileInput"); if(!zone||!input) return;
+  const status=document.getElementById("vaultUploadStatus");
+  try {
+    ({ upload } = await import("https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm"));
+  } catch(error) {
+    if(status) status.textContent="Vault upload client could not load: "+(error?.message||"CDN module unavailable.");
+    toast("Vault upload client could not load. Refresh the page and try again.", true);
+    return;
+  }
   let dragDepth=0;
   const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
 
@@ -196,7 +204,7 @@ function setupVault() {
   });
   document.querySelectorAll(".nav-btn").forEach(button=>button.addEventListener("click",()=>{if(button.dataset.section==="documents")setTimeout(loadVault,0);}));
   setStatus("Vault ready — click here or drag files into this area.");
-  loadVault();
+  await loadVault();
 }
 try {
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupVault);else setupVault();
