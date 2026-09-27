@@ -158,13 +158,14 @@
   }
 
   function deleteMessage(m) {
-    if (!confirm("Delete this message permanently?")) return Promise.resolve();
+    return confirmAction("Delete this message permanently?").then(function (confirmed) {\n      if (!confirmed) return;
     return request("POST", { action:"delete", pathname:m.pathname }).then(function () {
       state.messages = state.messages.filter(function (item) { return item.pathname !== m.pathname; });
       state.selected = null;
       renderList();
       renderDetail(null);
       toast("Message deleted.");
+    });
     });
   }
 
@@ -226,8 +227,9 @@
   function bulkDelete() {
     var selected = selectedMessages();
     if (!selected.length) return toast("Select at least one message.", true);
-    if (!confirm("Delete the selected messages permanently?")) return;
-    return selected.reduce(function (promise, m) {
+    return confirmAction("Delete the selected messages permanently?").then(function (confirmed) {
+      if (!confirmed) return;
+      return selected.reduce(function (promise, m) {
       return promise.then(function () { return request("POST", { action:"delete", pathname:m.pathname }); });
     }, Promise.resolve()).then(function () {
       return load(false);
