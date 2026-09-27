@@ -1,4 +1,4 @@
-let upload;
+
 
 const vault = { docs: [], loading: false };
 
@@ -64,8 +64,17 @@ async function uploadOne(file) {
   const status=document.getElementById("vaultUploadStatus"), safe=safeFilename(file.name), pathname="vault/files/"+Date.now()+"-"+crypto.randomUUID()+"-"+safe;
   status.textContent="Uploading "+file.name+" — 0%";
   try {
-    const blob=await upload(pathname,file,{access:"private",handleUploadUrl:"/api/vault/upload",multipart:file.size>4*1024*1024,onUploadProgress:event=>{status.textContent="Uploading "+file.name+" — "+Math.round(event.percentage||0)+"%";}});
-    await request("POST",{action:"register",pathname:blob.pathname,originalName:file.name,size:file.size,contentType:file.type||blob.contentType||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
+    const authResponse=await fetch("/api/vault/upload",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({pathname,size:file.size,contentType:file.type||"application/octet-stream"})});
+    const authResult=await authResponse.json().catch(()=>({}));
+    if(!authResponse.ok) throw new Error(authResult.message||"Could not authorize secure upload.");
+    status.textContent="Uploading "+file.name+" — 0%";
+    const uploadResponse=await fetch(authResult.presignedUrl,{method:"PUT",headers:{"Content-Type":file.type||"application/octet-stream"},body:file});
+    if(!uploadResponse.ok) {
+      const detail=await uploadResponse.text().catch(()=>"");
+      throw new Error(detail||"Vercel Blob rejected the upload ("+uploadResponse.status+").");
+    }
+    status.textContent=file.name+" uploaded — saving metadata...";
+    await request("POST",{action:"register",pathname:authResult.pathname,originalName:file.name,size:file.size,contentType:file.type||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
     status.textContent=file.name+" uploaded successfully.";
   } catch(error) { try { await request("POST",{action:"delete",pathname}); } catch {} throw error; }
 }
