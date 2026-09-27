@@ -38,7 +38,12 @@ function requestBody(req) {
     try {
       return JSON.parse(req.body);
     } catch (e) {
-      return {};
+      var params = new URLSearchParams(req.body);
+      var parsed = {};
+      params.forEach(function (value, key) {
+        parsed[key] = value;
+      });
+      return parsed;
     }
   }
   return {};
