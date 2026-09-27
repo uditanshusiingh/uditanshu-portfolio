@@ -79,7 +79,13 @@ function setupVault() {
   let dragDepth=0;
   const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
 
-  zone.addEventListener("click",e=>{if(!e.target.closest("button")) input.click();});
+  zone.addEventListener("click",e=>{
+    if(e.target.closest("button") || vault.loading) return;
+    e.preventDefault();
+    // Chrome/Edge: show the native file picker directly from the user click.
+    if(typeof input.showPicker==="function") input.showPicker();
+    else input.click();
+  });
   zone.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();input.click();}});
   input.addEventListener("change",e=>uploadFiles(e.target.files));
 
