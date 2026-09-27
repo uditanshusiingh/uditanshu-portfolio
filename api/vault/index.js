@@ -58,21 +58,44 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
-      const [blobs, manifest] = await Promise.all([listAll(), readManifest()]);
-      const documents = blobs.map(blob => {
-        const meta = manifest[blob.pathname] || {};
+      // The manifest is the source of truth for the private dashboard.
+      // This prevents a newly uploaded file from disappearing while a Blob
+      // list operation is still catching up.
+      const manifest = await readManifest();
+      let blobs = [];
+      try {
+        blobs = await listAll();
+      } catch {
+        // The manifest still lets the authenticated owner see registered files.
+      }
+
+      const blobMap = new Map(blobs.map(blob => [blob.pathname, blob]));
+      const pathnames = new Set([
+        ...Object.keys(manifest),
+        ...blobs.map(blob => blob.pathname)
+      ]);
+
+      const documents = Array.from(pathnames).map(pathname => {
+        const meta = manifest[pathname] || {};
+        const blob = blobMap.get(pathname) || {};
         return {
-          pathname: blob.pathname,
-          name: meta.originalName || blob.pathname.split("/").pop(),
-          size: blob.size || 0,
+          pathname,
+          name: meta.originalName || blob.pathname?.split("/").pop() || pathname.split("/").pop(),
+          size: Number(blob.size ?? meta.size ?? 0),
           uploadedAt: blob.uploadedAt || meta.uploadedAt || new Date().toISOString(),
-          contentType: meta.contentType || "application/octet-stream",
+          contentType: meta.contentType || blob.contentType || "application/octet-stream",
           lastModified: meta.lastModified || null,
           pinned: Boolean(meta.pinned)
         };
-      }).sort((a,b) => Number(b.pinned) - Number(a.pinned) || new Date(b.uploadedAt) - new Date(a.uploadedAt));
+      }).sort((a,b) =>
+        Number(b.pinned) - Number(a.pinned) ||
+        new Date(b.uploadedAt) - new Date(a.uploadedAt)
+      );
 
-      return json(res, 200, { documents });
+      return json(res, 200, {
+        documents,
+        refreshedAt: new Date().toISOString()
+      });
     }
 
     if (req.method !== "POST") {
@@ -89,6 +112,7 @@ module.exports = async function handler(req, res) {
       const manifest = await readManifest();
       manifest[pathname] = {
         originalName: safeName(body.originalName || pathname.split("/").pop()),
+        size: Number(body.size) || 0,
         contentType: String(body.contentType || "application/octet-stream").slice(0, 180),
         uploadedAt: body.uploadedAt || new Date().toISOString(),
         lastModified: body.lastModified || null,
