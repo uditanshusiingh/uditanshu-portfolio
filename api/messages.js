@@ -21,7 +21,7 @@ function clean(value, max) {
 }
 
 function validEmail(value) {
-  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 function validPath(pathname) {
