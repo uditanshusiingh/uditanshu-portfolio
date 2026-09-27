@@ -637,7 +637,50 @@ a {
 }
 
 .back-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1030;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
   color: var(--text);
+  background: rgba(13, 16, 23, 0.88);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.back-top i {
+  font-size: 1.05rem;
+}
+
+.back-top:hover {
+  color: var(--text);
+  transform: translateY(-4px);
+  border-color: rgba(124, 92, 255, 0.65);
+  background: rgba(124, 92, 255, 0.16);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.light .back-top {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.16);
+}
+
+@media (max-width: 576px) {
+  .back-top {
+    right: 16px;
+    bottom: 16px;
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .reveal {
