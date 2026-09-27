@@ -61,18 +61,28 @@ module.exports = async function handler(req, res) {
       // The manifest is the source of truth for the private dashboard.
       // This prevents a newly uploaded file from disappearing while a Blob
       // list operation is still catching up.
-      const manifest = await readManifest();
+      // Blob storage is the source of truth for file existence.
+      // The manifest is only metadata (name/pin/etc.) and must never make
+      // a real uploaded file disappear from the dashboard.
+      let manifest = {};
+      try {
+        manifest = await readManifest();
+      } catch {
+        manifest = {};
+      }
+
       let blobs = [];
+      let listError = null;
       try {
         blobs = await listAll();
-      } catch {
-        // The manifest still lets the authenticated owner see registered files.
+      } catch (error) {
+        listError = error;
       }
 
       const blobMap = new Map(blobs.map(blob => [blob.pathname, blob]));
       const pathnames = new Set([
-        ...Object.keys(manifest),
-        ...blobs.map(blob => blob.pathname)
+        ...blobs.map(blob => blob.pathname),
+        ...Object.keys(manifest)
       ]);
 
       const documents = Array.from(pathnames).map(pathname => {
@@ -94,7 +104,8 @@ module.exports = async function handler(req, res) {
 
       return json(res, 200, {
         documents,
-        refreshedAt: new Date().toISOString()
+        refreshedAt: new Date().toISOString(),
+        storageListAvailable: !listError
       });
     }
 
