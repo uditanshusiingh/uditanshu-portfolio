@@ -65,17 +65,27 @@ async function uploadOne(file) {
   const status=document.getElementById("vaultUploadStatus"), safe=safeFilename(file.name), pathname="vault/files/"+Date.now()+"-"+crypto.randomUUID()+"-"+safe;
   status.textContent="Uploading "+file.name+" — 0%";
   try {
-    const authResponse=await fetch("/api/vault/upload",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({pathname,size:file.size,contentType:file.type||"application/octet-stream"})});
-    const authResult=await authResponse.json().catch(()=>({}));
-    if(!authResponse.ok) throw new Error(authResult.message||"Could not authorize secure upload.");
-    status.textContent="Uploading "+file.name+" — 0%";
-    const uploadResponse=await fetch(authResult.presignedUrl,{method:"PUT",headers:{"Content-Type":file.type||"application/octet-stream"},body:file});
-    if(!uploadResponse.ok) {
-      const detail=await uploadResponse.text().catch(()=>"");
-      throw new Error(detail||"Vercel Blob rejected the upload ("+uploadResponse.status+").");
+    let authResult;
+    if(file.size <= 4 * 1024 * 1024) {
+      const form=new FormData();
+      form.append("pathname",pathname);
+      form.append("file",file,file.name);
+      const uploadResponse=await fetch("/api/vault/upload",{method:"POST",credentials:"same-origin",body:form});
+      authResult=await uploadResponse.json().catch(()=>({}));
+      if(!uploadResponse.ok) throw new Error(authResult.message||"Could not upload the document.");
+    } else {
+      const authResponse=await fetch("/api/vault/upload",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({pathname,size:file.size,contentType:file.type||"application/octet-stream"})});
+      authResult=await authResponse.json().catch(()=>({}));
+      if(!authResponse.ok) throw new Error(authResult.message||"Could not authorize secure upload.");
+      status.textContent="Uploading "+file.name+" — 0%";
+      const uploadResponse=await fetch(authResult.presignedUrl,{method:"PUT",headers:{"Content-Type":file.type||"application/octet-stream"},body:file});
+      if(!uploadResponse.ok) {
+        const detail=await uploadResponse.text().catch(()=>"");
+        throw new Error(detail||"Vercel Blob rejected the upload ("+uploadResponse.status+").");
+      }
     }
     status.textContent=file.name+" uploaded — saving metadata...";
-    await request("POST",{action:"register",pathname:authResult.pathname,originalName:file.name,size:file.size,contentType:file.type||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
+    await request("POST",{action:"register",pathname:authResult.pathname||pathname,originalName:file.name,size:file.size,contentType:authResult.contentType||file.type||"application/octet-stream",uploadedAt:new Date().toISOString(),lastModified:file.lastModified||null});
     status.textContent=file.name+" uploaded successfully.";
   } catch(error) { try { await request("POST",{action:"delete",pathname}); } catch {} throw error; }
 }
