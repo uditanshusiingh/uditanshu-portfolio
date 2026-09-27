@@ -639,3 +639,73 @@ button,a,input,textarea{ -webkit-tap-highlight-color:transparent }
   .message-detail-sender time{width:100%;margin-left:53px;}
   .message-detail-footer{padding:13px 16px;flex-wrap:wrap;}
 }
+
+
+/* ================= CUSTOM CONFIRM POPUP ================= */
+.confirm-modal{z-index:2200;}
+.confirm-modal .modal-dialog{width:min(560px,calc(100% - 30px));}
+.confirm-modal .modal-content.confirm-modal-card{
+  background:#151a1d;
+  color:#f4f7f8;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.5);
+}
+.confirm-modal-header{
+  padding:27px 26px 8px;
+  font-size:1.02rem;
+  color:#eef2f3;
+}
+.confirm-modal-body{padding:7px 26px 22px;}
+.confirm-modal-body p{
+  margin:0;
+  color:#eef2f3;
+  font-size:.98rem;
+  line-height:1.55;
+}
+.confirm-modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+  padding:0 26px 20px;
+}
+.confirm-modal-actions button{
+  min-width:88px;
+  height:48px;
+  border-radius:25px;
+  padding:0 22px;
+  font-size:.86rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.confirm-ok{
+  color:#092026;
+  background:#8ee7f5;
+  border:2px solid #69d9e9;
+  box-shadow:0 0 0 2px rgba(105,217,233,.2) inset;
+}
+.confirm-ok:hover{background:#a5edf8;transform:translateY(-1px);}
+.confirm-cancel{
+  color:#dff8fb;
+  background:#006879;
+  border:1px solid #08798b;
+}
+.confirm-cancel:hover{background:#08798b;transform:translateY(-1px);}
+.confirm-modal .modal-backdrop{background:#000;}
+.light-mode .confirm-modal .modal-content.confirm-modal-card{
+  background:#fff;
+  color:var(--text);
+  border-color:rgba(20,30,45,.12);
+  box-shadow:0 24px 70px rgba(30,40,60,.25);
+}
+.light-mode .confirm-modal-header,.light-mode .confirm-modal-body p{color:var(--text);}
+@media(max-width:520px){
+  .confirm-modal .modal-dialog{width:calc(100% - 20px);}
+  .confirm-modal-header{padding:22px 20px 7px;}
+  .confirm-modal-body{padding:7px 20px 18px;}
+  .confirm-modal-actions{padding:0 20px 18px;gap:7px;}
+  .confirm-modal-actions button{min-width:82px;height:44px;}
+}
