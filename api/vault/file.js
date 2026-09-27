@@ -1,5 +1,4 @@
-const { get } = require("@vercel/blob");
-const { Readable } = require("node:stream");
+const { issueSignedToken, presignUrl } = require("@vercel/blob");
 const { COOKIE_NAME, getCookie, verifySession } = require("../auth/_session");
 
 const PREFIX = "vault/files/";
@@ -28,29 +27,31 @@ module.exports = async function handler(req, res) {
     const url = new URL(req.url, "http://localhost");
     const pathname = url.searchParams.get("pathname");
     const view = url.searchParams.get("view") === "1";
-    const filename = url.searchParams.get("name") || pathname?.split("/").pop() || "document";
 
     if (!validPath(pathname)) return json(res, 400, { message: "Invalid vault file." });
 
-    const result = await get(pathname, { access: "private", useCache: false });
-    if (!result || result.statusCode !== 200 || !result.stream) {
-      return json(res, 404, { message: "Document not found." });
-    }
+    // Generate a short-lived, single-file signed GET URL. This lets the
+    // browser render/download the exact private Blob object without exposing
+    // the Blob store token and without proxying the file through the function.
+    const token = await issueSignedToken({
+      pathname,
+      operations: ["get"],
+      validUntil: Date.now() + 10 * 60 * 1000
+    });
 
-    const safeFilename = String(filename)
-      .replace(/[\\"]/g, "_")
-      .replace(/[\r\n]/g, "")
-      .slice(0, 240) || "document";
+    const { presignedUrl } = await presignUrl(token, {
+      pathname,
+      operation: "get",
+      access: "private",
+      validUntil: Date.now() + 10 * 60 * 1000,
+      useCache: false
+    });
 
-    res.statusCode = 200;
-    res.setHeader("Content-Type", result.blob.contentType || "application/octet-stream");
-    res.setHeader("Content-Disposition", `${view ? "inline" : "attachment"}; filename="${safeFilename}"`);
-    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.statusCode = 302;
+    res.setHeader("Location", presignedUrl);
     res.setHeader("Cache-Control", "private, no-store");
-    if (result.blob.size != null) res.setHeader("Content-Length", String(result.blob.size));
-
-    return Readable.fromWeb(result.stream).pipe(res);
+    return res.end();
   } catch (error) {
-    return json(res, 500, { message: error?.message || "Document download failed." });
+    return json(res, 404, { message: error?.message || "Document not found." });
   }
 };
