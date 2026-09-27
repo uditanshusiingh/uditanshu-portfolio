@@ -1,4 +1,4 @@
-const { handleUpload } = require("@vercel/blob/client");
+const { issueSignedToken, presignUrl } = require("@vercel/blob");
 const { COOKIE_NAME, getCookie, verifySession } = require("../auth/_session");
 
 function json(res, status, body) {
@@ -19,31 +19,37 @@ module.exports = async function handler(req, res) {
 
   try {
     const body = req.body || {};
-    const token = process.env.BLOB_READ_WRITE_TOKEN;
-    if (!token) {
-      return json(res, 500, {
-        message: "Vault upload is not configured: BLOB_READ_WRITE_TOKEN is missing. Connect the Blob store with a read-write token and redeploy."
-      });
+    const pathname = String(body.pathname || "");
+    const contentType = String(body.contentType || "application/octet-stream");
+    const size = Number(body.size || 0);
+
+    if (!pathname.startsWith("vault/files/")) {
+      return json(res, 400, { message: "Invalid vault upload path." });
     }
-    const result = await handleUpload({
-      token,
-      request: req,
-      body,
-      onBeforeGenerateToken: async (pathname) => {
-        if (!String(pathname || "").startsWith("vault/files/")) {
-          throw new Error("Invalid vault upload path.");
-        }
-        return {
-          addRandomSuffix: false,
-          maximumSizeInBytes: 5 * 1024 * 1024 * 1024,
-          allowedContentTypes: ["*/*"],
-          validUntil: Date.now() + 15 * 60 * 1000
-        };
-      },
-      onUploadCompleted: async () => {}
+    if (!pathname.includes(".") || pathname.length > 500) {
+      return json(res, 400, { message: "Invalid vault filename." });
+    }
+    if (!Number.isFinite(size) || size < 1 || size > 5 * 1024 * 1024 * 1024) {
+      return json(res, 400, { message: "File size must be between 1 byte and 5 GB." });
+    }
+
+    const token = await issueSignedToken({
+      pathname,
+      operations: ["put"],
+      allowedContentTypes: [contentType],
+      maximumSizeInBytes: size,
+      validUntil: Date.now() + 15 * 60 * 1000
     });
-    return json(res, 200, result);
+
+    const { presignedUrl } = await presignUrl(token, {
+      pathname,
+      operation: "put",
+      access: "private",
+      validUntil: Date.now() + 15 * 60 * 1000
+    });
+
+    return json(res, 200, { presignedUrl, pathname, contentType, expiresAt: Date.now() + 15 * 60 * 1000 });
   } catch (error) {
-    return json(res, 400, { message: error?.message || "Vault upload authorization failed." });
+    return json(res, 400, { message: error?.message || "Could not create a secure vault upload URL." });
   }
 };
