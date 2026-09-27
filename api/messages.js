@@ -69,30 +69,6 @@ async function streamToText(stream) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-async function sendEmailNotification(record) {
-  try {
-    var form = new URLSearchParams();
-    form.set("name", record.name);
-    form.set("email", record.email);
-    form.set("_replyto", record.email);
-    form.set("subject", record.subject);
-    form.set("message", record.message);
-
-    var response = await fetch("https://formspree.io/f/xjybjegw", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: form.toString()
-    });
-
-    return response.ok;
-  } catch (error) {
-    return false;
-  }
-}
-
 async function listMessages() {
   var blobs = [];
   var cursor;
@@ -206,14 +182,9 @@ module.exports = async function handler(req, res) {
           cacheControlMaxAge: 0
         });
 
-        // Keep the existing email notification behavior while also storing
-        // every message securely in the private admin inbox.
-        var emailSent = await sendEmailNotification(record);
-
-        return json(res, 201, {
-          success: true,
-          emailSent: emailSent
-        });
+        // Email notification is sent directly from the browser through the
+        // existing Formspree form endpoint after this private save succeeds.
+        return json(res, 201, { success: true });
       }
 
       if (!requireAdmin(req, res)) return;
