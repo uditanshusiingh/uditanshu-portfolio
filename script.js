@@ -272,12 +272,47 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll(".navbar .nav-link").forEach(link => {
+  // Active navigation follows the section currently visible in the viewport.
+  const navLinks = [...document.querySelectorAll(".navbar .nav-link")];
+  const navSections = navLinks
+    .map(link => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  function updateActiveNav() {
+    const navHeight = document.querySelector(".navbar")?.offsetHeight || 0;
+    const position = window.scrollY + navHeight + 80;
+    let currentSection = navSections[0];
+
+    navSections.forEach(section => {
+      if (section.offsetTop <= position) currentSection = section;
+    });
+
+    navLinks.forEach(link => {
+      const isActive = link.getAttribute("href") === "#" + currentSection?.id;
+      link.classList.toggle("active", isActive);
+      link.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+  }
+
+  navLinks.forEach(link => {
     link.addEventListener("click", () => {
       const nav = document.getElementById("navContent");
       if (nav?.classList.contains("show")) bootstrap.Collapse.getOrCreateInstance(nav).hide();
     });
   });
+
+  let activeNavTick = false;
+  window.addEventListener("scroll", () => {
+    if (activeNavTick) return;
+    activeNavTick = true;
+    requestAnimationFrame(() => {
+      updateActiveNav();
+      activeNavTick = false;
+    });
+  }, { passive: true });
+
+  window.addEventListener("resize", updateActiveNav);
+  updateActiveNav();
 
   const contactForm = document.getElementById("contactForm");
   if (contactForm) {
