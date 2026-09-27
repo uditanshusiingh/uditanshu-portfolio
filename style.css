@@ -670,8 +670,17 @@ a {
 }
 
 .light .back-top {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 12px 30px rgba(31, 41, 55, 0.16);
+  color: #ffffff;
+  background: linear-gradient(135deg, #6d4aff, #8b5cf6);
+  border-color: rgba(109, 74, 255, 0.45);
+  box-shadow: 0 12px 30px rgba(109, 74, 255, 0.28);
+}
+
+.light .back-top:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #5b3be8, #7c3aed);
+  border-color: rgba(91, 59, 232, 0.6);
+  box-shadow: 0 16px 36px rgba(109, 74, 255, 0.34);
 }
 
 @media (max-width: 576px) {
