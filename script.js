@@ -332,10 +332,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(contactForm);
         const response = await fetch(contactForm.action, {
           method: "POST",
-          body: new URLSearchParams(formData),
+          body: JSON.stringify(Object.fromEntries(formData.entries())),
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            "Content-Type": "application/json"
           }
         });
         const result = await response.json().catch(() => ({}));
