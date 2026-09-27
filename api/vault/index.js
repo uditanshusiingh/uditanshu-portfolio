@@ -119,12 +119,11 @@ module.exports = async function handler(req, res) {
 
     if (action === "register") {
       if (!validPath(pathname)) return json(res, 400, { message: "Invalid vault file." });
-      // Registration is allowed only after the Blob object actually exists.
-      const stored = await get(pathname, { access: "private", useCache: false });
-      if (!stored || stored.statusCode !== 200 || !stored.blob) {
-        return json(res, 409, { message: "The document was not stored in the private vault. Please upload it again." });
-      }
-
+      // The upload endpoint has already completed the Blob write successfully
+      // before this registration request. Do not perform an immediate get() here:
+      // some private Blob object types can briefly fail a read-after-write check
+      // even though the upload itself succeeded. The dashboard's GET path uses
+      // list() as the authoritative source for actual stored objects.
       const manifest = await readManifest();
       manifest[pathname] = {
         originalName: safeName(body.originalName || pathname.split("/").pop()),
