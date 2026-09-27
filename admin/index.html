@@ -47,13 +47,13 @@
     <div class="vault-security-icon"><i class="bi bi-shield-lock"></i></div>
     <div><b>Private & admin-only</b><p>Documents are stored in a private cloud vault and can only be accessed after admin authentication.</p></div>
   </div>
-  <div id="vaultDropzone" class="vault-dropzone" tabindex="0" onclick="document.getElementById('vaultFileInput').click()">
+  <label id="vaultDropzone" class="vault-dropzone" tabindex="0" for="vaultFileInput">
     <input id="vaultFileInput" type="file" multiple hidden>
     <i class="bi bi-cloud-arrow-up"></i>
     <strong>Drag & drop documents here</strong>
     <span>or click to browse · Any file type · large files supported</span>
     <small id="vaultUploadStatus">Files stay private and are never rendered on the public website.</small>
-  </div>
+  </label>
   <div class="vault-toolbar">
     <div><b id="vaultCount">0 Documents</b><span id="vaultUpdated">Secure cloud storage</span></div>
     <button type="button" class="btn-outline" id="vaultRefresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
