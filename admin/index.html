@@ -60,4 +60,37 @@
   </div>
   <div id="vaultList" class="vault-list"></div>
 </div>
-</section><section id="messages" class="content-section"><div class="page-head"><div><span class="eyebrow">INBOX</span><h1>Messages</h1><p>Contact submissions are handled by the configured contact service. Portfolio content is synced from this panel.</p></div></div><div class="empty-state"><i class="bi bi-envelope-check"></i><h3>Contact service connected</h3><p>New contact messages are delivered through the portfolio contact service. Content changes made in this admin panel are published to the public site.</p></div></section><section id="settings" class="content-section"><div class="page-head"><div><span class="eyebrow">SYSTEM</span><h1>Settings</h1><p>Website publishing and backup controls.</p></div></div><div class="panel settings-panel"><div class="setting-row"><div><b>Website data</b><p>Every content save is published to the shared portfolio data used by the public website.</p></div><button id="exportData" class="btn-outline">Export JSON</button></div><div class="setting-row"><div><b>Restore backup</b><p>Import a previously exported portfolio JSON file.</p></div><label class="btn-outline file-btn">Import JSON<input id="importData" type="file" accept=".json"></label></div><div class="setting-row danger"><div><b>Reset local data</b><p>Clear this browser's cached admin data. It does not delete published website content.</p></div><button id="resetData" class="btn-danger">Reset</button></div></div></section></main></div><div class="modal fade" id="editorModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content admin-modal"><div class="modal-header"><h5 id="modalTitle">Edit</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><form id="editorForm"><div class="modal-body" id="modalBody"></div><div class="modal-footer"><button type="button" class="btn-outline" data-bs-dismiss="modal">Cancel</button><button class="btn-main" type="submit">Save</button></div></form></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script><script src="/admin/admin.js"></script><script type="module" src="/admin/vault.js?v=20260927-6"></script></body></html>
+</section><section id="messages" class="content-section">
+<div id="messagesPage">
+  <div class="page-head messages-page-head">
+    <div><span class="eyebrow">INBOX</span><h1>Messages <span id="messagePageBadge" class="message-page-badge">All caught up</span></h1><p>Manage messages received through your public portfolio contact form.</p></div>
+    <button type="button" class="btn-outline" id="messageRefresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+  </div>
+  <div class="message-stats">
+    <button type="button" class="message-stat active" data-message-filter="all"><i class="bi bi-inbox"></i><span><b id="messageTotal">0</b> Inbox</span></button>
+    <button type="button" class="message-stat" data-message-filter="unread"><i class="bi bi-envelope"></i><span><b id="messageUnread">0</b> Unread</span></button>
+    <button type="button" class="message-stat" data-message-filter="starred"><i class="bi bi-star"></i><span><b id="messageStarred">0</b> Important</span></button>
+    <button type="button" class="message-stat" data-message-filter="archived"><i class="bi bi-archive"></i><span><b id="messageArchived">0</b> Archived</span></button>
+  </div>
+  <div class="messages-toolbar">
+    <div class="message-search"><i class="bi bi-search"></i><input id="messageSearch" type="search" placeholder="Search name, email, subject or message..." autocomplete="off"></div>
+    <div class="message-filters">
+      <button type="button" class="message-filter-btn" data-message-filter="today">Today</button>
+      <button type="button" class="message-filter-btn" data-message-filter="read">Read</button>
+    </div>
+  </div>
+  <div class="message-bulkbar">
+    <label><input id="messageSelectAll" type="checkbox"> Select visible</label>
+    <div>
+      <button type="button" class="btn-outline" id="messageBulkRead"><i class="bi bi-envelope-open"></i> Mark read</button>
+      <button type="button" class="btn-outline" id="messageBulkUnread"><i class="bi bi-envelope"></i> Unread</button>
+      <button type="button" class="btn-outline" id="messageBulkArchive"><i class="bi bi-archive"></i> Archive</button>
+      <button type="button" class="btn-danger" id="messageBulkDelete"><i class="bi bi-trash3"></i> Delete</button>
+    </div>
+  </div>
+  <div class="messages-layout">
+    <div class="panel messages-inbox"><div id="messagesList"></div></div>
+    <div class="panel message-detail" id="messageDetail"><div class="message-detail-empty"><i class="bi bi-envelope-paper"></i><h3>Select a message</h3><p>Open a message to read it here.</p></div></div>
+  </div>
+</div>
+</section><section id="settings" class="content-section"><div class="page-head"><div><span class="eyebrow">SYSTEM</span><h1>Settings</h1><p>Website publishing and backup controls.</p></div></div><div class="panel settings-panel"><div class="setting-row"><div><b>Website data</b><p>Every content save is published to the shared portfolio data used by the public website.</p></div><button id="exportData" class="btn-outline">Export JSON</button></div><div class="setting-row"><div><b>Restore backup</b><p>Import a previously exported portfolio JSON file.</p></div><label class="btn-outline file-btn">Import JSON<input id="importData" type="file" accept=".json"></label></div><div class="setting-row danger"><div><b>Reset local data</b><p>Clear this browser's cached admin data. It does not delete published website content.</p></div><button id="resetData" class="btn-danger">Reset</button></div></div></section></main></div><div class="modal fade" id="editorModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content admin-modal"><div class="modal-header"><h5 id="modalTitle">Edit</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><form id="editorForm"><div class="modal-body" id="modalBody"></div><div class="modal-footer"><button type="button" class="btn-outline" data-bs-dismiss="modal">Cancel</button><button class="btn-main" type="submit">Save</button></div></form></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script><script src="/admin/admin.js"></script><script type="module" src="/admin/vault.js?v=20260927-6"></script><script src="/admin/messages.js?v=20260927-1"></script></body></html>
