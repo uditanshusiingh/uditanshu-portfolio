@@ -132,7 +132,13 @@ function setupVault() {
     }
   });
 
-  document.getElementById("vaultRefresh")?.addEventListener("click",loadVault);
+  const refreshButton=document.getElementById("vaultRefresh");
+  refreshButton?.addEventListener("click",async()=>{
+    if(refreshButton.classList.contains("is-refreshing")) return;
+    refreshButton.classList.add("is-refreshing");
+    try { await loadVault(); }
+    finally { setTimeout(()=>refreshButton.classList.remove("is-refreshing"),450); }
+  });
   document.addEventListener("click",async e=>{
     const pin=e.target.closest("[data-vault-pin]"), download=e.target.closest("[data-vault-download]"), del=e.target.closest("[data-vault-delete]");
     try {
