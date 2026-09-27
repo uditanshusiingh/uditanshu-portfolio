@@ -4,6 +4,8 @@ let data = null;
 let editType = null;
 let editId = null;
 let modal = null;
+let confirmModal = null;
+let confirmResolve = null;
 
 const fallback = {
   profile: { name:"Uditanshu Kumar", role:"Web Developer", roles:["Web Developer"], location:"Sasaram, Bihar", email:"uditsingh9939@gmail.com", phone:"+91 91429 38826", bio:"Computer Science undergraduate and frontend-focused web developer.", aboutLead:"", aboutMuted:"", semester:"7th", dsaCount:"5+", certCount:"9+", screenSizes:"3", degree:"B.Tech CSE — Haridwar University", focus:"Frontend + MERN fundamentals", languages:"English · Hindi · Bhojpuri", github:"https://github.com/uditanshusiingh", linkedin:"https://www.linkedin.com/in/uditanshusiingh/", resume:"assets/Uditanshu_Kumar_Resume.docx" },
@@ -27,6 +29,27 @@ function showToast(message, error = false) {
   toast.classList.add("show");
   clearTimeout(window.__adminToastTimer);
   window.__adminToastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+function confirmAction(message, title = "uditanshu-portfolio.vercel.app") {
+  return new Promise(resolve => {
+    confirmResolve = resolve;
+    const titleEl = document.getElementById("confirmModalTitle");
+    const messageEl = document.getElementById("confirmModalMessage");
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
+    if (confirmModal) confirmModal.show();
+    else resolve(false);
+  });
+}
+
+function finishConfirm(value) {
+  if (confirmResolve) {
+    const resolve = confirmResolve;
+    confirmResolve = null;
+    resolve(value);
+  }
+  if (confirmModal) confirmModal.hide();
 }
 
 function cacheData() {
@@ -224,7 +247,12 @@ function editItem(type, id = null) {
 }
 
 async function deleteItem(type, id) {
-  if (!confirm(type === "certifications" ? "Delete this certificate from the admin panel and public website?" : "Delete this item from the admin panel and public website?")) return;
+  const confirmed = await confirmAction(
+    type === "certifications"
+      ? "Delete this certificate from the admin panel and public website?"
+      : "Delete this item from the admin panel and public website?"
+  );
+  if (!confirmed) return;
   const item = (data[type] || []).find(x => x.id === id);
   if (!item) return;
 
@@ -263,6 +291,17 @@ function collectForm(form) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   modal = new bootstrap.Modal("#editorModal");
+  confirmModal = new bootstrap.Modal("#confirmModal", { backdrop:"static", keyboard:false });
+
+  document.getElementById("confirmModalOk")?.addEventListener("click", () => finishConfirm(true));
+  document.getElementById("confirmModalCancel")?.addEventListener("click", () => finishConfirm(false));
+  document.getElementById("confirmModal")?.addEventListener("hidden.bs.modal", () => {
+    if (confirmResolve) {
+      const resolve = confirmResolve;
+      confirmResolve = null;
+      resolve(false);
+    }
+  });
 
   const loginView = document.getElementById("loginView");
   const appView = document.getElementById("appView");
