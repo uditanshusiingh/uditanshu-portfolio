@@ -127,13 +127,6 @@ async function deleteDocument(doc) {
 async function setupVault() {
   const zone=document.getElementById("vaultDropzone"), input=document.getElementById("vaultFileInput"); if(!zone||!input) return;
   const status=document.getElementById("vaultUploadStatus");
-  try {
-    ({ upload } = await import("https://cdn.jsdelivr.net/npm/@vercel/blob@2.6.1/+esm"));
-  } catch(error) {
-    if(status) status.textContent="Vault upload client could not load: "+(error?.message||"CDN module unavailable.");
-    toast("Vault upload client could not load. Refresh the page and try again.", true);
-    return;
-  }
   let dragDepth=0;
   const isFileDrag=e => Array.from(e.dataTransfer?.types || []).includes("Files");
 
