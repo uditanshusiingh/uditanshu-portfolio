@@ -141,7 +141,8 @@
       '<div class="message-detail-sender"><div class="message-avatar">' + esc((m.name || "?").trim().charAt(0).toUpperCase()) + '</div>' +
       '<div><strong>' + esc(m.name) + '</strong><a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a></div>' +
       '<time>' + esc(dateText(m.createdAt)) + '</time></div>' +
-      '<div class="message-body">' + esc(m.message).replace(/\n/g, "<br>") + '</div>' +
+      '<div class="message-body">' + esc(m.message).replace(/
+/g, "<br>") + '</div>' +
       '<div class="message-detail-footer"><a class="btn-main" href="mailto:' + encodeURIComponent(m.email) + '?subject=' + encodeURIComponent("Re: " + m.subject) + '"><i class="bi bi-reply"></i> Reply</a>' +
       '<button type="button" class="btn-outline" data-detail-read><i class="bi ' + (m.read ? "bi-envelope" : "bi-envelope-open") + '"></i> ' + (m.read ? "Mark unread" : "Mark read") + '</button></div>';
   }
@@ -158,14 +159,15 @@
   }
 
   function deleteMessage(m) {
-    return confirmAction("Delete this message permanently?").then(function (confirmed) {\n      if (!confirmed) return;
-    return request("POST", { action:"delete", pathname:m.pathname }).then(function () {
-      state.messages = state.messages.filter(function (item) { return item.pathname !== m.pathname; });
-      state.selected = null;
-      renderList();
-      renderDetail(null);
-      toast("Message deleted.");
-    });
+    return confirmAction("Delete this message permanently?").then(function (confirmed) {
+      if (!confirmed) return;
+      return request("POST", { action:"delete", pathname:m.pathname }).then(function () {
+        state.messages = state.messages.filter(function (item) { return item.pathname !== m.pathname; });
+        state.selected = null;
+        renderList();
+        renderDetail(null);
+        toast("Message deleted.");
+      });
     });
   }
 
@@ -230,10 +232,17 @@
     return confirmAction("Delete the selected messages permanently?").then(function (confirmed) {
       if (!confirmed) return;
       return selected.reduce(function (promise, m) {
-      return promise.then(function () { return request("POST", { action:"delete", pathname:m.pathname }); });
-    }, Promise.resolve()).then(function () {
-      return load(false);
-    }).then(function () { toast("Selected messages deleted."); }).catch(function (error) { toast(error.message, true); });
+        return promise.then(function () {
+          return request("POST", { action:"delete", pathname:m.pathname });
+        });
+      }, Promise.resolve()).then(function () {
+        return load(false);
+      }).then(function () {
+        toast("Selected messages deleted.");
+      }).catch(function (error) {
+        toast(error.message, true);
+      });
+    });
   }
 
   function bind() {
