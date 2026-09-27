@@ -1,6 +1,6 @@
 const { list, get, put, del } = require("@vercel/blob");
 const { randomUUID } = require("crypto");
-const { COOKIE_NAME, getCookie, verifySession } = require("../auth/_session");
+const { COOKIE_NAME, getCookie, verifySession } = require("./auth/_session");
 
 const PREFIX = "messages/";
 const MAX_NAME = 120;
