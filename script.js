@@ -330,31 +330,52 @@ document.addEventListener("DOMContentLoaded", () => {
       submitLoading.style.display = "inline";
       try {
         const formData = new FormData(contactForm);
-        const response = await fetch(contactForm.action, {
+        // Save to the private admin inbox and send the email notification
+        // independently so a failure in one service does not block the other.
+        const payload = Object.fromEntries(formData.entries());
+
+        const inboxPromise = fetch(contactForm.action, {
           method: "POST",
-          body: JSON.stringify(Object.fromEntries(formData.entries())),
+          body: JSON.stringify(payload),
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
           }
+        }).then(async response => {
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.success) {
+            throw new Error(result.message || "Admin inbox save failed.");
+          }
+          return result;
         });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok || !result.success) {
-          throw new Error(result.message || "Message could not be sent.");
-        }
 
-        // Send the same submission directly from the browser to Formspree.
-        // This preserves the existing email notification flow independently
-        // of the private Vercel Blob inbox.
-        const formspreeResponse = await fetch("https://formspree.io/f/xjybjegw", {
+        const emailPromise = fetch("https://formspree.io/f/xjybjegw", {
           method: "POST",
           body: new FormData(contactForm),
           headers: { Accept: "application/json" }
+        }).then(async response => {
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            const detail = result.errors?.map(error => error.message).filter(Boolean).join(", ");
+            throw new Error(detail || "Email notification failed.");
+          }
+          return result;
         });
-        const formspreeResult = await formspreeResponse.json().catch(() => ({}));
 
-        if (!formspreeResponse.ok) {
-          throw new Error(formspreeResult.errors?.[0]?.message || "Message was saved, but the email notification could not be sent.");
+        const results = await Promise.allSettled([inboxPromise, emailPromise]);
+        const inboxOk = results[0].status === "fulfilled";
+        const emailOk = results[1].status === "fulfilled";
+
+        if (!inboxOk && !emailOk) {
+          throw new Error("The message could not be delivered.");
+        }
+
+        if (inboxOk && emailOk) {
+          successMessage.textContent = "Message sent successfully.";
+        } else if (inboxOk) {
+          successMessage.textContent = "Message saved to the admin inbox. Email notification could not be sent.";
+        } else {
+          successMessage.textContent = "Email sent successfully. Admin inbox could not save the message.";
         }
 
         successMessage.style.display = "block";
