@@ -80,10 +80,9 @@ module.exports = async function handler(req, res) {
       }
 
       const blobMap = new Map(blobs.map(blob => [blob.pathname, blob]));
-      const pathnames = new Set([
-        ...blobs.map(blob => blob.pathname),
-        ...Object.keys(manifest)
-      ]);
+      // Only real Blob objects are shown. Manifest-only entries are stale
+      // metadata and must not create ghost file cards.
+      const pathnames = new Set(blobs.map(blob => blob.pathname));
 
       const documents = Array.from(pathnames).map(pathname => {
         const meta = manifest[pathname] || {};
@@ -120,6 +119,12 @@ module.exports = async function handler(req, res) {
 
     if (action === "register") {
       if (!validPath(pathname)) return json(res, 400, { message: "Invalid vault file." });
+      // Registration is allowed only after the Blob object actually exists.
+      const stored = await get(pathname, { access: "private", useCache: false });
+      if (!stored || stored.statusCode !== 200 || !stored.blob) {
+        return json(res, 409, { message: "The document was not stored in the private vault. Please upload it again." });
+      }
+
       const manifest = await readManifest();
       manifest[pathname] = {
         originalName: safeName(body.originalName || pathname.split("/").pop()),
