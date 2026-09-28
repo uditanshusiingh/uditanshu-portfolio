@@ -1041,3 +1041,149 @@ a {
   .experience-card .project-body p { font-size: .94rem; }
   .experience-card .project-body ul { font-size: .9rem; }
 }
+
+
+/* ================= MOBILE RESPONSIVE / NO HORIZONTAL SCROLL ================= */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+.container,
+.container-fluid,
+.row,
+[class*="col-"] {
+  min-width: 0;
+}
+
+.project-card,
+.project-card-link,
+.glass-card,
+.skill-showcase-card,
+.experience-card,
+.certificate-item,
+.contact-list,
+.form-control {
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 575px) {
+  .container,
+  .container-fluid {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .row {
+    --bs-gutter-x: 1rem;
+  }
+
+  .hero {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    padding-top: 105px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.15rem, 11vw, 2.7rem);
+    overflow-wrap: anywhere;
+  }
+
+  .hero-role {
+    font-size: 1.25rem;
+    min-height: 40px;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: 100%;
+    font-size: .98rem;
+    overflow-wrap: anywhere;
+  }
+
+  .profile-wrap {
+    width: min(320px, calc(100vw - 32px)) !important;
+    max-width: 100%;
+  }
+
+  .section-pad {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(1.8rem, 9vw, 2.35rem);
+    overflow-wrap: anywhere;
+  }
+
+  .glass-card,
+  .project-body,
+  .skill-showcase-body,
+  .certificate-item {
+    overflow-wrap: anywhere;
+  }
+
+  .project-body {
+    padding: 20px;
+  }
+
+  .project-body h4,
+  .skill-showcase-body h4,
+  .certificate-info h5 {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .tags,
+  .skill-chips {
+    max-width: 100%;
+  }
+
+  .tags span,
+  .skill-chip {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-list a {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .contact-list span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .btn-primary-custom,
+  .btn-outline-custom {
+    max-width: 100%;
+  }
+}
+
+/* Prevent transformed/reveal elements from creating a horizontal page area. */
+.reveal {
+  max-width: 100%;
+}
