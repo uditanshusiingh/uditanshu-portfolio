@@ -32,9 +32,18 @@ function bodyOf(req) {
 module.exports = async (req, res) => {
   try {
     if (req.method === "GET") {
-      const raw = await fetch(`https://raw.githubusercontent.com/${REPO}/main/${PATH}?t=${Date.now()}`, { cache: "no-store" });
-      if (!raw.ok) throw new Error("Portfolio data is unavailable.");
-      return send(res, 200, await raw.json());
+      // Read from the same GitHub Contents API source used by publishing.
+      // This avoids raw.githubusercontent.com cache/availability differences
+      // between the admin panel and the public portfolio.
+      const current = await github(
+        `https://api.github.com/repos/${REPO}/contents/${PATH}?ref=main&t=${Date.now()}`
+      );
+      if (!current || current.encoding !== "base64" || !current.content) {
+        throw new Error("Portfolio data is unavailable.");
+      }
+      const decoded = Buffer.from(current.content.replace(/\\n/g, ""), "base64").toString("utf8");
+      const websiteData = JSON.parse(decoded);
+      return send(res, 200, websiteData);
     }
 
     if (req.method !== "POST") return send(res, 405, { message: "Method not allowed" });
