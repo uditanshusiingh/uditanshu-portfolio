@@ -36,7 +36,8 @@
       "live": "https://uditanshu-portfolio.vercel.app",
       "github": "https://github.com/uditanshusiingh/uditanshu-portfolio",
       "featured": true,
-      "icon": "bi-person-badge"
+      "icon": "bi-person-badge",
+      "priority": 1
     },
     {
       "id": 2,
@@ -47,7 +48,8 @@
       "live": "https://discover-bihar.vercel.app/",
       "github": "",
       "featured": true,
-      "icon": "bi-person-badge"
+      "icon": "bi-person-badge",
+      "priority": 2
     },
     {
       "id": 3,
@@ -58,7 +60,8 @@
       "live": "https://leetcode.com/u/uditanshusiingh/",
       "github": "",
       "featured": true,
-      "icon": "bi-diagram-3"
+      "icon": "bi-diagram-3",
+      "priority": 3
     },
     {
       "id": 4,
@@ -69,11 +72,12 @@
       "live": "",
       "github": "https://github.com/uditanshusiingh/DBSCAN-Fraud-Detection",
       "featured": true,
-      "icon": "bi-bar-chart-line"
+      "icon": "bi-bar-chart-line",
+      "priority": 4
     },
     {
       "title": "SkillSwap – Peer-to-Peer Skill Exchange Platform",
-      "priority": "3",
+      "priority": 3,
       "category": "EdTech / Skill Exchange Platform",
       "description": "Interactive skill exchange platform where users can connect with peers, share knowledge, book learning sessions, collaborate in real time, and exchange skills through an easy-to-use interface.",
       "tech": "HTML5 ,CSS3 ,JavaScript ,React.js ,Node.js, Express.js ,MongoDB, Socket.IO",
