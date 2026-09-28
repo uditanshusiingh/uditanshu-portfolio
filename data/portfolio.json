@@ -61,7 +61,7 @@
       "github": "",
       "featured": true,
       "icon": "bi-diagram-3",
-      "priority": 3
+      "priority": 4
     },
     {
       "id": 4,
@@ -73,7 +73,7 @@
       "github": "https://github.com/uditanshusiingh/DBSCAN-Fraud-Detection",
       "featured": true,
       "icon": "bi-bar-chart-line",
-      "priority": 4
+      "priority": 5
     },
     {
       "title": "SkillSwap – Peer-to-Peer Skill Exchange Platform",
