@@ -264,8 +264,23 @@
     var refresh = document.getElementById("messageRefresh");
     if (refresh) refresh.addEventListener("click", function () {
       if (refresh.classList.contains("is-refreshing")) return;
+      var refreshIcon = refresh.querySelector(".message-refresh-icon");
       refresh.classList.add("is-refreshing");
-      load(false).finally(function () { setTimeout(function () { refresh.classList.remove("is-refreshing"); }, 700); });
+      if (refreshIcon) {
+        refreshIcon.classList.add("is-refreshing");
+        refreshIcon.style.animation = "none";
+        void refreshIcon.offsetWidth;
+        refreshIcon.style.animation = "messageRefreshSpin .8s linear infinite";
+      }
+      load(false).finally(function () {
+        setTimeout(function () {
+          refresh.classList.remove("is-refreshing");
+          if (refreshIcon) {
+            refreshIcon.classList.remove("is-refreshing");
+            refreshIcon.style.animation = "";
+          }
+        }, 900);
+      });
     });
 
     var selectAll = document.getElementById("messageSelectAll");
