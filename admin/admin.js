@@ -57,13 +57,16 @@ function cacheData() {
 }
 
 async function fetchWebsiteData() {
-  const response = await fetch("/api/portfolio-data?t=" + Date.now(), {
-    credentials:"same-origin",
-    cache:"no-store",
-    headers:{ "Cache-Control":"no-cache" }
-  });
-  const result = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(result.message || "Could not load website data.");
+  let lastError = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const response = await fetch("/api/portfolio-data?t=" + Date.now() + "-" + attempt, {
+        credentials:"same-origin",
+        cache:"no-store",
+        headers:{ "Cache-Control":"no-cache", "Pragma":"no-cache" }
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || "Could not load website data.");
 
   // Support both the current raw API response and wrapped { data } responses.
   const websiteData = result?.data && typeof result.data === "object"
@@ -81,7 +84,13 @@ async function fetchWebsiteData() {
     throw new Error("Website data format is invalid.");
   }
 
-  return websiteData;
+      return websiteData;
+    } catch (error) {
+      lastError = error;
+      if (attempt < 2) await new Promise(resolve => setTimeout(resolve, 350 * (attempt + 1)));
+    }
+  }
+  throw lastError || new Error("Could not load website data.");
 }
 
 async function publish(nextData) {
