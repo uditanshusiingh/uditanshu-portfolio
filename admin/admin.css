@@ -722,3 +722,12 @@ button,a,input,textarea{ -webkit-tap-highlight-color:transparent }
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
 }
+
+/* Messages refresh icon: explicit animation on the icon itself */
+#messageRefresh .message-refresh-icon.is-refreshing{
+  display:inline-block !important;
+  animation:messageRefreshSpin .8s linear infinite !important;
+  transform-origin:50% 50% !important;
+  -webkit-animation:messageRefreshSpin .8s linear infinite !important;
+  -webkit-transform-origin:50% 50% !important;
+}
